@@ -1,0 +1,83 @@
+{% load wagtailuserbar %}
+
+<!DOCTYPE {% block doctype %}html{% endblock %}>
+
+{% block html %}
+    <html lang="{% block htmltag_lang %}{% endblock %}" {% block htmltag_attributes %}{% endblock %}>
+
+        {% block html_head %}
+            <head {% block head_attributes %}{% endblock %}>
+                {% block meta_charset %}
+                    <meta charset="{% block meta_charset_value %}{% endblock %}">
+                {% endblock %}
+
+                {% block meta_viewport %}
+                    <meta name="viewport" content="{% block meta_viewport_content %}{% endblock %}">
+                {% endblock %}
+
+                {% block meta_description %}{% endblock %}
+
+                {% block meta_extra %}{% endblock %}
+
+                <title>
+                    {% block title_pre %}{% endblock %}
+                    {% block title %}{% endblock %}
+                    {% block title_post %}{% endblock %}
+                </title>
+
+                {% block stylesheet_pre %}{% endblock %}
+                {% block stylesheet %}
+                    <link rel="stylesheet"
+                          type="{% block stylesheet_type %}text/css{% endblock %}"
+                          href="{% block stylesheet_href %}{% endblock %}"
+                    >
+                {% endblock %}
+                {% block stylesheet_post %}{% endblock %}
+
+                {% block icon %}
+                    <link rel="icon"
+                          sizes="{% block icon_sizes %}{% endblock %}"
+                          href="{% block icon_href %}{% endblock %}"
+                    >
+                {% endblock %}
+
+                {% block head_script_pre %}{% endblock %}
+                {% block head_script %}{% endblock %}
+                {% block head_script_post %}{% endblock %}
+
+                {% block head_opengraph %}{% endblock %}
+
+                {% block head_structured_data %}{% endblock %}
+
+                {% block head_extra %}{% endblock %}
+            </head>
+        {% endblock %}
+
+        {% block html_body %}
+            <body>
+                {% wagtailuserbar %}
+
+                {% block body_header_pre %}{% endblock %}
+                {% block body_header %}
+                    <header {% block body_header_attributes %}{% endblock %}>
+                        {% block body_header_content %}{% endblock %}
+                    </header>
+                {% endblock %}
+                {% block body_header_post %}{% endblock %}
+
+                {% block body_content %}
+                    {% block page_content %}{% endblock %}
+                {% endblock %}
+
+                {% block body_footer_pre %}{% endblock %}
+                {% block body_footer %}
+                    <footer {% block body_footer_attributes %}{% endblock %}>
+                        {% block body_footer_content %}{% endblock %}
+                    </footer>
+                {% endblock %}
+                {% block body_footer_post %}{% endblock %}
+            </body>
+        {% endblock %}
+
+    </html>
+{% endblock %}
