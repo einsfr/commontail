@@ -10,7 +10,8 @@ __all__ = ['import_settings', ]
 
 def import_settings(import_to: dict, modules: List[str], installed_apps: List[str], merge: List[str],
                     root: str, default_module: Optional[str] = None) -> None:
-    """Imports settings from applications, environment-defined and other modules
+    """
+    Imports settings from applications, environment-defined and other modules
 
     Modules list can use:
     - simple python submodules in 'is_root' module: 'common' or 'com.mon'

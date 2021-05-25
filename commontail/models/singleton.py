@@ -1,3 +1,5 @@
+from django.http import HttpRequest
+
 from wagtail.core.models import Page, Site
 
 
@@ -5,7 +7,9 @@ __all__ = ['PerSiteSingletonPage', ]
 
 
 class PerSiteSingletonPage(Page):
-    """Allows only one descendant page of this type per site."""
+    """
+    Allows only one descendant page of this type per site.
+    """
 
     class Meta:
         abstract = True
@@ -20,7 +24,8 @@ class PerSiteSingletonPage(Page):
 
     @classmethod
     def get_for_site(cls, site: Site) -> Page:
-        """Returns an instance of page with class 'cls' for site
+        """
+        Returns an instance of page with class 'cls' for site
 
         :param site: parent site for page instance
         :return: page instance
@@ -28,10 +33,11 @@ class PerSiteSingletonPage(Page):
         return site.root_page.get_descendants().type(cls).order('pk').first()
 
     @classmethod
-    def get_for_request(cls, request) -> Page:
-        """Returns an instance of page with class 'cls' for request
+    def get_for_request(cls, request: HttpRequest) -> Page:
+        """
+        Returns an instance of page with class 'cls' for request
 
         :param request: request instance
         :return: page instance
         """
-        return cls.get_for_site(request.site)
+        return cls.get_for_site(Site.find_for_request(request))

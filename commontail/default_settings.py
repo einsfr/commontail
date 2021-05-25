@@ -1,0 +1,1 @@
+COMMONTAIL_NO_IMAGE_PLACEHOLDER_TITLE: str = 'image later'
