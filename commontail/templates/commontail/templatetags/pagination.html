@@ -1,0 +1,31 @@
+{% if p is not None %}
+    <ul>
+        {% if p.prev %}
+            <li><a href="?{% if p.query_string %}{{ p.query_string }}&amp;{% endif %}{{ page_get_key }}={{ p.prev }}">&laquo;</a></li>
+
+            {% if p.first %}
+                <li><a href="?{% if p.query_string %}{{ p.query_string }}&amp;{% endif %}{{ page_get_key }}={{ p.first }}">{{ p.first }}</a></li>
+                {% if p.others_left %}<li>...</li>{% endif %}
+            {% endif %}
+
+            {% for i in p.pages_left %}
+                <li><a href="?{% if p.query_string %}{{ p.query_string }}&amp;{% endif %}{{ page_get_key }}={{ i }}">{{ i }}</a></li>
+            {% endfor %}
+        {% endif %}
+
+        <li>{{ p.active }}</li>
+
+        {% if p.next %}
+            {% for i in p.pages_right %}
+                <li><a href="?{% if p.query_string %}{{ p.query_string }}&amp;{% endif %}{{ page_get_key }}={{ i }}">{{ i }}</a></li>
+            {% endfor %}
+
+            {% if p.last %}
+                {% if p.others_right %}<li>...</li>{% endif %}
+                <li><a href="?{% if p.query_string %}{{ p.query_string }}&amp;{% endif %}{{ page_get_key }}={{ p.last }}">{{ p.last }}</a></li>
+            {% endif %}
+
+            <li><a href="?{% if p.query_string %}{{ p.query_string }}&amp;{% endif %}{{ page_get_key }}={{ p.next }}">&raquo;</a></li>
+        {% endif %}
+    </ul>
+{% endif %}
