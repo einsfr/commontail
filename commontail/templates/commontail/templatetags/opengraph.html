@@ -1,0 +1,7 @@
+{% load l10n %}
+
+{% if data %}
+    {% for property, content in data %}
+        <meta property="{{ property }}" content="{{ content|unlocalize }}">
+    {% endfor %}
+{% endif %}
