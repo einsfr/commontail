@@ -6,3 +6,4 @@ from .settings import *
 from .singleton import *
 
 from .opengraph import *
+from .structureddata import *
