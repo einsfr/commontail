@@ -8,13 +8,14 @@ from typing import List, Optional, Dict, Any
 __all__ = ['import_settings', ]
 
 
-def import_settings(import_to: dict, modules: List[str], installed_apps: List[str], merge: List[str],
-                    root: str, default_module: Optional[str] = None) -> None:
+def import_settings(import_to: dict, modules: List[str], installed_apps: Optional[List[str]] = None,
+                    merge: Optional[List[str]] = None, root: Optional[str] = None,
+                    default_module: Optional[str] = None) -> None:
     """
     Imports settings from applications, environment-defined and other modules
 
     Modules list can use:
-    - simple python submodules in 'is_root' module: 'common' or 'com.mon'
+    - simple python submodules in 'root' module: 'common' or 'com.mon'
     - default settings modules from installed applications, filtered by regular expression - these are starting with '@'
       symbol: '@common' - 'common' will be used as regular expression to search for matching application name
     Every modules list item can be marked with '*' symbol making it optional. If such module can't be imported -
@@ -31,14 +32,19 @@ def import_settings(import_to: dict, modules: List[str], installed_apps: List[st
         - __name__.{APP_ENV}
         - __name__.{APP_ENV}_local (optional)
 
-    :param import_to: destination dictionary, usually globals() in settings.py file
+    :param import_to: destination dictionary, usually globals() in test_settings.py file
     :param modules: list of imported modules ids
     :param installed_apps: installed applications list
     :param merge: parameters to be merged instead of replace
-    :param root: root path to search for modules
+    :param root: root path to search for modules, None if modules are imported by full path
     :param default_module: default module name to search for application's settings, 'default_settings' if None passed
     :return: None
     """
+    if installed_apps is None:
+        installed_apps = []
+    if merge is None:
+        merge = []
+
     processed_modules: List[str] = []
     if not default_module:
         default_module = 'default_settings'
@@ -108,4 +114,4 @@ def import_settings(import_to: dict, modules: List[str], installed_apps: List[st
         if app_re:
             _import_by_app_re(module_id, opt)
         else:
-            _import_by_name(f'{root}.{module_id}', opt)
+            _import_by_name(f'{root}.{module_id}' if root else module_id, opt)
