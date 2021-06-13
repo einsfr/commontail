@@ -1,27 +1,28 @@
 import abc
 
 from collections.abc import Mapping
-from typing import Optional, Dict, Any, List, Tuple, Callable
+from typing import Optional, Dict, Any, List, Tuple, Callable, Set
 
 from django.conf import settings
-from django.core.cache import cache
 from django.http import HttpRequest
 from django.utils.translation import to_locale
 
-from wagtail.core.models import Page
 from wagtail.images.models import AbstractImage, AbstractRendition
 
+from .cache import AbstractCacheAwarePage, CacheSuffixMeta
 from .settings import get_logo
 
 
-__all__ = ['OPENGRAPH_ADDITIONAL_NAMESPACES', 'OPENGRAPH_BASE_TYPE', 'OPENGRAPH_NAMESPACE_URLS',
-           'get_opengraph_image_data', 'get_namespace_from_type', 'AbstractOpenGraphProvider', 'OpenGraphPageProvider',
+__all__ = ['OPENGRAPH_ADDITIONAL_NAMESPACES', 'OPENGRAPH_BASE_TYPE', 'OPENGRAPH_CACHE_SUFFIX',
+           'OPENGRAPH_NAMESPACE_URLS', 'get_opengraph_image_data', 'get_namespace_from_type',
+           'AbstractOpenGraphProvider', 'OpenGraphPageProvider',
            'OpenGraphGlobalLogoImagePageProvider', 'OpenGraphAware', 'OpenGraphAwarePage']
 
 
-OPENGRAPH_ADDITIONAL_NAMESPACES = {'article', 'book', 'music', 'profile', 'video'}
-OPENGRAPH_BASE_TYPE = 'website'
-OPENGRAPH_NAMESPACE_URLS = {
+OPENGRAPH_ADDITIONAL_NAMESPACES: Set[str] = {'article', 'book', 'music', 'profile', 'video'}
+OPENGRAPH_BASE_TYPE: str = 'website'
+OPENGRAPH_CACHE_SUFFIX: str = 'opengraph'
+OPENGRAPH_NAMESPACE_URLS: Dict[str, str] = {
     'article': 'https://ogp.me/ns/article#',
     'book': 'https://ogp.me/ns/book#',
     'music': 'https://ogp.me/ns/music#',
@@ -222,39 +223,27 @@ class OpenGraphAware:
     opengraph_provider: Optional[AbstractOpenGraphProvider] = None
     opengraph_type: Optional[str] = None
 
-    def get_opengraph_cache_key(self) -> Optional[str]:
-        return None
-
     def get_opengraph_namespaces(self) -> List[Tuple[str, str]]:
         return self.opengraph_provider.get_namespaces(self)
 
     def get_opengraph_data(self, request: HttpRequest) -> List[Tuple[str, Any]]:
-        cache_key: Optional[str] = self.get_opengraph_cache_key()
-        data: Any
-
-        if cache_key:
-            data = cache.get(cache_key)
-
-            if data is None:
-                data = self.get_opengraph_data(request)
-                cache.set(cache_key, data, settings.COMMONTAIL_OPENGRAPH_CACHE_LIFETIME)
-        else:
-            data = self.get_opengraph_data(request)
-
-        return data
+        return self.opengraph_provider.get_data(self, request)
 
     def get_opengraph_type(self) -> str:
         return self.opengraph_type if self.opengraph_type else OPENGRAPH_BASE_TYPE
 
 
-class OpenGraphAwarePage(OpenGraphAware, Page):
+class OpenGraphAwarePage(OpenGraphAware, AbstractCacheAwarePage):
 
     class Meta:
         abstract = True
 
+    cache_suffixes = AbstractCacheAwarePage.cache_suffixes + {
+        OPENGRAPH_CACHE_SUFFIX: CacheSuffixMeta('default', settings.COMMONTAIL_OPENGRAPH_CACHE_LIFETIME)
+    }
+
     opengraph_provider: Optional[AbstractOpenGraphProvider] = OpenGraphPageProvider()
 
-    def get_opengraph_cache_key(self) -> Optional[str]:
-        return f'opengraph_page_{self.pk}' if self.pk else None
-
+    def get_opengraph_data(self, request: HttpRequest) -> List[Tuple[str, Any]]:
+        return self.get_or_set_cache_data(OPENGRAPH_CACHE_SUFFIX, lambda: super().get_opengraph_data(request))
 
