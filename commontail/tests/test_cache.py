@@ -1,9 +1,15 @@
 from django.test import TestCase
+from django.core.cache import InvalidCacheBackendError, cache
 
-from commontail.models.cache import AbstractCacheAware, CacheSuffixDict
+from commontail.models.cache import AbstractCacheAware, CacheSuffixDict, CacheSuffixMeta, UnknownCacheSuffixException
 
 
 class TestCacheAware(AbstractCacheAware):
+
+    cache_suffixes = AbstractCacheAware.cache_suffixes + {
+        'test1': CacheSuffixMeta('default', 300),
+        'test2': CacheSuffixMeta('nonexistent', 300),
+    }
 
     def get_cache_prefix(self) -> str:
         return 'test'
@@ -19,3 +25,28 @@ class TestCache(TestCase):
         self.assertEqual({1: 'c', 2: 'b', 3: 'd'}, d1 + d2)
         self.assertEqual({1: 'c', 2: 'b', 3: 'd'}, d1 + d3)
 
+    def test_cache_aware(self):
+        cache_aware = TestCacheAware()
+
+        for f in [
+            lambda: cache_aware.clear_cache(),
+            lambda: cache_aware.delete_cache_suffix('test2'),
+            lambda: cache_aware.get_cache_data('test2'),
+            lambda: cache_aware.get_or_set_cache_data('test2', lambda: True),
+            lambda: cache_aware.set_cache_data('test2', lambda: True),
+        ]:
+            with self.assertRaises(InvalidCacheBackendError):
+                f()
+
+        TestCacheAware.cache_suffixes.pop('test2')
+
+        cache_aware.set_cache_data('test1', True)
+        self.assertTrue(cache.get('test__test1'))
+        self.assertTrue(cache_aware.get_cache_data('test1'))
+        cache_aware.delete_cache_suffix('test1')
+        self.assertIsNone(cache_aware.get_cache_data('test1'))
+        self.assertTrue(cache_aware.get_or_set_cache_data('test1', lambda: True))
+        self.assertTrue(cache.get('test__test1'))
+
+        with self.assertRaises(UnknownCacheSuffixException):
+            cache_aware.get_cache_meta('nonexistent')
