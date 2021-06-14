@@ -3,6 +3,8 @@ from django.core.cache import InvalidCacheBackendError, cache
 
 from commontail.models.cache import AbstractCacheAware, CacheSuffixDict, CacheSuffixMeta, UnknownCacheSuffixException
 
+from ..models import CacheAwareModel
+
 
 class TestCacheAware(AbstractCacheAware):
 
@@ -50,3 +52,13 @@ class TestCache(TestCase):
 
         with self.assertRaises(UnknownCacheSuffixException):
             cache_aware.get_cache_meta('nonexistent')
+
+    def test_cache_signals(self):
+        cache_aware_instance = CacheAwareModel.objects.create()
+        cache_aware_instance.set_cache_data('test', cache_aware_instance.pk)
+        self.assertEqual(cache.get(f'testmodel{cache_aware_instance.pk}__test'), cache_aware_instance.pk)
+        cache_aware_instance.save()
+        self.assertIsNone(cache.get(f'testmodel{cache_aware_instance.pk}__test'))
+        cache_aware_instance.set_cache_data('test', cache_aware_instance.pk)
+        cache_aware_instance = CacheAwareModel.objects.all().first()
+        self.assertEqual(cache_aware_instance.get_cache_data('test'), cache_aware_instance.pk)

@@ -1,10 +1,10 @@
 import os
 
-from ..utils.settings import import_settings
+from commontail.utils.settings import import_settings
 
 DEBUG = True
 
-PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 TIME_ZONE = 'UTC'
@@ -14,6 +14,7 @@ USE_L10N = True
 LANGUAGE_CODE = 'en-us'
 
 INSTALLED_APPS = [
+    'tests',
     'commontail',
 
     'wagtail.contrib.forms',
