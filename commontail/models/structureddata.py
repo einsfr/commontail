@@ -40,7 +40,7 @@ class AbstractStructuredDataProvider(abc.ABC):
 
 class HierarchyBreadcrumbsStructuredDataProvider(AbstractStructuredDataProvider):
 
-    template: Optional[str] = 'commontail/structureddata/breadcrumb_list.html'
+    template: Optional[str] = 'commontail/structureddata/breadcrumbs.html'
 
     def get_context(self, data_object: Page, request: HttpRequest) -> dict:
         if not isinstance(data_object, Page):
