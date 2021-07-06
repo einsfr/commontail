@@ -14,6 +14,7 @@ setup(
 
     install_requires=[
         'django>=3.2,<3.3',
+        'lxml>=4.6,<4.7',
         'wagtail>=2.13,<2.14',
     ],
 

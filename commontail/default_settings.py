@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import List, Tuple
 
 COMMONTAIL_CONTENT_STREAM_PAGE_BODY_BLOCK: str = 'commontail.blocks.ContentStreamBlock'
 
@@ -7,6 +7,12 @@ COMMONTAIL_NO_IMAGE_PLACEHOLDER_TITLE: str = '__IMAGE_LATER__'
 COMMONTAIL_OPENGRAPH_CACHE_LIFETIME: int = 86400
 
 COMMONTAIL_PAGINATION_NEIGHBOURS_COUNT: int = 2
+
+COMMONTAIL_RTF_INLINE_FEATURES: List[str] = ['bold', 'italic', 'link', 'document-link', 'superscript', 'subscript',
+                                             'strikethrough', ]
+COMMONTAIL_RTF_LIMITED_FEATURES: List[str] = COMMONTAIL_RTF_INLINE_FEATURES + ['ol', 'ul', ]
+COMMONTAIL_RTF_NO_IMAGE_EMBED_FEATURES: List[str] = COMMONTAIL_RTF_LIMITED_FEATURES + ['h4', 'h5', 'h6', ]
+COMMONTAIL_RTF_BASIC_FEATURES: List[str] = COMMONTAIL_RTF_NO_IMAGE_EMBED_FEATURES + ['image', 'embed', ]
 
 COMMONTAIL_SITEMAP_DEFAULT_INCLUDE: bool = True
 COMMONTAIL_SITEMAP_DEFAULT_ALLOW_INDEXING: bool = True
