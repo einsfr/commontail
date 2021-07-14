@@ -1,7 +1,7 @@
 from typing import Union, Optional
 
 from django import template
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext as _
 
 from wagtail.core.models import Page
 
@@ -28,7 +28,7 @@ def metadescription(context: dict, page: Optional[Union[AbstractSEOAwarePage, Pa
         text = page.search_description
     else:
         raise template.exceptions.TemplateSyntaxError(
-            f'metadescription tag takes only an instance of the one of following classes: '
+            f'metadescription tag accepts as its argument only an instance of one of following classes: '
             f'wagtail.core.models.Page, commontail.models.AbstractSEOAwarePage, commontail.models.SubstitutePage, '
             f'"{type(page)}" given.'
         )

@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.forms.utils import ErrorList
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext as _, gettext_lazy as _lazy
 
 from lxml.html.clean import Cleaner
 
@@ -20,11 +20,11 @@ class ByTheWayBlock(blocks.StructBlock):
 
     class Meta:
         icon = 'fa-paragraph'
-        label = _('By the way')
+        label = _lazy('By the way')
         template = 'commontail/blocks/bytheway.html'
 
     body = blocks.RichTextBlock(
-        label=_('Body'),
+        label=_lazy('Body'),
         features=settings.COMMONTAIL_RTF_NO_IMAGE_EMBED_FEATURES,
         template='commontail/blocks/self.html'
     )
@@ -33,13 +33,13 @@ class ByTheWayBlock(blocks.StructBlock):
 class DefinitionBlock(blocks.StructBlock):
 
     class Meta:
-        label = _('Definition')
+        label = _lazy('Definition')
         template = 'commontail/blocks/definition.html'
 
-    title = blocks.CharBlock(max_length=128, label=_('Heading'))
+    title = blocks.CharBlock(max_length=128, label=_lazy('Heading'))
 
     description = blocks.RichTextBlock(
-        label=_('Description'),
+        label=_lazy('Description'),
         features=settings.COMMONTAIL_RTF_INLINE_FEATURES,
         template='commontail/blocks/self.html'
     )
@@ -48,7 +48,7 @@ class DefinitionBlock(blocks.StructBlock):
 class HeadingBlock(blocks.StructBlock):
 
     class Meta:
-        label = _('Heading')
+        label = _lazy('Heading')
         template = 'commontail/blocks/heading.html',
         icon = 'title'
 
@@ -56,34 +56,34 @@ class HeadingBlock(blocks.StructBlock):
         ('h2', 'H2'),
         ('h3', 'H3'),
         ('h4', 'H4'),
-    ], required=True, label=_('Size'))
+    ], required=True, label=_lazy('Size'))
 
-    text = blocks.CharBlock(required=True, label=_('Text'))
+    text = blocks.CharBlock(required=True, label=_lazy('Text'))
 
 
 class QuoteBlock(blocks.StructBlock):
 
     class Meta:
         icon = 'fa-quote-right'
-        label = _('Quote')
+        label = _lazy('Quote')
         template = 'commontail/blocks/quote.html'
 
     body = blocks.RichTextBlock(
-        label=_('Body'),
+        label=_lazy('Body'),
         features=settings.COMMONTAIL_RTF_INLINE_FEATURES,
         template='commontail/blocks/self.html'
     )
 
     caption = blocks.CharBlock(
-        label=_('Caption'),
+        label=_lazy('Caption'),
         max_length=255,
         required=False,
     )
 
     is_page_owner_comment = blocks.BooleanBlock(
         required=False,
-        label=_('Author\'s comment'),
-        help_text=_('If checked, this quote will be marked as page author\'s comment.')
+        label=_lazy('Author\'s comment'),
+        help_text=_lazy('If checked, this quote will be marked as page author\'s comment.')
     )
 
     def clean(self, value):
@@ -107,7 +107,7 @@ class RawHTMLBlock(blocks.RawHTMLBlock):
 
     class Meta:
         icon = 'fa-code'
-        label = _('HTML')
+        label = _lazy('HTML')
         template = 'commontail/blocks/raw_html.html'
 
     def clean(self, value):
@@ -119,12 +119,12 @@ class RawHTMLBlock(blocks.RawHTMLBlock):
 class TermBlock(blocks.StructBlock):
 
     class Meta:
-        label = _('Term')
+        label = _lazy('Term')
         template = 'commontail/blocks/term.html'
 
-    icon_name = blocks.CharBlock(max_length=32, required=False, label=_('Fontawesome icon\'s name'))
+    icon_name = blocks.CharBlock(max_length=32, required=False, label=_lazy('Fontawesome icon\'s name'))
 
-    text = blocks.RichTextBlock(features=['bold', 'italic', 'link', 'document-link', 'ul', 'ol', ], label=_('Text'))
+    text = blocks.RichTextBlock(features=['bold', 'italic', 'link', 'document-link', 'ul', 'ol', ], label=_lazy('Text'))
 
 
 class ContentStreamBlock(blocks.StreamBlock):
@@ -138,7 +138,7 @@ class ContentStreamBlock(blocks.StreamBlock):
         DefinitionBlock(),
         icon='fa-list',
         template='commontail/blocks/definition_list.html',
-        label=_('Definitions list')
+        label=_lazy('Definitions list')
     )
 
     embed = ExtendedEmbedBlock()
@@ -155,7 +155,7 @@ class ContentStreamBlock(blocks.StreamBlock):
         icon='fa-paragraph',
         template='commontail/blocks/self.html',
         features=settings.RTF_NO_IMAGE_EMBED_FEATURES,
-        label=_('Paragraph')
+        label=_lazy('Paragraph')
     )
 
     quote = QuoteBlock()
