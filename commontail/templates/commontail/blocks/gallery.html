@@ -1,0 +1,32 @@
+{% load wagtailimages_tags %}
+
+{% if self.title %}
+    <h2>{{ self.title }}</h2>
+{% endif %}
+
+<div class="uk-width-xxlarge uk-margin-auto" data-uk-slider="center: true">
+    <div class="uk-position-relative">
+        <div class="uk-slider-container">
+            <ul class="uk-slider-items uk-grid uk-flex-middle" data-uk-lightbox>
+                {% for img in self.images %}
+                    <li class="uk-width-3-4">
+                        <div class="uk-panel uk-text-center">
+                            {% image img original as i %}
+                            <a href="{{ i.url }}" title="{{ img.title }}" data-caption="{{ img.title }}">{% image img max-600x450 %}</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="uk-overlay uk-overlay-default uk-position-center-left">
+            <a href="#" data-uk-slidenav-previous data-uk-slider-item="previous"></a>
+        </div>
+
+        <div class="uk-overlay uk-overlay-default uk-position-center-right">
+            <a href="#" data-uk-slidenav-next data-uk-slider-item="next"></a>
+        </div>
+    </div>
+
+    <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
+</div>

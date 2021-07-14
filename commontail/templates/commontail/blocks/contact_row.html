@@ -1,0 +1,14 @@
+{% load i18n %}
+
+{% if values %}
+    <tr>
+        <th>{% translate title %}</th>
+        <td>
+            <ul class="uk-list">
+                {% for v in values %}
+                    <li>{{ v }}</li>
+                {% endfor %}
+            </ul>
+        </td>
+    </tr>
+{% endif %}

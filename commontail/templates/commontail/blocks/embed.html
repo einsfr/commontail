@@ -1,0 +1,5 @@
+<div class="uk-width-1-1 uk-text-center {% if self.size != 'full' %}uk-width-{{ self.size }}@m{% endif %}
+            uk-align-center {% if self.align == 'right' %}uk-align-right@m{% elif self.align == 'left' %}uk-align-left@m{% endif %}">
+    {{ self.embed }}
+    {% if self.caption %}<div class="uk-text-small uk-text-muted">{{ self.caption }}</div>{% endif %}
+</div>

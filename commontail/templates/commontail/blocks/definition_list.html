@@ -1,0 +1,7 @@
+{% load wagtailcore_tags %}
+
+<dl class="uk-description-list">
+    {% for definition in self %}
+        {% include_block definition %}
+    {% endfor %}
+</dl>

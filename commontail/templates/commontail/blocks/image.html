@@ -1,0 +1,26 @@
+{% load wagtailimages_tags %}
+
+<figure class="uk-align-center uk-text-center{% if self.align == 'left' %} uk-align-left@m{% elif self.align == 'right' %} uk-align-right@m{% endif %}
+               {% if self.size %} uk-width-{{ self.size }}{% else %} uk-width-medium{% endif %}" {% if allow_fullsize_view %}data-uk-lightbox{% endif %}>
+    {% if allow_fullsize_view %}
+        {% image self.image original as i %}
+        <a href="{{ i.url }}" title="{{ self.image.title }}" data-caption="{{ self.image.title }}">
+    {% endif %}
+    {% if self.size == 'small' %}
+        {% image self.image max-150x150 %}
+    {% elif self.size == 'large'%}
+        {% image self.image max-450x450 %}
+    {% elif self.size == 'xlarge'%}
+        {% image self.image max-600x600 %}
+    {% elif self.size == 'xxlarge'%}
+        {% image self.image max-750x750 %}
+    {% else %}
+        {% image self.image max-300x300 %}
+    {% endif %}
+    {% if allow_fullsize_view %}
+        </a>
+    {% endif %}
+    {% if not self.hide_caption %}
+        <figcaption class="uk-text-muted uk-text-small">{{ self.caption|default:self.image.title }}</figcaption>
+    {% endif %}
+</figure>

@@ -1,0 +1,9 @@
+{% load i18n %}
+
+{% if self.size == 'h2' %}
+    <h2{% if heading_id %} id="h{{ heading_id }}"{% endif %}>{{ self.text }}{% if toc_id %} <a href="#{{ toc_id }}" title="{% translate "Back to the table of contents" %}" data-uk-totop data-uk-scroll></a>{% endif %}</h2>
+{% elif self.size == 'h3' %}
+    <h3{% if heading_id %} id="h{{ heading_id }}"{% endif %}>{{ self.text }}{% if toc_id %} <a href="#{{ toc_id }}" title="{% translate "Back to the table of contents" %}" data-uk-totop data-uk-scroll></a>{% endif %}</h3>
+{% elif self.size == 'h4' %}
+    <h4{% if heading_id %} id="h{{ heading_id }}"{% endif %}>{{ self.text }}{% if toc_id %} <a href="#{{ toc_id }}" title="{% translate "Back to the table of contents" %}" data-uk-totop data-uk-scroll></a>{% endif %}</h4>
+{% endif %}

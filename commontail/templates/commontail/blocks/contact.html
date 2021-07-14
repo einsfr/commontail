@@ -1,0 +1,21 @@
+<table class="uk-table uk-table-small uk-table-responsive">
+    <colgroup>
+        <col class="uk-width-small">
+        <col>
+    </colgroup>
+    <tbody>
+        {% include 'commontail/blocks/contact_row.html' with title='Address' values=address only %}
+        {% include 'commontail/blocks/contact_row.html' with title='Post address' values=address_post only %}
+        {% include 'commontail/blocks/contact_row.html' with title='Work hours' values=work_hours only %}
+        {% include 'commontail/blocks/contact_row.html' with title='Phone' values=phone only %}
+        {% include 'commontail/blocks/contact_row.html' with title='Fax' values=fax only %}
+        {% include 'commontail/blocks/contact_row.html' with title='E-mail' values=email only %}
+        {% include 'commontail/blocks/contact_row.html' with title='ICQ' values=icq only %}
+        {% include 'commontail/blocks/contact_row.html' with title='Skype' values=skype only %}
+        {% include 'commontail/blocks/contact_row.html' with title='Whatsapp' values=whatsapp only %}
+        {% include 'commontail/blocks/contact_row.html' with title='In social networks' values=social_networks only %}
+    </tbody>
+</table>
+{% for m in map %}
+    {{ m }}
+{% endfor %}
