@@ -1,5 +1,6 @@
 from .cache import *
 from .hierarchyonly import *
+from .icon import *
 from .image import *
 from .pagination import *
 from .seo import *
