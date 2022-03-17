@@ -5,14 +5,14 @@ from django.utils.translation import gettext as _
 
 from wagtail.core.models import Page
 
-from ..models import AbstractSEOAwarePage, AbstractPaginationData, AbstractPaginationAwarePage, SubstitutePage
+from ..models import SEOAwarePage, AbstractPaginationData, AbstractPaginationAwarePage, SubstitutePage
 
 
 register = template.Library()
 
 
 @register.inclusion_tag('commontail/templatetags/metadescription.html', takes_context=True)
-def metadescription(context: dict, page: Optional[Union[AbstractSEOAwarePage, Page, SubstitutePage]]):
+def metadescription(context: dict, page: Optional[Union[SEOAwarePage, Page, SubstitutePage]]):
     if not page:  # for 404-pages
         return {
             'text': '',
@@ -22,7 +22,7 @@ def metadescription(context: dict, page: Optional[Union[AbstractSEOAwarePage, Pa
     if isinstance(page, Page):
         text = page.search_description
 
-        if not text and isinstance(page, AbstractSEOAwarePage):
+        if not text and isinstance(page, SEOAwarePage):
             text = page.seo_auto_meta_description
     elif isinstance(page, SubstitutePage):
         text = page.search_description
