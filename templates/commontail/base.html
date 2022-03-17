@@ -8,11 +8,12 @@
         {% block html_head %}
             <head {% block head_attributes %}{% endblock %}>
                 {% block meta_charset %}
-                    <meta charset="{% block meta_charset_value %}{% endblock %}">
+                    <meta charset="{% block meta_charset_value %}utf-8{% endblock %}">
                 {% endblock %}
 
                 {% block meta_viewport %}
-                    <meta name="viewport" content="{% block meta_viewport_content %}{% endblock %}">
+                    <meta name="viewport"
+                          content="{% block meta_viewport_content %}width=device-width, initial-scale=1{% endblock %}">
                 {% endblock %}
 
                 {% block meta_description %}{% endblock %}
@@ -22,7 +23,11 @@
                 <title>
                     {% block title_pre %}{% endblock %}
                     {% block title %}{% endblock %}
-                    {% block title_post %}{% endblock %}
+                    {% block title_post %}
+                        {% with site_name=self.get_site.site_name %}
+                            {% if site_name %}- {{ site_name }}{% endif %}
+                        {% endwith %}
+                    {% endblock %}
                 </title>
 
                 {% block stylesheet_pre %}{% endblock %}
