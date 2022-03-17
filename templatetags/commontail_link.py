@@ -7,7 +7,7 @@ from wagtail.core.models import Page
 from wagtail.core.rich_text.rewriters import FIND_A_TAG
 from wagtail.documents.models import Document
 
-from ..models import AbstractIconAware, AbstractExtendedTitleAware, NamedReference
+from ..models import AbstractIconAware, NamedReference
 
 
 register = template.Library()
@@ -74,7 +74,7 @@ def page_link(page: Page, forced_title=None, query_string=None):
     if forced_title:
         text = forced_title
     else:
-        text = page.get_link_title() if isinstance(page, AbstractExtendedTitleAware) else page.title
+        text = page.title
 
     return {
         'text': text,

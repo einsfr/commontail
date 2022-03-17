@@ -21,11 +21,18 @@ class AbstractSEOAwarePage(Page):
     seo_sitemap_settings_id: Optional[str] = None
 
     @cached_property
+    def seo_title(self) -> str:
+        return self._get_seo_title()
+
+    @cached_property
     def seo_auto_meta_description(self) -> str:
         return self._get_seo_auto_meta_description()
 
     def _get_seo_auto_meta_description(self) -> str:
         return ''
+
+    def _get_seo_title(self) -> str:
+        return self.title
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
