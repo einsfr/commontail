@@ -3,10 +3,10 @@ from django.http.response import HttpResponseForbidden
 from wagtail.core.models import Page
 
 
-__all__ = ['HierarchyOnlyPage', ]
+__all__ = ['AbstractHierarchyOnlyPage', ]
 
 
-class HierarchyOnlyPage(Page):
+class AbstractHierarchyOnlyPage(Page):
 
     class Meta:
         abstract = True

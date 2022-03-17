@@ -17,12 +17,12 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from .utils import AbstractIconAware
 
 
-__all__ = ['AbstractPageLink', 'BaseLinksCollector', 'BaseLinkFields', 'LinkedDocument', 'LinkedImage', 'LinkFields',
-           'LinksOwnerPage', 'PageLinkCategory', 'PageLinkCategoryGroup', 'PageLinkCategoryToPageLinkCategoryGroup',
-           'PageLinksCollector', ]
+__all__ = ['AbstractPageLink', 'BaseLinksCollector', 'AbstractBaseLinkFields', 'AbstractLinkedDocument',
+           'AbstractLinkedImage', 'AbstractLinkFields', 'AbstractLinksOwnerPage', 'PageLinkCategory',
+           'PageLinkCategoryGroup', 'PageLinkCategoryToPageLinkCategoryGroup', 'PageLinksCollector', ]
 
 
-class BaseLinkFields(models.Model):
+class AbstractBaseLinkFields(models.Model):
 
     class Meta:
         abstract = True
@@ -107,7 +107,7 @@ class BaseLinkFields(models.Model):
         super().clean()
 
 
-class LinkFields(BaseLinkFields):  # https://github.com/wagtail/wagtaildemo/blob/master/demo/models.py
+class AbstractLinkFields(AbstractBaseLinkFields):  # https://github.com/wagtail/wagtaildemo/blob/master/demo/models.py
 
     class Meta:
         abstract = True
@@ -120,7 +120,7 @@ class LinkFields(BaseLinkFields):  # https://github.com/wagtail/wagtaildemo/blob
                         'May be used as substitute text with page and document links.')
     )
 
-    panels = BaseLinkFields.panels + [
+    panels = AbstractBaseLinkFields.panels + [
         FieldPanel('link_text'),
     ]
 
@@ -154,7 +154,7 @@ class LinkFields(BaseLinkFields):  # https://github.com/wagtail/wagtaildemo/blob
         super().clean()
 
 
-class LinkedDocument(models.Model):
+class AbstractLinkedDocument(models.Model):
 
     class Meta:
         abstract = True
@@ -203,7 +203,7 @@ class LinkedDocument(models.Model):
         return self.document.get_file_size()
 
 
-class LinkedImage(Orderable):
+class AbstractLinkedImage(Orderable):
 
     class Meta(Orderable.Meta):
         abstract = True
@@ -487,7 +487,7 @@ class PageLinksCollector(BaseLinksCollector):
         'ancestors': {'inherit': True},
     }
 
-    def __init__(self, obj: 'LinksOwnerPage', relation_name: str, id_field: str = None, count: int = None,
+    def __init__(self, obj: 'AbstractLinksOwnerPage', relation_name: str, id_field: str = None, count: int = None,
                  include_descendants: bool = False, ancestors_depth: Optional[int] = 2, **kwargs):
 
         super().__init__(obj, relation_name, id_field, count)
@@ -495,10 +495,10 @@ class PageLinksCollector(BaseLinksCollector):
         self._ancestors_depth = ancestors_depth
 
     def _get_ancestors_qs(self):
-        return Page.objects.live().ancestor_of(self._obj).type(LinksOwnerPage).specific()
+        return Page.objects.live().ancestor_of(self._obj).type(AbstractLinksOwnerPage).specific()
 
     def _get_descendants_qs(self):
-        return Page.objects.live().descendant_of(self._obj).type(LinksOwnerPage).specific()
+        return Page.objects.live().descendant_of(self._obj).type(AbstractLinksOwnerPage).specific()
 
     def collect_from_ancestors(self, collected_ids: list, filters: dict, excludes: dict,
                                select_related: Iterable) -> list:
@@ -532,7 +532,7 @@ class PageLinksCollector(BaseLinksCollector):
         return self.exists_generic_multiple(self._get_descendants_qs(), filters, excludes)
 
 
-class LinksOwnerPage(Page):
+class AbstractLinksOwnerPage(Page):
 
     class Meta:
         abstract = True

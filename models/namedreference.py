@@ -4,13 +4,13 @@ from django.utils.translation import gettext_lazy as _lazy
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.core.models import Site
 
-from .links import LinkFields
+from .links import AbstractLinkFields
 
 
 __all__ = ['NamedReference', ]
 
 
-class NamedReference(LinkFields):
+class NamedReference(AbstractLinkFields):
 
     class Meta:
         verbose_name = _lazy('named reference')
@@ -32,7 +32,7 @@ class NamedReference(LinkFields):
     panels = [
         FieldPanel('site'),
         FieldPanel('handle'),
-    ] + LinkFields.panels
+    ] + AbstractLinkFields.panels
 
     def __str__(self):
         return f'{self.site}: {self.handle}'

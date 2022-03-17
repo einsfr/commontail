@@ -10,11 +10,11 @@ from django.utils.safestring import mark_safe
 from wagtail.core.models import Page, Site
 
 from .cache import AbstractCacheAwarePage, CacheSuffixMeta
-from .hierarchyonly import HierarchyOnlyPage
+from .hierarchyonly import AbstractHierarchyOnlyPage
 
 
 __all__ = ['STRUCTURED_DATA_CACHE_SUFFIX', 'AbstractStructuredDataProvider',
-           'HierarchyBreadcrumbsStructuredDataProvider', 'StructuredDataAware', 'StructuredDataAwarePage', ]
+           'HierarchyBreadcrumbsStructuredDataProvider', 'StructuredDataAware', 'AbstractStructuredDataAwarePage', ]
 
 
 STRUCTURED_DATA_CACHE_SUFFIX: str = 'structured_data'
@@ -49,7 +49,7 @@ class HierarchyBreadcrumbsStructuredDataProvider(AbstractStructuredDataProvider)
 
         items: List[Page] = [
             item for item in data_object.get_ancestors(inclusive=True).filter(depth__gt=2).specific()
-            if not isinstance(item, HierarchyOnlyPage)
+            if not isinstance(item, AbstractHierarchyOnlyPage)
         ]
         root_url: str = Site.find_for_request(request).root_url
 
@@ -71,7 +71,7 @@ class StructuredDataAware:
         )
 
 
-class StructuredDataAwarePage(StructuredDataAware, AbstractCacheAwarePage):
+class AbstractStructuredDataAwarePage(StructuredDataAware, AbstractCacheAwarePage):
 
     class Meta:
         abstract = True

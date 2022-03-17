@@ -16,7 +16,7 @@ from .settings import get_logo
 __all__ = ['OPENGRAPH_ADDITIONAL_NAMESPACES', 'OPENGRAPH_BASE_TYPE', 'OPENGRAPH_CACHE_SUFFIX',
            'OPENGRAPH_NAMESPACE_URLS', 'get_opengraph_image_data', 'get_namespace_from_type',
            'AbstractOpenGraphProvider', 'OpenGraphPageProvider',
-           'OpenGraphGlobalLogoImagePageProvider', 'OpenGraphAware', 'OpenGraphAwarePage']
+           'OpenGraphGlobalLogoImagePageProvider', 'OpenGraphAware', 'AbstractOpenGraphAwarePage']
 
 
 OPENGRAPH_ADDITIONAL_NAMESPACES: Set[str] = {'article', 'book', 'music', 'profile', 'video'}
@@ -158,7 +158,7 @@ class OpenGraphPageProvider(AbstractOpenGraphProvider):
         self.description_attribute: Optional[str] = description_attribute
 
     @staticmethod
-    def _get_image_data(data_object: 'OpenGraphAwarePage', image: Optional[AbstractImage]):
+    def _get_image_data(data_object: 'AbstractOpenGraphAwarePage', image: Optional[AbstractImage]):
         image_data: Dict[str, Any] = get_opengraph_image_data(image)
 
         if not image_data:
@@ -168,32 +168,32 @@ class OpenGraphPageProvider(AbstractOpenGraphProvider):
 
         return image_data
 
-    def get_title(self, data_object: 'OpenGraphAwarePage', request: HttpRequest) -> str:
+    def get_title(self, data_object: 'AbstractOpenGraphAwarePage', request: HttpRequest) -> str:
         return data_object.seo_title or data_object.title
 
-    def get_image(self, data_object: 'OpenGraphAwarePage', request: HttpRequest) -> Optional[Dict[str, Any]]:
+    def get_image(self, data_object: 'AbstractOpenGraphAwarePage', request: HttpRequest) -> Optional[Dict[str, Any]]:
         if self.image_attribute:
             return self._get_image_data(data_object, getattr(data_object, self.image_attribute, None))
         else:
             return
 
-    def get_url(self, data_object: 'OpenGraphAwarePage', request: HttpRequest) -> str:
+    def get_url(self, data_object: 'AbstractOpenGraphAwarePage', request: HttpRequest) -> str:
         return data_object.full_url
 
-    def get_description(self, data_object: 'OpenGraphAwarePage', request: HttpRequest) -> str:
+    def get_description(self, data_object: 'AbstractOpenGraphAwarePage', request: HttpRequest) -> str:
         if self.description_attribute:
             return getattr(data_object, self.description_attribute, None)
 
         return data_object.search_description
 
-    def get_locale(self, data_object: 'OpenGraphAwarePage', request: HttpRequest) -> str:
+    def get_locale(self, data_object: 'AbstractOpenGraphAwarePage', request: HttpRequest) -> str:
         # TODO: in multilingual sites this will not work correctly
         return to_locale(settings.LANGUAGE_CODE)
 
-    def get_site_name(self, data_object: 'OpenGraphAwarePage', request: HttpRequest) -> str:
+    def get_site_name(self, data_object: 'AbstractOpenGraphAwarePage', request: HttpRequest) -> str:
         return data_object.get_site().site_name
 
-    def get_article(self, data_object: 'OpenGraphAwarePage', request: HttpRequest) -> Dict[str, Any]:
+    def get_article(self, data_object: 'AbstractOpenGraphAwarePage', request: HttpRequest) -> Dict[str, Any]:
         result = dict()
 
         if data_object.go_live_at:
@@ -209,7 +209,7 @@ class OpenGraphPageProvider(AbstractOpenGraphProvider):
 
 class OpenGraphGlobalLogoImagePageProvider(OpenGraphPageProvider):
 
-    def get_image(self, data_object: 'OpenGraphAwarePage', request: HttpRequest) -> Optional[Dict[str, Any]]:
+    def get_image(self, data_object: 'AbstractOpenGraphAwarePage', request: HttpRequest) -> Optional[Dict[str, Any]]:
         logo: AbstractImage = get_logo(request=request, square=True)
 
         if not logo:
@@ -233,7 +233,7 @@ class OpenGraphAware:
         return self.opengraph_type if self.opengraph_type else OPENGRAPH_BASE_TYPE
 
 
-class OpenGraphAwarePage(OpenGraphAware, AbstractCacheAwarePage):
+class AbstractOpenGraphAwarePage(OpenGraphAware, AbstractCacheAwarePage):
 
     class Meta:
         abstract = True

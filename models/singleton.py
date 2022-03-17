@@ -3,10 +3,10 @@ from django.http import HttpRequest
 from wagtail.core.models import Page, Site
 
 
-__all__ = ['PerSiteSingletonPage', ]
+__all__ = ['AbstractPerSiteSingletonPage', ]
 
 
-class PerSiteSingletonPage(Page):
+class AbstractPerSiteSingletonPage(Page):
     """
     Allows only one descendant page of this type per site.
     """
