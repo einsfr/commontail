@@ -245,5 +245,11 @@ class AbstractOpenGraphAwarePage(OpenGraphAware, AbstractCacheAwarePage):
     opengraph_provider: Optional[AbstractOpenGraphProvider] = OpenGraphPageProvider()
 
     def get_opengraph_data(self, request: HttpRequest) -> List[Tuple[str, Any]]:
-        return self.get_or_set_cache_data(OPENGRAPH_CACHE_SUFFIX, lambda: super().get_opengraph_data(request))
+        data: List[Tuple[str, Any]] = self.get_cache_data(OPENGRAPH_CACHE_SUFFIX)
+
+        if data is None:
+            data = super().get_opengraph_data(request)
+            self.set_cache_data(OPENGRAPH_CACHE_SUFFIX, data)
+
+        return data
 

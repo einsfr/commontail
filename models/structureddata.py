@@ -83,4 +83,10 @@ class AbstractStructuredDataAwarePage(StructuredDataAware, AbstractCacheAwarePag
     structured_data_providers = [HierarchyBreadcrumbsStructuredDataProvider, ]
 
     def get_structured_data(self, request: HttpRequest) -> str:
-        return self.get_or_set_cache_data(STRUCTURED_DATA_CACHE_SUFFIX, lambda: super().get_structured_data(request))
+        data: str = self.get_cache_data(STRUCTURED_DATA_CACHE_SUFFIX)
+
+        if data is None:
+            data = super().get_structured_data(request)
+            self.set_cache_data(STRUCTURED_DATA_CACHE_SUFFIX, data)
+
+        return data
