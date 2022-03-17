@@ -32,6 +32,8 @@ class AbstractSEOAwarePage(Page):
         context['allow_robots_indexing'] = self.get_seo_allow_indexing()
         context['canonical_url'] = self.get_seo_canonical_url(request)
 
+        return context
+
     def get_seo_allow_indexing(self) -> bool:
         return settings.COMMONTAIL_SITEMAP_DEFAULT_ALLOW_INDEXING
 
