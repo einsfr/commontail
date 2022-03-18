@@ -1,28 +1,33 @@
-from collections import namedtuple, UserDict
-from typing import Dict, List, Any, Callable
+from collections import UserDict
+from dataclasses import dataclass
+from hashlib import sha1
+from typing import Dict, List, Any, Callable, Union, Iterable, Optional
 
-from django.core.cache import caches, BaseCache
+from django.core.cache import caches, BaseCache, InvalidCacheBackendError
 
 from wagtail.core.models import Page
 
 
-__all__ = ['CacheSuffixMeta', 'UnknownCacheSuffixException', 'CacheSuffixDict', 'AbstractCacheAware',
+__all__ = ['CacheMeta', 'UnknownCachePrefixException', 'CachePrefixDict', 'AbstractCacheAware',
            'AbstractCacheAwarePage', ]
 
 
-CacheSuffixMeta = namedtuple('CacheSuffixMeta', ['alias', 'lifetime'])
+@dataclass
+class CacheMeta:
+    alias: Union[str, Iterable[str]]
+    lifetime: int
 
 
-class UnknownCacheSuffixException(KeyError):
+class UnknownCachePrefixException(KeyError):
     pass
 
 
-class CacheSuffixDict(UserDict):
+class CachePrefixDict(UserDict):
 
     def __add__(self, other):
-        if not isinstance(other, (CacheSuffixDict, dict)):
-            raise TypeError(f"Unsupported operand type for +: CacheSuffixDict and {type(other)}")
-        result: CacheSuffixDict = self.copy()
+        if not isinstance(other, (CachePrefixDict, dict)):
+            raise TypeError(f"Unsupported operand type for +: CachePrefixDict and {type(other)}")
+        result: CachePrefixDict = self.copy()
         result.update(other)
 
         return result
@@ -38,51 +43,86 @@ class AbstractCacheAware:
         'delete': CACHE_ACTION_CLEAR,
     }
 
-    cache_suffixes: CacheSuffixDict = CacheSuffixDict()
+    cache_prefixes: CachePrefixDict = CachePrefixDict()
 
-    def clear_cache(self) -> None:
+    @staticmethod
+    def _get_cache_instance(alias: Union[str, Iterable[str]]) -> BaseCache:
+        if type(alias) == str:
+            return caches[alias]
+        else:
+            a: str
+            e: Optional[InvalidCacheBackendError] = None
+            for a in alias:
+                try:
+                    return caches[a]
+                except InvalidCacheBackendError as e:
+                    pass
+
+            if e is not None:
+                raise e
+
+    @classmethod
+    def clear_cache(cls, vary_on: Optional[Iterable[Any]] = None) -> None:
         aliases_keys: Dict[str, List[str]] = dict()
 
-        for suffix, meta in self.cache_suffixes.items():
-            if meta.alias in aliases_keys:
-                aliases_keys[meta.alias].append(self.get_cache_key(suffix))
-            else:
-                aliases_keys[meta.alias] = [self.get_cache_key(suffix)]
+        for prefix, meta in cls.cache_prefixes.items():
+            alias: Iterable[str] = [meta.alias, ] if type(meta.alias) == str else meta.alias
+            a: str
+            for a in alias:
+                if a in aliases_keys:
+                    aliases_keys[a].append(cls.get_cache_key(prefix, vary_on))
+                else:
+                    aliases_keys[a] = [cls.get_cache_key(prefix, vary_on)]
 
         for alias, keys in aliases_keys.items():
-            caches[alias].delete_many(keys)
+            try:
+                caches[alias].delete_many(keys)
+            except InvalidCacheBackendError:
+                pass
 
-    def delete_cache_suffix(self, suffix: str) -> None:
-        caches[self.get_cache_meta(suffix).alias].delete(self.get_cache_key(suffix))
+    @classmethod
+    def get_cache_data(cls, prefix: str, vary_on: Optional[Iterable[Any]] = None) -> Any:
+        return cls._get_cache_instance(cls.get_cache_meta(prefix).alias).get(cls.get_cache_key(prefix, vary_on))
 
-    def get_cache_data(self, suffix: str) -> Any:
-        return caches[self.get_cache_meta(suffix).alias].get(self.get_cache_key(suffix))
+    @classmethod
+    def get_cache_key(cls, prefix: str, vary_on: Optional[Iterable[Any]] = None) -> str:
+        key: str
+        if vary_on is None:
+            key = ''
+        else:
+            hasher = sha1()
+            for v in vary_on:
+                hasher.update(str(v).encode())
+                hasher.update(b':')
+            key = hasher.hexdigest()
 
-    def get_cache_key(self, suffix: str) -> str:
-        return f'{self.get_cache_prefix()}__{suffix}'
+        return f'{prefix}__{key}'
 
-    def get_cache_meta(self, suffix: str) -> CacheSuffixMeta:
+    @classmethod
+    def get_cache_meta(cls, prefix: str) -> CacheMeta:
         try:
-            return self.cache_suffixes[suffix]
+            return cls.cache_prefixes[prefix]
         except KeyError as e:
-            raise UnknownCacheSuffixException from e
+            raise UnknownCachePrefixException from e
 
-    def get_cache_prefix(self) -> str:
-        raise NotImplementedError
-
-    def get_or_set_cache_data(self, suffix: str, data_callable: Callable) -> Any:
-        data: Any = self.get_cache_data(suffix)
+    @classmethod
+    def get_or_set_cache_data(cls, prefix: str, data_callable: Callable,
+                              vary_on: Optional[Iterable[Any]] = None) -> Any:
+        data: Any = cls.get_cache_data(prefix, vary_on)
 
         if data is None:
             data = data_callable()
-            self.set_cache_data(suffix, data)
+            cls.set_cache_data(prefix, data, vary_on)
 
         return data
 
-    def set_cache_data(self, suffix: str, data: Any) -> None:
-        meta: CacheSuffixMeta = self.get_cache_meta(suffix)
-        cache: BaseCache = caches[meta.alias]
-        cache.set(self.get_cache_key(suffix), data, meta.lifetime)
+    @classmethod
+    def set_cache_data(cls, prefix: str, data: Any, vary_on: Optional[Iterable[Any]] = None) -> None:
+        meta: CacheMeta = cls.get_cache_meta(prefix)
+        cls._get_cache_instance(meta.alias).set(cls.get_cache_key(prefix, vary_on), data, meta.lifetime)
+
+    def get_cache_vary_on(self) -> Iterable[Any]:
+        raise NotImplementedError
 
 
 class AbstractCacheAwarePage(AbstractCacheAware, Page):
@@ -90,5 +130,5 @@ class AbstractCacheAwarePage(AbstractCacheAware, Page):
     class Meta:
         abstract = True
 
-    def get_cache_prefix(self) -> str:
-        return f'page{self.pk}'
+    def get_cache_vary_on(self) -> Iterable[Any]:
+        return self.pk,

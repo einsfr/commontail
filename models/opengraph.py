@@ -1,7 +1,7 @@
 import abc
 
 from collections.abc import Mapping
-from typing import Optional, Dict, Any, List, Tuple, Callable, Set
+from typing import Optional, Dict, Any, List, Tuple, Callable, Set, Iterable
 
 from django.conf import settings
 from django.http import HttpRequest
@@ -9,11 +9,11 @@ from django.utils.translation import to_locale
 
 from wagtail.images.models import AbstractImage, AbstractRendition
 
-from .cache import AbstractCacheAwarePage, CacheSuffixMeta
+from .cache import AbstractCacheAwarePage, CacheMeta
 from .settings import get_logo
 
 
-__all__ = ['OPENGRAPH_ADDITIONAL_NAMESPACES', 'OPENGRAPH_BASE_TYPE', 'OPENGRAPH_CACHE_SUFFIX',
+__all__ = ['OPENGRAPH_ADDITIONAL_NAMESPACES', 'OPENGRAPH_BASE_TYPE', 'OPENGRAPH_CACHE_PREFIX',
            'OPENGRAPH_NAMESPACE_URLS', 'get_opengraph_image_data', 'get_namespace_from_type',
            'AbstractOpenGraphProvider', 'OpenGraphPageProvider',
            'OpenGraphGlobalLogoImagePageProvider', 'OpenGraphAware', 'AbstractOpenGraphAwarePage']
@@ -21,7 +21,7 @@ __all__ = ['OPENGRAPH_ADDITIONAL_NAMESPACES', 'OPENGRAPH_BASE_TYPE', 'OPENGRAPH_
 
 OPENGRAPH_ADDITIONAL_NAMESPACES: Set[str] = {'article', 'book', 'music', 'profile', 'video'}
 OPENGRAPH_BASE_TYPE: str = 'website'
-OPENGRAPH_CACHE_SUFFIX: str = 'opengraph'
+OPENGRAPH_CACHE_PREFIX: str = 'opengraph'
 OPENGRAPH_NAMESPACE_URLS: Dict[str, str] = {
     'article': 'https://ogp.me/ns/article#',
     'book': 'https://ogp.me/ns/book#',
@@ -238,18 +238,21 @@ class AbstractOpenGraphAwarePage(OpenGraphAware, AbstractCacheAwarePage):
     class Meta:
         abstract = True
 
-    cache_suffixes = AbstractCacheAwarePage.cache_suffixes + {
-        OPENGRAPH_CACHE_SUFFIX: CacheSuffixMeta('default', settings.COMMONTAIL_OPENGRAPH_CACHE_LIFETIME)
+    cache_prefixes = AbstractCacheAwarePage.cache_prefixes + {
+        OPENGRAPH_CACHE_PREFIX: CacheMeta('default', settings.COMMONTAIL_OPENGRAPH_CACHE_LIFETIME)
     }
 
     opengraph_provider: Optional[AbstractOpenGraphProvider] = OpenGraphPageProvider()
 
+    def get_cache_vary_on(self) -> Iterable[Any]:
+        return self.pk,
+
     def get_opengraph_data(self, request: HttpRequest) -> List[Tuple[str, Any]]:
-        data: List[Tuple[str, Any]] = self.get_cache_data(OPENGRAPH_CACHE_SUFFIX)
+        data: List[Tuple[str, Any]] = self.get_cache_data(
+            OPENGRAPH_CACHE_PREFIX, self.get_cache_vary_on())
 
         if data is None:
             data = super().get_opengraph_data(request)
-            self.set_cache_data(OPENGRAPH_CACHE_SUFFIX, data)
+            self.set_cache_data(OPENGRAPH_CACHE_PREFIX, data, self.get_cache_vary_on())
 
         return data
-

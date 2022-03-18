@@ -1,6 +1,6 @@
 import abc
 
-from typing import Optional, List, Type
+from typing import Optional, List, Type, Iterable, Any
 
 from django.conf import settings
 from django.http import HttpRequest
@@ -9,15 +9,15 @@ from django.utils.safestring import mark_safe
 
 from wagtail.core.models import Page, Site
 
-from .cache import AbstractCacheAwarePage, CacheSuffixMeta
+from .cache import AbstractCacheAwarePage, CacheMeta
 from .hierarchyonly import AbstractHierarchyOnlyPage
 
 
-__all__ = ['STRUCTURED_DATA_CACHE_SUFFIX', 'AbstractStructuredDataProvider',
+__all__ = ['STRUCTURED_DATA_CACHE_PREFIX', 'AbstractStructuredDataProvider',
            'HierarchyBreadcrumbsStructuredDataProvider', 'StructuredDataAware', 'AbstractStructuredDataAwarePage', ]
 
 
-STRUCTURED_DATA_CACHE_SUFFIX: str = 'structured_data'
+STRUCTURED_DATA_CACHE_PREFIX: str = 'structured_data'
 
 
 class AbstractStructuredDataProvider(abc.ABC):
@@ -76,17 +76,20 @@ class AbstractStructuredDataAwarePage(StructuredDataAware, AbstractCacheAwarePag
     class Meta:
         abstract = True
 
-    cache_suffixes = AbstractCacheAwarePage.cache_suffixes + {
-        STRUCTURED_DATA_CACHE_SUFFIX: CacheSuffixMeta('default', settings.COMMONTAIL_STRUCTURED_DATA_CACHE_LIFETIME)
+    cache_prefixes = AbstractCacheAwarePage.cache_prefixes + {
+        STRUCTURED_DATA_CACHE_PREFIX: CacheMeta('default', settings.COMMONTAIL_STRUCTURED_DATA_CACHE_LIFETIME)
     }
 
     structured_data_providers = [HierarchyBreadcrumbsStructuredDataProvider, ]
 
+    def get_cache_vary_on(self) -> Iterable[Any]:
+        return self.pk,
+
     def get_structured_data(self, request: HttpRequest) -> str:
-        data: str = self.get_cache_data(STRUCTURED_DATA_CACHE_SUFFIX)
+        data: str = self.get_cache_data(STRUCTURED_DATA_CACHE_PREFIX, self.get_cache_vary_on())
 
         if data is None:
             data = super().get_structured_data(request)
-            self.set_cache_data(STRUCTURED_DATA_CACHE_SUFFIX, data)
+            self.set_cache_data(STRUCTURED_DATA_CACHE_PREFIX, data, self.get_cache_vary_on())
 
         return data

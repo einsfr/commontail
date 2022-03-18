@@ -11,7 +11,7 @@ def cache_aware_action(instance: AbstractCacheAware, action: str) -> None:
     if policy == AbstractCacheAware.CACHE_ACTION_NONE:
         return
     elif policy == AbstractCacheAware.CACHE_ACTION_CLEAR:
-        instance.clear_cache()
+        instance.clear_cache(instance.get_cache_vary_on())
 
 
 def cache_aware_post_save(sender, **kwargs):
