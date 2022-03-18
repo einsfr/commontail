@@ -39,8 +39,8 @@ class MenuNode(template.Node):
                 return ''
 
         t: template.Template = select_template([
-            f'commontail/templatetags/menu.{handle}.html',
-            'commontail/templatetags/menu.html'
+            f'commontail/menu/menu.{handle}.html',
+            'commontail/menu/menu.html'
         ])
 
         rendered_content: str = t.render({
