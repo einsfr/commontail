@@ -13,3 +13,5 @@ from .opengraph import *
 from .structureddata import *
 
 from .namedreference import *
+
+from .menu import *

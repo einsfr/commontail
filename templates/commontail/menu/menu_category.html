@@ -1,0 +1,6 @@
+{% load wagtailcore_tags %}
+
+{{ value.title }}
+<ul>
+    {% for item in value.items %}<li>{% include_block item %}</li>{% endfor %}
+</ul>

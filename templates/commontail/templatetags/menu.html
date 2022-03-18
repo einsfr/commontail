@@ -1,0 +1,7 @@
+{% load wagtailcore_tags %}
+
+<nav>
+    <ul>
+        {% for item in menu.items %}<li>{% include_block item %}</li>{% endfor %}
+    </ul>
+</nav>
