@@ -154,7 +154,7 @@ class ContentStreamBlock(blocks.StreamBlock):
     paragraph = blocks.RichTextBlock(
         icon='fa-paragraph',
         template='commontail/blocks/self.html',
-        features=settings.RTF_NO_IMAGE_EMBED_FEATURES,
+        features=settings.COMMONTAIL_RTF_NO_IMAGE_EMBED_FEATURES,
         label=_lazy('Paragraph')
     )
 
