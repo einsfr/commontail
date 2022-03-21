@@ -1,5 +1,6 @@
 from typing import Iterable, Any
 
+from django import template
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _lazy
@@ -22,7 +23,6 @@ class MenuSubcategoryItemsBlock(blocks.StreamBlock):
     class Meta:
         icon = 'list-ul'
         label = _lazy('Menu subcategory items')
-        template = 'commontail/menu/manu_subcategory_items.html'
 
     document = DocumentLinkBlock()
 
@@ -42,13 +42,23 @@ class MenuSubcategoryBlock(blocks.StructBlock):
 
     items = MenuSubcategoryItemsBlock()
 
+    def get_template(self, context=None):
+        try:
+            handle: str = context['menu'].handle
+        except (KeyError, TypeError):
+            return 'commontail/menu/menu_subcategory.html'
+
+        return [
+            f'commontail/menu/menu_subcategory.{handle}.html',
+            'commontail/menu/menu_subcategory.html',
+        ]
+
 
 class MenuCategoryItemsBlock(MenuSubcategoryItemsBlock):
 
     class Meta:
         icon = 'list-ul'
         label = _lazy('Menu category items')
-        template = 'commontail/menu/manu_category_items.html'
 
     subcategory = MenuSubcategoryBlock()
 
@@ -63,6 +73,17 @@ class MenuCategoryBlock(blocks.StructBlock):
     title = blocks.CharBlock(required=True, max_length=64, label=_lazy('Menu category title'))
 
     items = MenuCategoryItemsBlock()
+
+    def get_template(self, context=None):
+        try:
+            handle: str = context['menu'].handle
+        except (KeyError, TypeError):
+            return 'commontail/menu/menu_category.html'
+
+        return [
+            f'commontail/menu/menu_category.{handle}.html',
+            'commontail/menu/menu_category.html',
+        ]
 
 
 class AbstractMenu(AbstractCacheAware, models.Model):
