@@ -19,7 +19,7 @@ __all__ = ['ByTheWayBlock', 'ContentStreamBlock', 'DefinitionBlock', 'HeadingBlo
 class ByTheWayBlock(blocks.StructBlock):
 
     class Meta:
-        icon = 'fa-paragraph'
+        icon = 'openquote'
         label = _lazy('By the way')
         template = 'commontail/blocks/bytheway.html'
 
@@ -64,7 +64,7 @@ class HeadingBlock(blocks.StructBlock):
 class QuoteBlock(blocks.StructBlock):
 
     class Meta:
-        icon = 'fa-quote-right'
+        icon = 'openquote'
         label = _lazy('Quote')
         template = 'commontail/blocks/quote.html'
 
@@ -106,7 +106,7 @@ class QuoteBlock(blocks.StructBlock):
 class RawHTMLBlock(blocks.RawHTMLBlock):
 
     class Meta:
-        icon = 'fa-code'
+        icon = 'code'
         label = _lazy('HTML')
         template = 'commontail/blocks/raw_html.html'
 
@@ -136,7 +136,7 @@ class ContentStreamBlock(blocks.StreamBlock):
 
     definition_list = blocks.ListBlock(
         DefinitionBlock(),
-        icon='fa-list',
+        icon='list-ul',
         template='commontail/blocks/definition_list.html',
         label=_lazy('Definitions list')
     )
@@ -152,7 +152,7 @@ class ContentStreamBlock(blocks.StreamBlock):
     links = LinkedMaterialsBlock()
 
     paragraph = blocks.RichTextBlock(
-        icon='fa-paragraph',
+        icon='pilcrow',
         template='commontail/blocks/self.html',
         features=settings.COMMONTAIL_RTF_NO_IMAGE_EMBED_FEATURES,
         label=_lazy('Paragraph')

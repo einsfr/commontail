@@ -11,7 +11,7 @@ __all__ = ['AnchorLinkBlock', 'DocumentLinkBlock', 'ExternalLinkBlock', 'LinksBl
 class AnchorLinkBlock(blocks.StructBlock):
 
     class Meta:
-        icon = 'fa-link'
+        icon = 'link'
         label = _lazy('On-page anchor link')
         template = 'commontail/blocks/link_anchor.html'
 
@@ -23,7 +23,7 @@ class AnchorLinkBlock(blocks.StructBlock):
 class DocumentLinkBlock(blocks.StructBlock):
 
     class Meta:
-        icon = 'fa-link'
+        icon = 'link'
         label = _lazy('Link to a document')
         template = 'commontail/blocks/link_document.html'
 
@@ -35,7 +35,7 @@ class DocumentLinkBlock(blocks.StructBlock):
 class ExternalLinkBlock(blocks.StructBlock):
 
     class Meta:
-        icon = 'fa-link'
+        icon = 'link'
         label = _lazy('External link')
         template = 'commontail/blocks/link_external.html'
 
@@ -47,7 +47,7 @@ class ExternalLinkBlock(blocks.StructBlock):
 class PageLinkBlock(blocks.StructBlock):
 
     class Meta:
-        icon = 'fa-link'
+        icon = 'link'
         label = _lazy('Link to a page')
         template = 'commontail/blocks/link_page.html'
 
@@ -61,7 +61,7 @@ class PageLinkBlock(blocks.StructBlock):
 class LinksBlock(blocks.StreamBlock):
 
     class Meta:
-        icon = 'fa-link'
+        icon = 'link'
         label = _lazy('Links')
         template = 'commontail/blocks/links.html'
 
@@ -77,7 +77,7 @@ class LinksBlock(blocks.StreamBlock):
 class LinkedMaterialsBlock(blocks.StructBlock):
 
     class Meta:
-        icon = 'fa-link'
+        icon = 'link'
         label = _lazy('Linked materials')
         template = 'commontail/blocks/linked_materials.html'
 

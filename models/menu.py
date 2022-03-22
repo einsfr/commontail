@@ -92,7 +92,7 @@ class AbstractMenu(AbstractCacheAware, models.Model):
         abstract = True
         verbose_name = 'меню'
         verbose_name_plural = 'меню'
-        unique_together = (('site', 'handle'), )
+        unique_together = (('handle', 'site'), )
 
     TEMPLATE_CACHE_PREFIX: str = 'menu_template'
 

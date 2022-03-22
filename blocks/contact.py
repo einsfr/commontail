@@ -24,7 +24,7 @@ class AddressBlock(blocks.StructBlock):
 
     class Meta:
         label = _lazy('Address')
-        icon = 'fa-map-signs'
+        icon = 'mail'
         template = 'commontail/blocks/address.html'
 
     address = blocks.CharBlock(max_length=255, label=_lazy('Address'))
@@ -34,7 +34,7 @@ class EmailBlock(blocks.StructBlock):
 
     class Meta:
         label = _lazy('E-mail')
-        icon = 'fa-envelope-open-o'
+        icon = 'mail'
         template = 'commontail/blocks/email.html'
 
     email = blocks.EmailBlock(label=_lazy('E-mail'))
@@ -46,7 +46,7 @@ class FacebookBlock(SocialLinkMixin, blocks.StructBlock):
 
     class Meta:
         label = _lazy('Facebook')
-        icon = 'fa-facebook'
+        icon = 'site'
         template = 'commontail/blocks/facebook.html'
 
     title = blocks.CharBlock(max_length=32, label=_lazy('Link\'s text'), required=False)
@@ -58,6 +58,7 @@ class ICQBlock(blocks.StructBlock):
 
     class Meta:
         label = _lazy('ICQ')
+        icon = 'site'
         template = 'commontail/blocks/icq.html'
 
     number = blocks.CharBlock(max_length=12, label=_lazy('Number'))
@@ -69,7 +70,7 @@ class InstagramBlock(SocialLinkMixin, blocks.StructBlock):
 
     class Meta:
         label = _lazy('Instagram')
-        icon = 'fa-instagram'
+        icon = 'site'
         template = 'commontail/blocks/instagram.html'
 
     title = blocks.CharBlock(max_length=32, label=_lazy('Link\'s text'), required=False)
@@ -81,7 +82,7 @@ class MapBlock(blocks.StructBlock):
 
     class Meta:
         label = _lazy('Map')
-        icon = 'fa-map'
+        icon = 'site'
         template = 'commontail/blocks/map.html'
 
     title = blocks.CharBlock(max_length=32, label=_lazy('Heading'))
@@ -93,7 +94,7 @@ class OdnoklassnikiBlock(SocialLinkMixin, blocks.StructBlock):
 
     class Meta:
         label = _lazy('Odnoklassniki')
-        icon = 'fa-odnoklassniki'
+        icon = 'site'
         template = 'commontail/blocks/odnoklassniki.html'
 
     title = blocks.CharBlock(max_length=32, label=_lazy('Link\'s text'), required=False)
@@ -105,7 +106,7 @@ class PhoneBlock(blocks.StructBlock):
 
     class Meta:
         label = _lazy('Phone')
-        icon = 'fa-phone'
+        icon = 'site'
         template = 'commontail/blocks/phone.html'
 
     number = blocks.CharBlock(max_length=32, label=_lazy('Number'))
@@ -117,7 +118,7 @@ class FaxBlock(PhoneBlock):
 
     class Meta:
         label = _lazy('Fax')
-        icon = 'fa-fax'
+        icon = 'site'
         template = 'commontail/blocks/fax.html'
 
 
@@ -125,7 +126,7 @@ class SkypeBlock(blocks.StructBlock):
 
     class Meta:
         label = _lazy('Skype')
-        icon = 'fa-skype'
+        icon = 'site'
         template = 'commontail/blocks/skype.html'
 
     id = blocks.CharBlock(max_length=32, label=_lazy('ID'))
@@ -137,7 +138,7 @@ class TelegramBlock(blocks.StructBlock):
 
     class Meta:
         label = _lazy('Telegram')
-        icon = 'fa-telegram'
+        icon = 'site'
         template = 'commontail/blocks/telegram.html'
 
     title = blocks.CharBlock(max_length=32, label=_lazy('Link\'s text'), required=False)
@@ -149,7 +150,7 @@ class TwitterBlock(SocialLinkMixin, blocks.StructBlock):
 
     class Meta:
         label = _lazy('Twitter')
-        icon = 'fa-twitter'
+        icon = 'site'
         template = 'commontail/blocks/twitter.html'
 
     title = blocks.CharBlock(max_length=32, label=_lazy('Link\'s text'), required=False)
@@ -161,7 +162,7 @@ class VKontakteBlock(SocialLinkMixin, blocks.StructBlock):
 
     class Meta:
         label = _lazy('VKontakte')
-        icon = 'fa-vk'
+        icon = 'site'
         template = 'commontail/blocks/vkontakte.html'
 
     title = blocks.CharBlock(max_length=32, label=_lazy('Link\'s text'), required=False)
@@ -173,7 +174,7 @@ class WhatsappBlock(blocks.StructBlock):
 
     class Meta:
         label = _lazy('Whatsapp')
-        icon = 'fa-whatsapp'
+        icon = 'site'
         template = 'commontail/blocks/whatsapp.html'
 
     number = blocks.CharBlock(max_length=32, label=_lazy('Number'))
@@ -185,7 +186,7 @@ class WorkHoursBlock(blocks.StructBlock):
 
     class Meta:
         label = _lazy('Work hours')
-        icon = 'fa-clock-o'
+        icon = 'time'
         template = 'commontail/blocks/work_hours.html'
 
     work_hours = blocks.CharBlock(max_length=64, label=_lazy('Work hours'))
@@ -195,7 +196,7 @@ class YouTubeBlock(SocialLinkMixin, blocks.StructBlock):
 
     class Meta:
         label = _lazy('YouTube')
-        icon = 'fa-youtube'
+        icon = 'site'
         template = 'commontail/blocks/youtube.html'
 
     title = blocks.CharBlock(max_length=32, label=_lazy('Link\'s text'), required=False)
@@ -207,6 +208,7 @@ class ContactBlock(blocks.StreamBlock):
 
     class Meta:
         label = _lazy('Contacts')
+        icon = 'mail'
         template = 'commontail/blocks/contact.html'
 
     SOCIAL_NETWORKS = ['facebook', 'instagram', 'odnoklassniki', 'telegram', 'twitter', 'vk', 'youtube']

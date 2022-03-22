@@ -10,7 +10,7 @@ __all__ = ['ExtendedEmbedBlock', ]
 class ExtendedEmbedBlock(blocks.StructBlock):
 
     class Meta:
-        icon = 'fa-tv'
+        icon = 'media'
         label = _lazy('Embed')
         template = 'commontail/blocks/embed.html'
 
