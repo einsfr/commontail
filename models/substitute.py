@@ -28,8 +28,14 @@ class SubstitutePage:
     def full_url(self) -> str:
         return self.site.root_url + self.url_path
 
-    def get_ancestors(self) -> Iterable:
-        return self.ancestors
+    def get_ancestors(self, inclusive: bool = False) -> Iterable:
+        if not inclusive:
+            return self.ancestors
+        else:
+            for a in self.ancestors:
+                yield a
+
+            yield self
 
     def get_site(self) -> Site:
         return self.site
