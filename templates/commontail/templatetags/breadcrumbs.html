@@ -1,0 +1,9 @@
+{% load cache %}
+
+{% if cache_vary_on %}
+    {% cache cache_lifetime breadcrumbs cache_vary_on %}
+        {% include 'commontail/includes/breadcrumbs.html' %}
+    {% endcache %}
+{% else %}
+    {% include 'commontail/includes/breadcrumbs.html' %}
+{% endif %}

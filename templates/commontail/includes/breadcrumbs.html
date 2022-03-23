@@ -1,0 +1,19 @@
+{% load wagtailcore_tags %}
+
+{% if pages %}
+    <ul>
+        {% for page in pages %}
+            {% if not page.is_root %}
+                {% if page.is_not_accessible %}
+                    <li><a href="#">{{ page.title }}</a></li>
+                {% else %}
+                    {% if forloop.last %}
+                        <li>{{ page.title }}</li>
+                    {% else %}
+                        <li><a href="{% if page.is_substitute %}{{ page.url_path }}{% else %}{% pageurl page %}{% endif %}">{{ page.title }}</a></li>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endif %}

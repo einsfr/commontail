@@ -1,5 +1,7 @@
 from typing import List, Tuple
 
+COMMONTAIL_BREADCRUMBS_CACHE_LIFETIME: int = 3600
+
 COMMONTAIL_CONTENT_STREAM_PAGE_BODY_BLOCK: str = 'commontail.blocks.ContentStreamBlock'
 
 COMMONTAIL_LINK_ICON_DOCUMENT_DEFAULT = None
