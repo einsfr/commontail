@@ -30,7 +30,7 @@ class AbstractPerSiteSingletonPage(Page):
         :param site: parent site for page instance
         :return: page instance
         """
-        return site.root_page.get_descendants().type(cls).order('pk').first()
+        return site.root_page.get_descendants().type(cls).order_by('pk').first()
 
     @classmethod
     def get_for_request(cls, request: HttpRequest) -> Page:
