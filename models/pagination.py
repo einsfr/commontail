@@ -16,47 +16,40 @@ __all__ = ['AbstractPaginationData', 'PaginatorPaginationData', 'ParametricPagin
 
 class AbstractPaginationData(abc.ABC):
 
+    @property
     @abc.abstractmethod
-    def _get_is_first_page(self) -> bool:
+    def has_next_page(self) -> bool:
         raise NotImplementedError
 
+    @property
     @abc.abstractmethod
-    def _get_page_number(self) -> int:
+    def has_other_pages(self) -> bool:
         raise NotImplementedError
 
+    @property
     @abc.abstractmethod
-    def _get_has_next_page(self) -> bool:
+    def has_previous_page(self) -> bool:
         raise NotImplementedError
 
+    @property
     @abc.abstractmethod
-    def _get_has_previous_page(self) -> bool:
+    def is_first_page(self) -> bool:
         raise NotImplementedError
 
+    @property
     @abc.abstractmethod
-    def _get_has_other_pages(self) -> bool:
+    def items_count(self) -> int:
         raise NotImplementedError
 
+    @property
     @abc.abstractmethod
-    def _get_items_count(self) -> int:
+    def number_of_pages(self) -> int:
         raise NotImplementedError
 
+    @property
     @abc.abstractmethod
-    def _get_number_of_pages(self) -> int:
+    def page_number(self) -> int:
         raise NotImplementedError
-
-    has_next_page: bool = property(_get_has_next_page)
-
-    has_other_pages: bool = property(_get_has_other_pages)
-
-    has_previous_page: bool = property(_get_has_previous_page)
-
-    is_first_page: bool = property(_get_is_first_page)
-
-    items_count: int = property(_get_items_count)
-
-    number_of_pages: int = property(_get_number_of_pages)
-
-    page_number: int = property(_get_page_number)
 
 
 class PaginatorPaginationData(AbstractPaginationData):
@@ -65,26 +58,33 @@ class PaginatorPaginationData(AbstractPaginationData):
         self._paginator: Paginator = paginator
         self._page: PaginatorPage = page
 
-    def _get_is_first_page(self) -> bool:
-        return self._page.number == 1
-
-    def _get_page_number(self) -> int:
-        return self._page.number
-
-    def _get_has_next_page(self) -> bool:
+    @property
+    def has_next_page(self) -> bool:
         return self._page.has_next()
 
-    def _get_has_previous_page(self) -> bool:
-        return self._page.has_previous()
-
-    def _get_has_other_pages(self) -> bool:
+    @property
+    def has_other_pages(self) -> bool:
         return self._page.has_other_pages()
 
-    def _get_items_count(self) -> int:
+    @property
+    def has_previous_page(self) -> bool:
+        return self._page.has_previous()
+
+    @property
+    def is_first_page(self) -> bool:
+        return self._page.number == 1
+
+    @property
+    def items_count(self) -> int:
         return self._paginator.count
 
-    def _get_number_of_pages(self) -> int:
+    @property
+    def number_of_pages(self) -> int:
         return self._paginator.num_pages
+
+    @property
+    def page_number(self) -> int:
+        return self._page.number
 
 
 class ParametricPaginationData(AbstractPaginationData):
@@ -94,26 +94,33 @@ class ParametricPaginationData(AbstractPaginationData):
         self._number_of_pages: int = number_of_pages
         self._items_count: int = items_count
 
-    def _get_is_first_page(self) -> bool:
-        return self._page_number == 1
-
-    def _get_page_number(self) -> int:
-        return self._page_number
-
-    def _get_has_next_page(self) -> bool:
+    @property
+    def has_next_page(self) -> bool:
         return self._page_number < self._number_of_pages
 
-    def _get_has_previous_page(self) -> bool:
-        return self._page_number > 1
-
-    def _get_has_other_pages(self) -> bool:
+    @property
+    def has_other_pages(self) -> bool:
         return self.has_previous_page or self.has_next_page
 
-    def _get_items_count(self) -> int:
+    @property
+    def has_previous_page(self) -> bool:
+        return self._page_number > 1
+
+    @property
+    def is_first_page(self) -> bool:
+        return self._page_number == 1
+
+    @property
+    def items_count(self) -> int:
         return self._items_count
 
-    def _get_number_of_pages(self) -> int:
+    @property
+    def number_of_pages(self) -> int:
         return self._number_of_pages
+
+    @property
+    def page_number(self) -> int:
+        return self._page_number
 
 
 class AbstractPaginationAwarePage(Page):
@@ -137,7 +144,7 @@ class AbstractPaginationAwarePage(Page):
             return ''
 
         get_dict: QueryDict = request.GET.copy()
-        get_dict[settings.PAGE_GET_KEY] = pagination_data.page_number + 1
+        get_dict[settings.COMMONTAIL_PAGINATION_GET_KEY] = pagination_data.page_number + 1
 
         return f'{request.path}?{get_dict.urlencode()}'
 
@@ -149,9 +156,9 @@ class AbstractPaginationAwarePage(Page):
         get_dict: QueryDict = request.GET.copy()
 
         if pagination_data.page_number > 2:
-            get_dict[settings.PAGE_GET_KEY] = pagination_data.page_number - 1
+            get_dict[settings.COMMONTAIL_PAGINATION_GET_KEY] = pagination_data.page_number - 1
         else:
-            get_dict.pop(settings.PAGE_GET_KEY, None)
+            get_dict.pop(settings.COMMONTAIL_PAGINATION_GET_KEY, None)
 
         query_string: str = get_dict.urlencode()
 

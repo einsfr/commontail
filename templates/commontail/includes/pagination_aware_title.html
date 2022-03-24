@@ -1,0 +1,3 @@
+{% load i18n %}
+
+{% if not pagination_data.is_first_page|default_if_none:True %} ({% translate 'page' %} {{ pagination_data.page_number }}){% endif %}
