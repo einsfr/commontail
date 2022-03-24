@@ -1,0 +1,6 @@
+{% if not allow_robots_indexing|default_if_none:True %}
+    <meta name="robots" content="noindex">
+{% endif %}
+{% if canonical_url %}
+    <link rel="canonical" href="{{ canonical_url }}">
+{% endif %}
