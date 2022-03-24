@@ -1,3 +1,4 @@
+from .author import *
 from .cache import *
 from .hierarchyonly import *
 from .image import *
@@ -16,3 +17,4 @@ from .namedreference import *
 from .page import *
 
 from .menu import *
+from .publication import *

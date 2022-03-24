@@ -1,0 +1,58 @@
+{% load wagtailimages_tags commontail_structured %}
+
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "Article",
+        "url": "{{ url }}",
+        "headline": "{{ headline|jsonldvalue }}",
+        "image": [
+            {% for i in images %}
+            "{{ i }}"{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ],
+        "datePublished": "{{ date_published }}",
+        {% if date_modified %}
+        "dateModified": "{{ date_modified }}",
+        {% endif %}
+        {% if not author %}
+            "author": {
+                "@type": "Organization",
+                "name": "{{ organization_name|jsonldvalue }}"
+                {% if logo_url %}
+                ,
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "{{ logo_url }}"
+                }
+                {% endif %}
+            },
+        {% else %}
+            "author": {
+                "@type": "Person",
+                "name": "{{ author.name|jsonldvalue }}"
+                {% if author.email %}
+                    ,
+                    "email": "{{ author.email }}"
+                {% elif author.url %}
+                    ,
+                    "url": "{{ author.url }}"
+                {% endif %}
+            },
+        {% endif %}
+        "publisher": {
+            "@type": "Organization",
+            "name": "{{ organization_name|jsonldvalue }}",
+            {% if logo_url %}
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ logo_url }}"
+            }
+            {% endif %}
+        },
+        {% if original_url %}
+            "isBasedOn": "{{ original_url }}",
+        {% endif %}
+        "description": "{{ description|jsonldvalue }}"
+    }
+</script>
