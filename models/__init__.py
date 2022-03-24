@@ -13,5 +13,6 @@ from .opengraph import *
 from .structureddata import *
 
 from .namedreference import *
+from .page import *
 
 from .menu import *
