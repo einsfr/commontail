@@ -82,7 +82,7 @@ class AbstractPublicationPage(AbstractContentStreamPage):
     summary = models.CharField(
         blank=True,
         help_text=_lazy('Short description to be used as announce.'),
-        max_length=255,
+        max_length=400,
         verbose_name=_lazy('summary'),
     )
 
