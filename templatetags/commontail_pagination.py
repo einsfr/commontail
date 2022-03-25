@@ -20,7 +20,7 @@ def _prepare(number_of_pages: int, current_page_number: int, has_next_page: bool
     query_string: str
     if query_dict:
         query_dict = query_dict.copy()
-        query_dict.pop(settings.PAGE_GET_KEY, None)
+        query_dict.pop(settings.COMMONTAIL_PAGINATION_GET_KEY, None)
         query_string = query_dict.urlencode()
     else:
         query_string = ''
@@ -84,15 +84,15 @@ def pagination(page: Optional[PaginatorPage], query_dict: QueryDict = None) -> D
         'p': _prepare(
             page.paginator.num_pages, page.number, page.has_next(), page.has_previous(), query_dict
         ) if page.paginator.num_pages > 1 else None,
-        'page_get_key': settings.PAGE_GET_KEY,
+        'page_get_key': settings.COMMONTAIL_PAGINATION_GET_KEY,
     }
 
 
 @register.inclusion_tag('commontail/templatetags/pagination.html')
-def pagination_data(data: Optional[AbstractPaginationData], query_dict: QueryDict = None):
+def pagination_data(data: Optional[AbstractPaginationData], query_dict: QueryDict = None) -> Dict[str, Any]:
     return {
         'p': _prepare(
             data.number_of_pages, data.page_number, data.has_next_page, data.has_previous_page, query_dict
         ) if data and data.number_of_pages > 1 else None,
-        'page_get_key': settings.PAGE_GET_KEY,
+        'page_get_key': settings.COMMONTAIL_PAGINATION_GET_KEY,
     }
