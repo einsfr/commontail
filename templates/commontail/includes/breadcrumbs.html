@@ -1,16 +1,16 @@
 {% load wagtailcore_tags %}
 
 {% if pages %}
-    <ul>
+    <ul class="uk-breadcrumb uk-margin-left uk-margin-right">
         {% for page in pages %}
             {% if not page.is_root %}
                 {% if page.is_not_accessible %}
-                    <li><a href="#">{{ page.title }}</a></li>
+                    <li class="uk-text-truncate uk-disabled"><a href="#">{{ page.title }}</a></li>
                 {% else %}
                     {% if forloop.last %}
-                        <li>{{ page.title }}</li>
+                        <li class="uk-text-truncate"><span>{{ page.title }}</span></li>
                     {% else %}
-                        <li><a href="{% if page.is_substitute %}{{ page.url_path }}{% else %}{% pageurl page %}{% endif %}">{{ page.title }}</a></li>
+                        <li class="uk-text-truncate"><a href="{% if page.is_substitute %}{{ page.url_path }}{% else %}{% pageurl page %}{% endif %}">{{ page.title }}</a></li>
                     {% endif %}
                 {% endif %}
             {% endif %}
