@@ -15,7 +15,7 @@ class AbstractSEOAwarePage(Page):
     class Meta:
         abstract = True
 
-    SEO_SITEMAP_SETTINGS_TEMPLATE: str = 'COMMONTAIL_SITEMAP_{}'
+    SEO_SITEMAP_SETTINGS_TEMPLATE: str = 'SITEMAP_{}'
     SEO_SITEMAP_CHANGEFREQ_VALUES: Set[str] = {'always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never'}
 
     seo_sitemap_settings_id: Optional[str] = None
