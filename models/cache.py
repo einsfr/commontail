@@ -33,6 +33,7 @@ class CachePrefixDict(UserDict):
         return result
 
 
+# TODO: Think about simple way to add cache dependency chains when one model change may invalidate many related caches
 class AbstractCacheAware:
 
     CACHE_ACTION_NONE: int = 0
