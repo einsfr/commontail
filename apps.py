@@ -1,4 +1,7 @@
-from django.apps import AppConfig
+from django.apps import AppConfig, apps
+from django.conf import settings
+
+from wagtailmodelchooser import registry
 
 
 class CommonConfig(AppConfig):
@@ -9,3 +12,6 @@ class CommonConfig(AppConfig):
         from commontail.signals import register_cache_aware_signal_handlers
 
         register_cache_aware_signal_handlers()
+
+        registry.register_chooser(apps.get_model(*settings.AUTH_USER_MODEL.split('.')))
+        registry.register_chooser(apps.get_model('commontail', 'Author'))

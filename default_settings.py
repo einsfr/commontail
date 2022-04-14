@@ -1,4 +1,7 @@
-from typing import List, Tuple
+from typing import List, Tuple, Optional
+
+COMMONTAIL_AUTHOR_PAGE_MODEL: Optional[str] = None
+COMMONTAIL_AUTHOR_SIGNATURE_CACHE_LIFETIME: int = 3600
 
 COMMONTAIL_BREADCRUMBS_CACHE_LIFETIME: int = 3600
 

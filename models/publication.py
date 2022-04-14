@@ -6,13 +6,14 @@ from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _lazy
 
 from wagtail.admin.edit_handlers import FieldPanel
-from wagtail.core.models import Site, Page
+from wagtail.core.models import Site, Page, PageManager, PageQuerySet
 from wagtail.images import get_image_model, get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.models import AbstractRendition
 from wagtail.search import index
 
 from .author import AbstractAuthorSignaturePage, FormattedSignatureData
+from .counter import AbstractViewsCountablePage
 from .opengraph import OpenGraphPageProvider
 from .page import AbstractContentStreamPage, AbstractBaseIndexPage
 from .settings import get_logo_rendition
@@ -39,7 +40,7 @@ class PublicationStructuredDataProvider(AbstractStructuredDataProvider):
         author_data: Optional[dict] = None
         original_url: Optional[str] = None
         if isinstance(data_object, AbstractAuthorSignaturePage):
-            first_author_data: FormattedSignatureData = data_object.get_signature_first_author()
+            first_author_data: FormattedSignatureData = data_object.get_signature_first_author(request)
 
             if first_author_data:
                 author_data = {
@@ -74,15 +75,30 @@ class PublicationStructuredDataProvider(AbstractStructuredDataProvider):
         return result
 
 
-class AbstractPublicationPage(AbstractContentStreamPage):
+class PublicationPageManager(PageManager):
+
+    def get_last(self, count: int) -> PageQuerySet:
+        return self.live().order_by('-pinned', '-first_published_at')[:count]
+
+
+class AbstractPublicationPage(AbstractViewsCountablePage, AbstractAuthorSignaturePage, AbstractContentStreamPage):
 
     class Meta:
         abstract = True
+        indexes = [
+            models.Index(fields=('-pinned', '-first_published_at'), name='latest_idx'),
+        ]
+
+    pinned = models.BooleanField(
+        db_index=True,
+        default=False,
+        verbose_name=_lazy('pinned'),
+    )
 
     summary = models.CharField(
         blank=True,
         help_text=_lazy('Short description to be used as announce.'),
-        max_length=400,
+        max_length=255,
         verbose_name=_lazy('summary'),
     )
 
@@ -96,16 +112,26 @@ class AbstractPublicationPage(AbstractContentStreamPage):
         verbose_name=_lazy('announce image')
     )
 
+    cache_prefixes = AbstractAuthorSignaturePage.cache_prefixes + AbstractContentStreamPage.cache_prefixes
+
     content_panels = Page.content_panels + [
         FieldPanel('summary', widget=forms.Textarea),
         ImageChooserPanel('image_announce'),
-    ]
+    ] + AbstractContentStreamPage.content_panels
+
+    objects = PublicationPageManager()
 
     opengraph_provider = OpenGraphPageProvider(image_attribute='image_announce', description_attribute='summary')
     opengraph_type = 'article'
 
+    promote_panels = Page.promote_panels + AbstractAuthorSignaturePage.promote_panels
+
     search_fields = Page.search_fields + [
         index.SearchField('summary', boost=1.5, partial_match=False),
+    ]
+
+    settings_panels = Page.settings_panels + [
+        FieldPanel('pinned'),
     ]
 
     structured_data_providers = AbstractContentStreamPage.structured_data_providers + [

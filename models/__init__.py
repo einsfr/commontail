@@ -1,4 +1,3 @@
-from .author import *
 from .cache import *
 from .counter import *
 from .hierarchyonly import *
@@ -17,5 +16,6 @@ from .structureddata import *
 from .namedreference import *
 from .page import *
 
+from .author import *
 from .menu import *
 from .publication import *

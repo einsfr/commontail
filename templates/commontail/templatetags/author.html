@@ -1,0 +1,1 @@
+{% for i in data %}{% if i.url %}{{ i.prefix }} <a href="{{ i.url }}" {% include 'commontail/includes/attributes.html' with items=i.attrs.items only %}>{{ i.title }}</a>{% else %}{{ i.prefix }} {{ i.title }}{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}
