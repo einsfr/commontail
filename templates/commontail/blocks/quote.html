@@ -1,0 +1,10 @@
+{% load i18n wagtailcore_tags %}
+
+<figure class="uk-margin-medium-top quote-figure">
+    <blockquote>
+        {{ self.body|richtext }}
+    </blockquote>
+    <figcaption class="uk-text-muted uk-text-small uk-text-right">
+        {% if self.is_page_owner_comment %}{% translate "Author's comment" %}{% else %}{{ self.caption }}{% endif %}
+    </figcaption>
+</figure>

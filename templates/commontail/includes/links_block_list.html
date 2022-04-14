@@ -1,0 +1,10 @@
+<div class="uk-padding-small uk-padding-remove-vertical">
+    <ul class="uk-list">
+        {% block links_list %}
+            {% for l in links %}
+                <li>{% include 'commontail/includes/link.html' with url=l.url text=l.text icon=l.icon only %}</li>
+            {% endfor %}
+        {% endblock %}
+    </ul>
+</div>
+<hr>

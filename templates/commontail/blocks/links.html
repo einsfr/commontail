@@ -1,0 +1,6 @@
+{% extends 'commontail/includes/links_block_list.html' %}
+{% block links_list %}
+    {% for l in self %}
+        <li>{{ l }}</li>
+    {% endfor %}
+{% endblock %}

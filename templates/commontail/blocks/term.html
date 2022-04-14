@@ -1,0 +1,10 @@
+{% load wagtailcore_tags %}
+
+<div class="uk-grid-collapse" data-uk-grid>
+    <div class="uk-width-auto@m uk-width-1-1 uk-text-center uk-text-center@m uk-padding uk-padding-remove-vertical">
+        <i class="fa-fw {{ value.icon_name }} uk-margin-small-bottom"></i>
+    </div>
+    <div class="uk-width-expand@m uk-width-1-1 uk-padding-small uk-padding-remove-vertical">
+        {{ value.text|richtext }}
+    </div>
+</div>
