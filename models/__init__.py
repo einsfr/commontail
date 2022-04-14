@@ -1,5 +1,6 @@
 from .author import *
 from .cache import *
+from .counter import *
 from .hierarchyonly import *
 from .image import *
 from .pagination import *
