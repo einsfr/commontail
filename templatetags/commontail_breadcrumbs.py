@@ -20,7 +20,7 @@ def breadcrumbs(page: Union[Page, SubstitutePage]):
             'cache_lifetime': settings.COMMONTAIL_BREADCRUMBS_CACHE_LIFETIME,
         }
     else:
-        raise template.exceptions.TemplateSyntaxError(
+        raise ValueError(
             f'breadcrumbs tag accepts as its argument only an instance of one of following classes: '
             f'wagtail.core.models.Page, commontail.models.SubstitutePage, "{type(page)}" given.'
         )
