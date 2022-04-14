@@ -1,0 +1,14 @@
+{% load i18n %}
+
+{% if toc %}
+    <h4 id="table_of_contents">{% translate "Table of contents" %}</h4>
+    <ul class="uk-list uk-margin-left">
+        {% block pre_toc_items %}{% endblock %}
+        {% block toc_items %}
+            {% for tid, ttext, tchild in toc %}
+                {% include 'commontail/includes/toc_base_item.html' with item_id=tid text=ttext children=tchild %}
+            {% endfor %}
+        {% endblock %}
+        {% block post_toc_items %}{% endblock %}
+    </ul>
+{% endif %}

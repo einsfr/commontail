@@ -1,0 +1,7 @@
+{% extends 'commontail/includes/toc_base.html' %}
+
+{% block toc_items %}
+    {% for tid, tblock, tchild in toc %}
+        {% include 'commontail/includes/toc_stream_item.html' with item_id=tid block=tblock children=tchild %}
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,10 @@
+<li>
+    {% if text %}<a href="#{{ item_id }}" data-uk-scroll>{{ text }}</a>{% endif %}
+    {% if children %}
+        <ul class="uk-list">
+            {% for tid, ttext, tchild in children %}
+                {% include 'commontail/includes/toc_base_item.html' with item_id=tid text=ttext children=tchild %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+</li>

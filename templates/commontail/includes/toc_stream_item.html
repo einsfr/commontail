@@ -1,0 +1,10 @@
+<li>
+    {% if block %}<a href="#h{{ item_id }}" data-uk-scroll>{{ block.value.text }}</a>{% endif %}
+    {% if children %}
+        <ul class="uk-list">
+            {% for tid, tblock, tchild in children %}
+                {% include 'commontail/includes/toc_stream_item.html' with item_id=tid block=tblock children=tchild %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+</li>
