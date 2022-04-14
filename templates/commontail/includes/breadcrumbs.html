@@ -5,12 +5,12 @@
         {% for page in pages %}
             {% if not page.is_root %}
                 {% if page.is_not_accessible %}
-                    <li class="uk-text-truncate uk-disabled"><a href="#">{{ page.title }}</a></li>
+                    <li class="uk-disabled"><a href="#">{{ page.title }}</a></li>
                 {% else %}
                     {% if forloop.last %}
-                        <li class="uk-text-truncate"><span>{{ page.title }}</span></li>
+                        <li><span>{{ page.title }}</span></li>
                     {% else %}
-                        <li class="uk-text-truncate"><a href="{% if page.is_substitute %}{{ page.url_path }}{% else %}{% pageurl page %}{% endif %}">{{ page.title }}</a></li>
+                        <li><a href="{% if page.is_substitute %}{{ page.url_path }}{% else %}{% pageurl page %}{% endif %}">{{ page.title }}</a></li>
                     {% endif %}
                 {% endif %}
             {% endif %}
