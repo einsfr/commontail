@@ -1,4 +1,4 @@
-from typing import Iterable, Any
+from typing import Iterable, Any, Optional
 
 from django.conf import settings
 from django.db import models
@@ -15,6 +15,25 @@ from .cache import AbstractCacheAware, CacheMeta
 
 __all__ = ['MenuSubcategoryItemsBlock', 'MenuSubcategoryBlock', 'MenuCategoryItemsBlock', 'MenuCategoryBlock',
            'AbstractMenu', 'Menu']
+
+
+def _build_templates_list(base_name: str, context=None) -> list[str]:
+    templates_list: list[str] = []
+
+    template_name: Optional[str] = context.get('template_name', None)
+    if template_name:
+        templates_list.append(f'commontail/menu/{base_name}.{template_name}.html')
+
+    try:
+        handle: str = context['menu'].handle
+    except (KeyError, TypeError):
+        pass
+    else:
+        templates_list.append(f'commontail/menu/{base_name}.{handle}.html')
+
+    templates_list.append(f'commontail/menu/{base_name}.html')
+
+    return templates_list
 
 
 class MenuSubcategoryItemsBlock(blocks.StreamBlock):
@@ -42,15 +61,7 @@ class MenuSubcategoryBlock(blocks.StructBlock):
     items = MenuSubcategoryItemsBlock()
 
     def get_template(self, context=None):
-        try:
-            handle: str = context['menu'].handle
-        except (KeyError, TypeError):
-            return 'commontail/menu/menu_subcategory.html'
-
-        return [
-            f'commontail/menu/menu_subcategory.{handle}.html',
-            'commontail/menu/menu_subcategory.html',
-        ]
+        return _build_templates_list('menu_subcategory', context)
 
 
 class MenuCategoryItemsBlock(MenuSubcategoryItemsBlock):
@@ -74,15 +85,7 @@ class MenuCategoryBlock(blocks.StructBlock):
     items = MenuCategoryItemsBlock()
 
     def get_template(self, context=None):
-        try:
-            handle: str = context['menu'].handle
-        except (KeyError, TypeError):
-            return 'commontail/menu/menu_category.html'
-
-        return [
-            f'commontail/menu/menu_category.{handle}.html',
-            'commontail/menu/menu_category.html',
-        ]
+        return _build_templates_list('menu_category', context)
 
 
 class AbstractMenu(AbstractCacheAware, models.Model):
