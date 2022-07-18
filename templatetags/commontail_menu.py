@@ -30,7 +30,10 @@ class MenuNode(template.Node):
             else:
                 return ''
 
-        rendered_content: str = Menu.get_cache_data(Menu.TEMPLATE_CACHE_PREFIX, (site, handle, template_name, ))
+        if template_name:
+            rendered_content: str = Menu.get_cache_data(Menu.TEMPLATE_CACHE_PREFIX, (site, handle, template_name, ))
+        else:
+            rendered_content: str = Menu.get_cache_data(Menu.TEMPLATE_CACHE_PREFIX, (site, handle,))
         if rendered_content is not None:
             return rendered_content
 
@@ -57,7 +60,10 @@ class MenuNode(template.Node):
             'template_name': template_name,
         })
 
-        Menu.set_cache_data(Menu.TEMPLATE_CACHE_PREFIX, rendered_content, (site, handle, template_name, ))
+        if template_name:
+            Menu.set_cache_data(Menu.TEMPLATE_CACHE_PREFIX, rendered_content, (site, handle, template_name, ))
+        else:
+            Menu.set_cache_data(Menu.TEMPLATE_CACHE_PREFIX, rendered_content, (site, handle, ))
 
         return rendered_content
 
