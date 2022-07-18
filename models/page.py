@@ -58,7 +58,7 @@ class AbstractBaseIndexPage(AbstractPaginationAwarePage, AbstractBasePage):
         if items_meta_ordering:
             return items_meta_ordering
 
-        return '-last_published_at', '-id'
+        return '-first_published_at', '-id'
 
     def get_per_page_number(self, request) -> int:
         raise NotImplementedError
