@@ -10,12 +10,9 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def author(context: dict, page: AbstractAuthorSignaturePage) -> dict:
+def author(context: dict, page: AbstractAuthorSignaturePage) -> str:
     if not isinstance(page, AbstractAuthorSignaturePage):
-        raise ValueError(
-            f'author tag accepts as an argument only an instance of class AbstractAuthorSignaturePage, '
-            f'"{type(page)}" given.'
-        )
+        return ''
 
     first_author: Optional[FormattedSignatureData] = page.get_signature_first_author(context['request'])
 
@@ -25,12 +22,9 @@ def author(context: dict, page: AbstractAuthorSignaturePage) -> dict:
 
 
 @register.simple_tag(takes_context=True)
-def allauthors(context: dict, page: AbstractAuthorSignaturePage) -> dict:
+def allauthors(context: dict, page: AbstractAuthorSignaturePage) -> str:
     if not isinstance(page, AbstractAuthorSignaturePage):
-        raise ValueError(
-            f'allauthors tag accepts as an argument only an instance of class AbstractAuthorSignaturePage, '
-            f'"{type(page)}" given.'
-        )
+        return ''
 
     return render_to_string('commontail/templatetags/author.html', {
         'data': page.get_signature_data(context['request']),

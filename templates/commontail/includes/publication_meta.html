@@ -1,0 +1,5 @@
+{% extends 'commontail/includes/published_updated.html' %}
+
+{% load i18n %}
+
+{% block published_updated %}{{ block.super }}{% block views_count %}{% if item.views_count %}, {% translate "views count" %}: {{ item.views_count }}{% endif %}{% endblock %}{% endblock %}

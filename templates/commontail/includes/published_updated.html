@@ -1,0 +1,3 @@
+{% load i18n %}
+
+{% block published_updated %}{% translate "Published at" %} {{ item.first_published_at|date:"SHORT_DATETIME_FORMAT" }}{% if item.first_published_at != item.last_published_at %}, {% translate "updated at" %} {{ item.last_published_at|date:"SHORT_DATETIME_FORMAT" }}{% endif %}{% endblock %}
