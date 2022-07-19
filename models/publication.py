@@ -85,9 +85,6 @@ class AbstractPublicationPage(AbstractViewsCountablePage, AbstractAuthorSignatur
 
     class Meta:
         abstract = True
-        indexes = [
-            models.Index(fields=('-pinned', '-first_published_at'), name='latest_idx'),
-        ]
 
     pinned = models.BooleanField(
         db_index=True,
