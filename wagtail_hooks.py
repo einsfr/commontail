@@ -1,4 +1,5 @@
-from django.urls import reverse
+from django.contrib.auth.models import Permission
+from django.urls import reverse, path, include
 from django.utils.translation import gettext_lazy as _lazy
 
 from wagtail.admin.action_menu import ActionMenuItem
@@ -11,8 +12,10 @@ from .urls import admin_urls
 
 
 @hooks.register('register_admin_urls')
-def register_cache_clear_urls():
-    return admin_urls
+def register_admin_urls():
+    return [
+        path('commontail/', include((admin_urls, 'commontail_admin')))
+    ]
 
 
 class MenuModelAdmin(ModelAdmin):
@@ -65,7 +68,7 @@ class ClearCacheMenuItem(ActionMenuItem):
     name = 'action-clear-cache'
 
     def get_url(self, context):
-        return reverse('commontail_clear_cache', kwargs={'page_id': context['page'].id})
+        return reverse('commontail_admin:clear_cache', kwargs={'page_id': context['page'].id})
 
     def is_shown(self, context):
         if context['view'] == 'edit' and isinstance(context['page'], AbstractCacheAwarePage) \

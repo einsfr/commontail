@@ -3,6 +3,7 @@ from .counter import *
 from .hierarchyonly import *
 from .image import *
 from .pagination import *
+from .permissions import *
 from .seo import *
 from .settings import *
 from .singleton import *

@@ -1,0 +1,22 @@
+{% extends "wagtailadmin/base.html" %}
+
+{% load i18n %}
+
+{% block titletag %}{% translate 'Import' as import %}{% endblock %}
+
+{% block content %}
+    {% include 'wagtailadmin/shared/header.html' with title=import icon='collapse-up' %}
+
+    <div class="nice-padding">
+        {% if importers %}
+            <ul>
+            {% for i in importers %}
+                <li><a href="{{ i.url }}">{{ i.title }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>{% translate 'There are no importers loaded.' %}</p>
+        {% endif %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "wagtailadmin/base.html" %}
+
+{% load i18n %}
+
+{% block extra_css %}
+    {{ block.super }}
+    {% include "wagtailadmin/pages/_editor_css.html" %}
+    {{ edit_handler.form.media.css }}
+{% endblock %}
+
+{% block extra_js %}
+    {{ block.super }}
+    {% include "wagtailadmin/pages/_editor_js.html" %}
+    {{ edit_handler.form.media.js }}
+    {{ edit_handler.html_declarations }}
+{% endblock %}
+
+{% block titletag %}{{ title }}{% endblock %}
+
+{% block content %}
+
+    {% block header %}
+        {% include 'wagtailadmin/shared/header.html' with title=title icon='collapse-up' %}
+    {% endblock %}
+
+    {% if complete %}
+        <div class="nice-padding">
+            <h3>{% translate 'Processed pages' %}: {{ processed_pages }}</h3>
+            <h3>{% translate 'Imported pages' %}: {{ loaded_pages }}</h3>
+            {% if warnings %}
+                <h3>{% translate 'Warnings' %}: {{ warnings|length }}</h3>
+                {% for w in warnings %}
+                    <p>{{ w }}</p>
+                {% endfor %}
+            {% endif %}
+            {% if errors %}
+                <h3>{% translate 'Errors' %}: {{ errors|length }}</h3>
+                {% for e in errors %}
+                    <p>{{ e }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <form action="" method="POST" novalidate enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ edit_handler.render_form_content }}
+
+        {% block footer %}
+            <footer>
+                <ul>
+                    <li class="actions">
+                        <button type="submit" class="button">{% translate 'Import' %}</button>
+                    </li>
+                </ul>
+            </footer>
+        {% endblock %}
+
+    </form>
+
+{% endblock %}
