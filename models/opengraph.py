@@ -9,7 +9,7 @@ from django.utils.translation import to_locale
 
 from wagtail.images.models import AbstractImage, AbstractRendition
 
-from .cache import AbstractCacheAwarePage, CacheMeta
+from .cache import AbstractCacheAwarePage, CacheMeta, CacheProvider
 from .settings import get_logo
 
 
@@ -248,11 +248,13 @@ class AbstractOpenGraphAwarePage(OpenGraphAware, AbstractCacheAwarePage):
         return self.pk,
 
     def get_opengraph_data(self, request: HttpRequest) -> List[Tuple[str, Any]]:
-        data: List[Tuple[str, Any]] = self.get_cache_data(
+        cache_provider: CacheProvider = self.get_cache_provider()
+
+        data: List[Tuple[str, Any]] = cache_provider.get_data(
             OPENGRAPH_CACHE_PREFIX, self.get_cache_vary_on())
 
         if data is None:
             data = super().get_opengraph_data(request)
-            self.set_cache_data(OPENGRAPH_CACHE_PREFIX, data, self.get_cache_vary_on())
+            cache_provider.set_data(OPENGRAPH_CACHE_PREFIX, data, self.get_cache_vary_on())
 
         return data

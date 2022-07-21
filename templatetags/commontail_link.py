@@ -3,11 +3,11 @@ from django.conf import settings
 from django.core.cache import cache
 from django.template.defaultfilters import stringfilter
 
-from wagtail.core.models import Page
+from wagtail.core.models import Page, Site
 from wagtail.core.rich_text.rewriters import FIND_A_TAG
 from wagtail.documents.models import Document
 
-from ..models import AbstractIconAware, NamedReference
+from ..models import AbstractIconAware, NamedReference, CacheProvider
 
 
 register = template.Library()
@@ -47,9 +47,10 @@ def link_target_blank(value: str):
 
 @register.simple_tag(takes_context=True)
 def namedurl(context: dict, handle: str):
-    site = context['request'].site
-    cache_key = f'{settings.COMMONTAIL_NAMED_URL_CACHE_KEY_PREFIX}{site.pk}_{handle}'
-    url = cache.get(cache_key)
+    cache_provider: CacheProvider = NamedReference.get_cache_provider()
+    site: Site = Site.find_for_request(context['request'])
+
+    url = cache_provider.get_data(NamedReference.get_cache_template_prefix(), (site.pk, handle))
     if url is None:
         try:
             nr = NamedReference.objects.get(site=site, handle=handle)

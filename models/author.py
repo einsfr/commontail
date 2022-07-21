@@ -18,7 +18,7 @@ from wagtail.core.models import Page, Site
 from wagtailmodelchooser.blocks import ModelChooserBlock
 from wagtailmodelchooser.edit_handlers import ModelChooserPanel
 
-from .cache import AbstractCacheAwarePage, CacheMeta
+from .cache import AbstractCacheAwarePage, CacheMeta, CacheProvider
 from .page import AbstractBaseIndexPage, AbstractBasePage
 from .singleton import AbstractPerSiteSingletonPage
 
@@ -246,7 +246,9 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
                 )
 
     def get_signature_data(self, request: HttpRequest) -> List[FormattedSignatureData]:
-        result: List[FormattedSignatureData] = self.get_cache_data(
+        cache_provider: CacheProvider = self.get_cache_provider()
+
+        result: List[FormattedSignatureData] = cache_provider.get_data(
             AUTHOR_SIGNATURE_CACHE_PREFIX, self.get_cache_vary_on())
 
         if result is not None:
@@ -271,7 +273,7 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
                 {'target': '_blank'}
             ))
 
-        self.set_cache_data(AUTHOR_SIGNATURE_CACHE_PREFIX, result, self.get_cache_vary_on())
+        cache_provider.set_data(AUTHOR_SIGNATURE_CACHE_PREFIX, result, self.get_cache_vary_on())
 
         return result
 

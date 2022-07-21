@@ -1,7 +1,6 @@
 from typing import Iterable, Any, Optional
 
 from django.conf import settings
-from django.db import models
 from django.utils.translation import gettext_lazy as _lazy
 
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
@@ -11,13 +10,14 @@ from wagtail.core.fields import StreamField
 from ..blocks import DocumentLinkBlock, ExternalLinkBlock, PageLinkBlock
 
 from .cache import AbstractCacheAware, CacheMeta
+from .utils import AbstractSiteHandleModel
 
 
 __all__ = ['MenuSubcategoryItemsBlock', 'MenuSubcategoryBlock', 'MenuCategoryItemsBlock', 'MenuCategoryBlock',
            'AbstractMenu', 'Menu']
 
 
-def _build_templates_list(base_name: str, context=None) -> list[str]:
+def _get_templates_list(base_name: str, context=None) -> list[str]:
     templates_list: list[str] = []
 
     template_name: Optional[str] = context.get('template_name', None)
@@ -25,7 +25,7 @@ def _build_templates_list(base_name: str, context=None) -> list[str]:
         templates_list.append(f'commontail/menu/{base_name}.{template_name}.html')
 
     try:
-        handle: str = context['menu'].handle
+        handle: str = context['instance'].handle
     except (KeyError, TypeError):
         pass
     else:
@@ -61,7 +61,7 @@ class MenuSubcategoryBlock(blocks.StructBlock):
     items = MenuSubcategoryItemsBlock()
 
     def get_template(self, context=None):
-        return _build_templates_list('menu_subcategory', context)
+        return _get_templates_list('menu_subcategory', context)
 
 
 class MenuCategoryItemsBlock(MenuSubcategoryItemsBlock):
@@ -85,24 +85,15 @@ class MenuCategoryBlock(blocks.StructBlock):
     items = MenuCategoryItemsBlock()
 
     def get_template(self, context=None):
-        return _build_templates_list('menu_category', context)
+        return _get_templates_list('menu_category', context)
 
 
-class AbstractMenu(AbstractCacheAware, models.Model):
+class AbstractMenu(AbstractCacheAware, AbstractSiteHandleModel):
 
-    class Meta:
+    class Meta(AbstractSiteHandleModel.Meta):
         abstract = True
         verbose_name = 'меню'
         verbose_name_plural = 'меню'
-        unique_together = (('handle', 'site'), )
-
-    TEMPLATE_CACHE_PREFIX: str = 'menu_template'
-
-    handle = models.CharField(
-        max_length=255,
-        verbose_name=_lazy('handle'),
-        help_text=_lazy('Must be unique per site, will be used as a reference by rendering tag.'),
-    )
 
     items = StreamField(
         [
@@ -114,15 +105,10 @@ class AbstractMenu(AbstractCacheAware, models.Model):
         verbose_name=_lazy('Menu items')
     )
 
-    site = models.ForeignKey(
-        'wagtailcore.Site',
-        on_delete=models.CASCADE,
-        related_name='+',
-        verbose_name=_lazy('site'),
-    )
+    cache_template_prefix = 'menu_template'
 
     cache_prefixes = AbstractCacheAware.cache_prefixes + {
-        TEMPLATE_CACHE_PREFIX: CacheMeta(
+        cache_template_prefix: CacheMeta(
             ('template_fragments', 'default'),
             settings.COMMONTAIL_MENU_CACHE_LIFETIME
         )
@@ -138,7 +124,7 @@ class AbstractMenu(AbstractCacheAware, models.Model):
         return self.handle
 
     def get_cache_vary_on(self) -> Iterable[Any]:
-        return self.site, self.handle
+        return self.site_id, self.handle
 
 
 class Menu(AbstractMenu):

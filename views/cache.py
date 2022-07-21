@@ -17,7 +17,7 @@ def clear_page_cache_view(request: HttpRequest, page_id: int) -> HttpResponse:
     if not permissions.can_edit():
         return HttpResponseForbidden()
     if isinstance(page, AbstractCacheAwarePage):
-        page.clear_cache(page.get_cache_vary_on())
+        page.get_cache_provider().clear(page.get_cache_vary_on())
     messages.success(request, _lazy('Page cache cleared.'))
 
     return HttpResponseRedirect(reverse('wagtailadmin_pages:edit', kwargs={'page_id': page_id}))

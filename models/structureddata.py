@@ -9,7 +9,7 @@ from django.utils.safestring import mark_safe
 
 from wagtail.core.models import Page, Site
 
-from .cache import AbstractCacheAwarePage, CacheMeta
+from .cache import AbstractCacheAwarePage, CacheMeta, CacheProvider
 from .hierarchyonly import AbstractHierarchyOnlyPage
 
 
@@ -86,10 +86,12 @@ class AbstractStructuredDataAwarePage(StructuredDataAware, AbstractCacheAwarePag
         return self.pk,
 
     def get_structured_data(self, request: HttpRequest) -> str:
-        data: str = self.get_cache_data(STRUCTURED_DATA_CACHE_PREFIX, self.get_cache_vary_on())
+        cache_provider: CacheProvider = self.get_cache_provider()
+
+        data: str = cache_provider.get_data(STRUCTURED_DATA_CACHE_PREFIX, self.get_cache_vary_on())
 
         if data is None:
             data = super().get_structured_data(request)
-            self.set_cache_data(STRUCTURED_DATA_CACHE_PREFIX, data, self.get_cache_vary_on())
+            cache_provider.set_data(STRUCTURED_DATA_CACHE_PREFIX, data, self.get_cache_vary_on())
 
         return data

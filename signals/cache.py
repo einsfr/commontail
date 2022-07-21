@@ -1,17 +1,19 @@
 from django.db.models.signals import post_save, post_delete
 
-from ..models import AbstractCacheAware
+from ..models import AbstractCacheAware, CacheProvider
 
 
 __all__ = ['register_cache_aware_signal_handlers', ]
 
 
 def cache_aware_action(instance: AbstractCacheAware, action: str) -> None:
-    policy: int = instance.CACHE_POLICIES[action]
-    if policy == AbstractCacheAware.CACHE_ACTION_NONE:
+    cache_provider: CacheProvider = instance.get_cache_provider()
+
+    policy: int = cache_provider.CACHE_POLICIES[action]
+    if policy == cache_provider.CACHE_ACTION_NONE:
         return
-    elif policy == AbstractCacheAware.CACHE_ACTION_CLEAR:
-        instance.clear_cache(instance.get_cache_vary_on())
+    elif policy == cache_provider.CACHE_ACTION_CLEAR:
+        instance.get_cache_provider().clear(instance.get_cache_vary_on())
 
 
 def cache_aware_post_save(sender, **kwargs):
