@@ -1,6 +1,7 @@
 from collections import UserDict
 from dataclasses import dataclass
-from hashlib import sha1
+from hashlib import sha256
+from itertools import chain
 from typing import Dict, List, Any, Callable, Union, Iterable, Optional, Type
 
 from django.core.cache import caches, BaseCache, InvalidCacheBackendError
@@ -37,9 +38,8 @@ class CacheProvider:
 
     CACHE_ACTION_NONE: int = 0
     CACHE_ACTION_CLEAR: int = 1
-    CACHE_DELIMITER: str = '_'
     CACHE_EXTRA_DELIMITER: str = ';'
-    CACHE_EXTRA_SUFFIX: str = 'extra'
+    CACHE_EXTRA_SALT: str = 'extra'
 
     CACHE_POLICIES: Dict[str, int] = {
         'save': CACHE_ACTION_CLEAR,
@@ -107,31 +107,23 @@ class CacheProvider:
 
     @classmethod
     def get_extra_key(cls, prefix: str, vary_on: Optional[Iterable[Any]] = None) -> str:
-        return cls.CACHE_DELIMITER.join([*cls.get_key_parts(prefix, vary_on)[0:2], cls.CACHE_EXTRA_SUFFIX])
+        return cls.get_hash(chain([prefix, cls.CACHE_EXTRA_SALT], vary_on if vary_on is not None else []))
 
     @staticmethod
     def get_hash(items: Iterable[Any]) -> str:
-        items = list(items) if items else []
-        if not items:
-            return ''
-
-        hasher = sha1()
+        hasher = sha256()
+        is_empty: bool = True
 
         for i in items:
             hasher.update(str(i).encode())
-            hasher.update(b':')
+            is_empty = False
 
-        return hasher.hexdigest()
+        return '' if is_empty else hasher.hexdigest()
 
     @classmethod
     def get_key(cls, prefix: str, vary_on: Optional[Iterable[Any]] = None,
                 extra: Optional[Iterable[Any]] = None) -> str:
-        return cls.CACHE_DELIMITER.join(cls.get_key_parts(prefix, vary_on, extra))
-
-    @classmethod
-    def get_key_parts(cls, prefix: str, vary_on: Optional[Iterable[Any]] = None,
-                      extra: Optional[Iterable[Any]] = None) -> tuple[str, str, str]:
-        return str(prefix), cls.get_hash(vary_on), cls.get_hash(extra)
+        return cls.get_hash(chain([prefix], vary_on if vary_on is not None else [], extra if extra is not None else []))
 
     def get_meta(self, prefix: str) -> CacheMeta:
         try:
@@ -156,19 +148,21 @@ class CacheProvider:
         cache_key: str = self.get_key(prefix, vary_on, extra)
         cache_instance.set(cache_key, data, meta.lifetime)
 
-        if extra and list(extra):
+        if extra:
             extra_key: str = self.get_extra_key(prefix, vary_on)
             extra_data: str = cache_instance.get(extra_key)
 
             if extra_data:
-                extra_data += f'{self.CACHE_EXTRA_DELIMITER}{cache_key}'
+                extra_list: list[str] = extra_data.split(self.CACHE_EXTRA_DELIMITER)
+                if cache_key not in extra_list:
+                    extra_list.append(cache_key)
+                    extra_data = self.CACHE_EXTRA_DELIMITER.join(extra_list)
             else:
                 extra_data = cache_key
 
             cache_instance.set(extra_key, extra_data, meta.lifetime)
 
 
-# TODO: Think about simple way to add cache dependency chains when one model change may invalidate many related caches
 class AbstractCacheAware:
 
     _cache_provider: Optional[CacheProvider] = None
@@ -189,6 +183,9 @@ class AbstractCacheAware:
 
     def get_cache_vary_on(self) -> Iterable[Any]:
         raise NotImplementedError
+
+    def get_cache_dependents(self) -> Optional[Iterable['AbstractCacheAware']]:
+        return
 
 
 class AbstractCacheAwarePage(AbstractCacheAware, Page):
