@@ -13,7 +13,13 @@ def cache_aware_action(instance: AbstractCacheAware, action: str) -> None:
     if policy == cache_provider.CACHE_ACTION_NONE:
         return
     elif policy == cache_provider.CACHE_ACTION_CLEAR:
-        cache_provider.clear(instance.get_cache_vary_on())
+        # For some reason while migrating django tries to execute not implemented method on AbstractCacheAware...
+        # ... or I just can't find my bug
+        try:
+            cache_provider.clear(instance.get_cache_vary_on())
+        except NotImplementedError:
+            return
+
         try:
             for dependent in instance.get_cache_dependents():
                 dependent.get_cache_provider().clear(dependent.get_cache_vary_on())
