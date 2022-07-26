@@ -2,12 +2,14 @@ from django.contrib.auth.models import Permission
 from django.urls import reverse, path, include
 from django.utils.translation import gettext_lazy as _lazy
 
+from wagtail.admin.menu import MenuItem
 from wagtail.admin.action_menu import ActionMenuItem
 from wagtail.contrib.modeladmin.options import ModelAdmin, ModelAdminGroup, modeladmin_register
 from wagtail.core import hooks
 
 from .models import Menu, PageViewsCounter, AbstractViewsCountablePage, Author, AuthorHomePageRelation,\
     AbstractCacheAwarePage
+    # Banner, BannerSet, Hint
 from .urls import admin_urls
 
 
@@ -80,3 +82,56 @@ class ClearCacheMenuItem(ActionMenuItem):
 def register_clear_cache_menu_item():
     return ClearCacheMenuItem()
 
+
+# class BannerSetModelAdmin(ModelAdmin):
+#
+#     model = BannerSet
+#     list_display = ('title', 'handle', )
+#
+#
+# class BannerModelAdmin(ModelAdmin):
+#
+#     model = Banner
+#
+#
+# class BannerModelAdminGroup(ModelAdminGroup):
+#
+#     menu_label = _lazy('Banners')
+#     menu_icon = 'image'
+#     items = [BannerSetModelAdmin, BannerModelAdmin, ]
+#
+#
+# modeladmin_register(BannerModelAdminGroup)
+#
+#
+# class HintModelAdmin(ModelAdmin):
+#
+#     model = Hint
+#     list_display = ('title', 'handle', )
+#
+#
+# class HintModelAdminGroup(ModelAdminGroup):
+#
+#     menu_label = _lazy('Hints')
+#     menu_icon = 'help'
+#     items = [HintModelAdmin, ]
+#
+#
+# modeladmin_register(HintModelAdminGroup)
+
+
+@hooks.register('register_permissions')
+def register_global_permissions():
+    return Permission.objects.filter(content_type__model='global_permission')
+
+
+@hooks.register('register_admin_menu_item')
+def register_import_menu_item():
+    return MenuItem(_lazy('Import'), reverse('commontail_admin:import_index'), classnames='icon icon-collapse-up',
+                    order=11000)
+
+
+@hooks.register('register_admin_menu_item')
+def register_export_menu_item():
+    return MenuItem(_lazy('Export'), reverse('commontail_admin:export_index'), classnames='icon icon-collapse-down',
+                    order=11001)

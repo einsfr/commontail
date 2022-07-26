@@ -1,0 +1,25 @@
+{% load i18n wagtailcore_tags %}
+
+<div class="uk-background-default uk-padding-small" data-uk-sticky="media: @s">
+    <ul class="uk-iconnav">
+        {% for v in self.first_letters %}
+            <li><a href="#letter{{ forloop.counter0 }}" data-uk-scroll>{{ v|upper }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+<dl class="uk-description-list glossary-list">
+    {% for item in self.items.all %}
+        {% ifchanged item.term.0|upper %}
+            {% if not forloop.first %}</dl>{% endif %}
+            <h3 id="letter{{ counter }}">{{ item.term.0|upper }}</h3>
+            <dl class="uk-description-list glossary-list">
+        {% endifchanged %}
+        <dt id="item{{ item.id }}">{{ item.term }}<sup class="link-icon"><a href="{{ self.full_url }}#item{{ item.id }}" title="{% translate 'Direct link to this term' %}"><i class="far fa-link"></i></a></sup></dt>
+        <dd>
+            {{ item.description|richtext }}
+            {% if item.links %}
+                <div class="uk-text-meta">{% translate 'See also' %}: {% for link in item.links %}{% include_block link %}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+            {% endif %}
+        </dd>
+    {% endfor %}
+</dl>
