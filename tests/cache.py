@@ -17,7 +17,7 @@ class CacheAwareModel(AbstractCacheAware):
         self.vary: int = vary
 
     cache_prefixes = AbstractCacheAware.cache_prefixes + {
-        TEST_PREFIX: CacheMeta('default', 60),
+        TEST_PREFIX: CacheMeta(('template_fragments', 'default'), 60),
     }
 
     def get_cache_vary_on(self) -> Iterable[Any]:

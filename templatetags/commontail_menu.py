@@ -1,10 +1,6 @@
 from typing import Optional
 
 from django import template
-from django.conf import settings
-from django.template.loader import select_template
-
-from wagtail.core.models import Site
 
 from ..models import Menu
 from ..utils.templatetags import HandleRenderedNode

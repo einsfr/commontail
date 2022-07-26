@@ -38,7 +38,7 @@ class HandleRenderedNode(template.Node):
         if issubclass(self.model_class, AbstractCacheAware):
             extra: list[str] = [template_name] if template_name else []
             rendered_content = self.model_class.get_cache_provider().get_data(
-                self.model_class.get_cache_template_prefix(), (site, handle), extra
+                self.model_class.get_cache_template_prefix(), (site.pk, handle), extra
             )
 
             if rendered_content is not None:
@@ -70,7 +70,7 @@ class HandleRenderedNode(template.Node):
         if issubclass(self.model_class, AbstractCacheAware):
             extra: list[str] = [template_name] if template_name else []
             self.model_class.get_cache_provider().set_data(
-                self.model_class.get_cache_template_prefix(), rendered_content, (site, handle), extra
+                self.model_class.get_cache_template_prefix(), rendered_content, (site.pk, handle), extra
             )
 
         return rendered_content
