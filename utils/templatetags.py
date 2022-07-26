@@ -56,7 +56,7 @@ class HandleRenderedNode(template.Node):
 
         try:
             instance: AbstractSiteHandleModel = self.model_class.objects.get(site=site, handle=handle)
-        except AbstractSiteHandleModel.DoesNotExist as e:
+        except self.model_class.DoesNotExist as e:
             if settings.DEBUG:
                 raise e
             else:
