@@ -16,7 +16,7 @@ class PageViewsCounter(models.Model):
 
     page = models.OneToOneField(
         'wagtailcore.Page',
-        related_name='+',
+        related_name='views_counter',
         on_delete=models.CASCADE,
         primary_key=True,
         verbose_name=_lazy('page'),
@@ -35,10 +35,7 @@ class AbstractViewsCountablePage(Page):
 
     @cached_property
     def views_count(self) -> int:
-        try:
-            return PageViewsCounter.objects.get(page_id=self.pk).views_count
-        except PageViewsCounter.DoesNotExist:
-            return 0
+        return self.views_counter.views_count
 
     def increment_views_count(self, request):
         PageViewsCounter.objects.filter(page_id=self.pk).update(views_count=models.F('views_count') + 1)
