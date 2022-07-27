@@ -1,6 +1,6 @@
 from django.http import HttpRequest, HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _lazy
+from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin import messages
 from wagtail.core.models import Page, PagePermissionTester
@@ -18,6 +18,6 @@ def clear_page_cache_view(request: HttpRequest, page_id: int) -> HttpResponse:
         return HttpResponseForbidden()
     if isinstance(page, AbstractCacheAwarePage):
         page.get_cache_provider().clear(page.get_cache_vary_on())
-    messages.success(request, _lazy('Page cache cleared.'))
+    messages.success(request, _('Page cache cleared.'))
 
     return HttpResponseRedirect(reverse('wagtailadmin_pages:edit', kwargs={'page_id': page_id}))

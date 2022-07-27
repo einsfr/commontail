@@ -2,7 +2,7 @@ from typing import Optional
 
 from django.conf import settings
 from django.db import models
-from django.utils.translation import gettext_lazy as _lazy
+from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin.edit_handlers import FieldPanel, RichTextFieldPanel
 from wagtail.core.fields import RichTextField
@@ -16,26 +16,26 @@ __all__ = ['Hint', ]
 class Hint(AbstractSiteHandleModel):
 
     class Meta(AbstractSiteHandleModel.Meta):
-        verbose_name = _lazy('hint')
-        verbose_name_plural = _lazy('hints')
+        verbose_name = _('hint')
+        verbose_name_plural = _('hints')
 
     summary = models.CharField(
         blank=True,
         max_length=100,
-        verbose_name=_lazy('summary'),
+        verbose_name=_('summary'),
     )
 
     text = RichTextField(
         blank=True,
         features=settings.COMMONTAIL_RTF_LIMITED_FEATURES,
         max_length=1000,
-        verbose_name=_lazy('text'),
+        verbose_name=_('text'),
     )
 
     title = models.CharField(
-        help_text=_lazy('Title to use in administrative area.'),
+        help_text=_('Title to use in administrative area.'),
         max_length=255,
-        verbose_name=_lazy('title'),
+        verbose_name=_('title'),
     )
 
     panels = [

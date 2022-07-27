@@ -2,7 +2,7 @@ from typing import Callable, Iterable, Optional, Type
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from django.utils.translation import gettext_lazy as _lazy, gettext as _
+from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin.edit_handlers import ObjectList, FieldPanel
 
@@ -31,8 +31,8 @@ class AbstractSpreadsheetImporter(AbstractPageImporter):
     @classmethod
     def get_columns(cls) -> Iterable[tuple[str, str, Callable, Optional[dict]]]:
         return [
-            ('title', _lazy('title'), cls.update_str_value, None),
-            ('slug', _lazy('slug'), cls.update_str_value, None),
+            ('title', _('title'), cls.update_str_value, None),
+            ('slug', _('slug'), cls.update_str_value, None),
         ]
 
     @classmethod

@@ -1,4 +1,4 @@
-from django.utils.translation import gettext_lazy as _lazy
+from django.utils.translation import gettext_lazy as _
 
 from wagtail.core import blocks
 from wagtail.images.blocks import ImageChooserBlock
@@ -11,7 +11,7 @@ class ImageBlock(blocks.StructBlock):
 
     class Meta:
         icon = 'image'
-        label = _lazy('Image')
+        label = _('Image')
         template = 'commontail/blocks/image.html'
 
     IMAGE_WIDTH_SMALL = 150
@@ -21,24 +21,24 @@ class ImageBlock(blocks.StructBlock):
     IMAGE_WIDTH_XXLARGE = 750
 
     align = blocks.ChoiceBlock(choices=[
-        ('left', _lazy('Left')),
-        ('center', _lazy('Center')),
-        ('right', _lazy('Right')),
-    ], default='left', required=True, label=_lazy('Align'))
+        ('left', _('Left')),
+        ('center', _('Center')),
+        ('right', _('Right')),
+    ], default='left', required=True, label=_('Align'))
 
-    caption = blocks.CharBlock(max_length=128, required=False, label=_lazy('Caption'))
+    caption = blocks.CharBlock(max_length=128, required=False, label=_('Caption'))
 
-    hide_caption = blocks.BooleanBlock(required=False, label=_lazy('Hide caption'))
+    hide_caption = blocks.BooleanBlock(required=False, label=_('Hide caption'))
 
-    image = ImageChooserBlock(required=True, label=_lazy('Image'))
+    image = ImageChooserBlock(required=True, label=_('Image'))
 
     size = blocks.ChoiceBlock(choices=[
-        ('small', _lazy('Small')),
-        ('medium', _lazy('Medium')),
-        ('large', _lazy('Large')),
-        ('xlarge', _lazy('Very large')),
-        ('xxlarge', _lazy('Extra large')),
-    ], default='medium', required=True, label=_lazy('Size'))
+        ('small', _('Small')),
+        ('medium', _('Medium')),
+        ('large', _('Large')),
+        ('xlarge', _('Very large')),
+        ('xxlarge', _('Extra large')),
+    ], default='medium', required=True, label=_('Size'))
 
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context)
@@ -56,9 +56,9 @@ class ImageGalleryBlock(blocks.StructBlock):
 
     class Meta:
         icon = 'image'
-        label = _lazy('Image gallery')
+        label = _('Image gallery')
         template = 'commontail/blocks/gallery.html'
 
-    images = blocks.ListBlock(ImageChooserBlock(label=_lazy('Image')), label=_lazy('Images'))
+    images = blocks.ListBlock(ImageChooserBlock(label=_('Image')), label=_('Images'))
 
-    title = blocks.CharBlock(max_length=128, required=False, label=_lazy('Heading'))
+    title = blocks.CharBlock(max_length=128, required=False, label=_('Heading'))

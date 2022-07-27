@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             name='Author',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('email', models.EmailField(blank=True, help_text="Author's public email.", max_length=254, verbose_name='email')),
+                ('email', models.EmailField(blank=True, help_text="Author's public e-mail.", max_length=254, verbose_name='e-mail')),
                 ('first_name', models.CharField(help_text="Author's first name.", max_length=150, verbose_name='first name')),
                 ('last_name', models.CharField(help_text="Author's last name.", max_length=150, verbose_name='last name')),
                 ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to=settings.AUTH_USER_MODEL)),

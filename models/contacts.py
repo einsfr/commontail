@@ -1,4 +1,4 @@
-from django.utils.translation import gettext_lazy as _lazy
+from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin.edit_handlers import StreamFieldPanel
 from wagtail.core import blocks
@@ -24,14 +24,14 @@ class AbstractContactsPage(AbstractPerSiteSingletonPage, AbstractBasePage):
         [
             ('contact', blocks.StructBlock(
                 [
-                    ('title', blocks.CharBlock(max_length=64, label=_lazy('Data set title'), required=False)),
+                    ('title', blocks.CharBlock(max_length=64, label=_('Data set title'), required=False)),
                     ('contact_data', ContactBlock()),
                 ],
-                label=_lazy('Contact data')
+                label=_('Contact data')
             ))
         ],
         blank=True,
-        verbose_name=_lazy('contacts'),
+        verbose_name=_('contacts'),
     )
 
     content_panels = AbstractBasePage.content_panels + [

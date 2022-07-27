@@ -6,7 +6,7 @@ from typing import List, Tuple, Union, Any, Type, Optional, Dict
 from django.conf import settings
 from django.core.paginator import Paginator, Page
 from django.db import models
-from django.utils.translation import gettext_lazy as _lazy
+from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin.edit_handlers import StreamFieldPanel
 from wagtail.core.models import Page
@@ -93,7 +93,7 @@ class AbstractContentStreamPage(AbstractBasePage):
     body = StreamField(
         get_content_stream_page_body_block(required=False),
         blank=True,
-        verbose_name=_lazy('page body'),
+        verbose_name=_('page body'),
     )
 
     content_panels = [

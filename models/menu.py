@@ -1,7 +1,7 @@
 from typing import Iterable, Any, Optional
 
 from django.conf import settings
-from django.utils.translation import gettext_lazy as _lazy
+from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.core import blocks
@@ -40,7 +40,7 @@ class MenuSubcategoryItemsBlock(blocks.StreamBlock):
 
     class Meta:
         icon = 'list-ul'
-        label = _lazy('Menu subcategory items')
+        label = _('Menu subcategory items')
 
     document = DocumentLinkBlock()
 
@@ -53,10 +53,10 @@ class MenuSubcategoryBlock(blocks.StructBlock):
 
     class Meta:
         icon = 'list-ul'
-        label = _lazy('Menu subcategory')
+        label = _('Menu subcategory')
         template = 'commontail/menu/menu_subcategory.html'
 
-    title = blocks.CharBlock(required=True, max_length=64, label=_lazy('Menu subcategory title'))
+    title = blocks.CharBlock(required=True, max_length=64, label=_('Menu subcategory title'))
 
     items = MenuSubcategoryItemsBlock()
 
@@ -68,7 +68,7 @@ class MenuCategoryItemsBlock(MenuSubcategoryItemsBlock):
 
     class Meta:
         icon = 'list-ul'
-        label = _lazy('Menu category items')
+        label = _('Menu category items')
 
     subcategory = MenuSubcategoryBlock()
 
@@ -77,10 +77,10 @@ class MenuCategoryBlock(blocks.StructBlock):
 
     class Meta:
         icon = 'list-ul'
-        label = _lazy('Menu category')
+        label = _('Menu category')
         template = 'commontail/menu/menu_category.html'
 
-    title = blocks.CharBlock(required=True, max_length=64, label=_lazy('Menu category title'))
+    title = blocks.CharBlock(required=True, max_length=64, label=_('Menu category title'))
 
     items = MenuCategoryItemsBlock()
 
@@ -102,7 +102,7 @@ class AbstractMenu(AbstractCacheAware, AbstractSiteHandleModel):
             ('external', ExternalLinkBlock()),
             ('page', PageLinkBlock()),
         ],
-        verbose_name=_lazy('Menu items')
+        verbose_name=_('Menu items')
     )
 
     cache_template_prefix = 'menu_template'

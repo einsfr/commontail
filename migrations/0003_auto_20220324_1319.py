@@ -74,7 +74,7 @@ class Migration(migrations.Migration):
             name='NamedReference',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('email', models.EmailField(blank=True, help_text='email address to be used as a link.', max_length=254, verbose_name='email address')),
+                ('email', models.EmailField(blank=True, help_text='e-mail address to be used as a link.', max_length=254, verbose_name='e-mail address')),
                 ('link_external', models.URLField(blank=True, help_text='Link to external URL. Must be used with "Link\'s test" field.', verbose_name='external link')),
                 ('query_string', models.CharField(blank=True, help_text='Query string parameters without opening ?.', max_length=255, verbose_name='query string for a page link')),
                 ('link_text', models.CharField(blank=True, help_text="Link's text. Required for external links only. May be used as substitute text with page and document links.", max_length=255, verbose_name="link's text")),

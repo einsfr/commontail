@@ -5,7 +5,7 @@ from typing import Optional
 from django.db import models
 from django.conf import settings
 from django.http import HttpRequest
-from django.utils.translation import gettext_lazy as _lazy
+from django.utils.translation import gettext_lazy as _
 
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.core.models import Site
@@ -22,13 +22,13 @@ __all__ = ['CommonSettings', 'get_logo', 'get_logo_rendition', 'get_logo_origina
 class CommonSettings(BaseSetting):
 
     class Meta:
-        verbose_name = _lazy('common')
-        verbose_name_plural = _lazy('common')
+        verbose_name = _('common')
+        verbose_name_plural = _('common')
 
     logo = models.ForeignKey(
         get_image_model_string(),
         on_delete=models.PROTECT,
-        verbose_name=_lazy('main logo'),
+        verbose_name=_('main logo'),
         related_name='+',
         null=True,
         blank=True,
@@ -37,7 +37,7 @@ class CommonSettings(BaseSetting):
     logo_square = models.ForeignKey(
         get_image_model_string(),
         on_delete=models.PROTECT,
-        verbose_name=_lazy('square logo'),
+        verbose_name=_('square logo'),
         related_name='+',
         null=True,
         blank=True,
@@ -46,7 +46,7 @@ class CommonSettings(BaseSetting):
     docs_background = models.ForeignKey(
         get_image_model_string(),
         on_delete=models.PROTECT,
-        verbose_name=_lazy('printable docs background'),
+        verbose_name=_('printable docs background'),
         related_name='+',
         null=True,
         blank=True,
@@ -168,7 +168,7 @@ class PerPageSettingsMixin(models.Model):
         abstract = True
 
     items_per_page = models.PositiveSmallIntegerField(
-        verbose_name=_lazy('items per page'),
+        verbose_name=_('items per page'),
         default=10,
-        help_text=_lazy('Items quantity per index page'),
+        help_text=_('Items quantity per index page.'),
     )

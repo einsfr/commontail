@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _lazy
+from django.utils.translation import gettext_lazy as _
 
 from modelcluster.models import ClusterableModel
 from modelcluster.fields import ParentalKey
@@ -27,24 +27,24 @@ __all__ = ['Banner', 'BannerSet', 'BannerSetItem', ]
 class Banner(AbstractLinkFields):
 
     class Meta:
-        verbose_name = _lazy('banner')
-        verbose_name_plural = _lazy('banners')
+        verbose_name = _('banner')
+        verbose_name_plural = _('banners')
 
     active_since = models.DateTimeField(
         blank=True,
         null=True,
-        verbose_name=_lazy('active since'),
+        verbose_name=_('active since'),
     )
 
     active_to = models.DateTimeField(
         blank=True,
         null=True,
-        verbose_name=_lazy('active to'),
+        verbose_name=_('active to'),
     )
 
     enabled = models.BooleanField(
         default=True,
-        verbose_name=_lazy('enabled'),
+        verbose_name=_('enabled'),
     )
 
     is_active = models.BooleanField(
@@ -52,16 +52,16 @@ class Banner(AbstractLinkFields):
     )
 
     title = models.CharField(
-        help_text=_lazy('Title to use in administrative area.'),
+        help_text=_('Title to use in administrative area.'),
         max_length=255,
-        verbose_name=_lazy('title'),
+        verbose_name=_('title'),
     )
 
     image = models.ForeignKey(
         get_image_model_string(),
         on_delete=models.PROTECT,
         related_name='+',
-        verbose_name=_lazy('image'),
+        verbose_name=_('image'),
     )
 
     panels = [
@@ -97,19 +97,19 @@ class Banner(AbstractLinkFields):
 class BannerSet(AbstractCacheAware, AbstractSiteHandleModel, ClusterableModel):
 
     class Meta(AbstractSiteHandleModel.Meta):
-        verbose_name = _lazy('banners set')
-        verbose_name_plural = _lazy('banners sets')
+        verbose_name = _('banners set')
+        verbose_name_plural = _('banners sets')
 
     delay = models.PositiveSmallIntegerField(
         default=10,
         validators=[MinValueValidator(5), ],
-        verbose_name=_lazy('duration'),
+        verbose_name=_('duration'),
     )
 
     title = models.CharField(
-        help_text=_lazy('Title to use in administrative area.'),
+        help_text=_('Title to use in administrative area.'),
         max_length=255,
-        verbose_name=_lazy('title'),
+        verbose_name=_('title'),
     )
 
     cache_template_prefix = 'banner_template'
@@ -126,7 +126,7 @@ class BannerSet(AbstractCacheAware, AbstractSiteHandleModel, ClusterableModel):
         FieldPanel('handle'),
         FieldPanel('delay'),
         FieldPanel('site'),
-        InlinePanel('items', label=_lazy('Items')),
+        InlinePanel('items', label=_('Items')),
     ]
 
     def __str__(self):
@@ -156,12 +156,12 @@ class BannerSetItem(Orderable):
         Banner,
         on_delete=models.PROTECT,
         related_name='banner_set_item',
-        verbose_name=_lazy('banner'),
+        verbose_name=_('banner'),
     )
 
     banner_set = ParentalKey(
         BannerSet,
         on_delete=models.CASCADE,
         related_name='items',
-        verbose_name=_lazy('banners set'),
+        verbose_name=_('banners set'),
     )

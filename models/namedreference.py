@@ -1,7 +1,7 @@
 from typing import Iterable, Any
 
 from django.conf import settings
-from django.utils.translation import gettext_lazy as _lazy
+from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin.edit_handlers import FieldPanel
 
@@ -16,8 +16,8 @@ __all__ = ['NamedReference', ]
 class NamedReference(AbstractCacheAware, AbstractLinkFields, AbstractSiteHandleModel):
 
     class Meta(AbstractSiteHandleModel.Meta):
-        verbose_name = _lazy('named reference')
-        verbose_name_plural = _lazy('named references')
+        verbose_name = _('named reference')
+        verbose_name_plural = _('named references')
 
     cache_template_prefix = 'named_reference_template'
     cache_prefixes = AbstractCacheAware.cache_prefixes + {

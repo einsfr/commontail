@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db import models
 from django.http.request import HttpRequest
 from django.forms import Form
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 from psycopg2.extras import NumericRange
 

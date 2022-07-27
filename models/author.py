@@ -8,7 +8,7 @@ from django.db import models
 from django.forms.utils import ErrorList
 from django.http import HttpRequest
 from django.template.defaultfilters import truncatechars
-from django.utils.translation import gettext as _, gettext_lazy as _lazy
+from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel, PageChooserPanel
 from wagtail.core.blocks import StructBlock, CharBlock, URLBlock, EmailBlock
@@ -33,14 +33,14 @@ AUTHOR_SIGNATURE_CACHE_PREFIX: str = 'author_signature'
 class OtherAuthorBlock(StructBlock):
 
     class Meta:
-        label = _lazy('Not a user')
+        label = _('Not a user')
         icon = 'user'
 
-    email = EmailBlock(label=_lazy('e-mail'), required=False)
+    email = EmailBlock(label=_('e-mail'), required=False)
 
-    text = CharBlock(max_length=64, label=_lazy('Text'), required=True)
+    text = CharBlock(max_length=64, label=_('Text'), required=True)
 
-    url = URLBlock(label=_lazy('URL'), required=False)
+    url = URLBlock(label=_('URL'), required=False)
 
     def clean(self, value):
         result = super().clean(value)
@@ -85,25 +85,25 @@ class Author(models.Model):
             models.UniqueConstraint(fields=['first_name', 'last_name', 'email'],
                                     name='%(app_label)s_%(class)s_unique_author')
         ]
-        verbose_name = _lazy('author')
-        verbose_name_plural = _lazy('authors')
+        verbose_name = _('author')
+        verbose_name_plural = _('authors')
 
     email = models.EmailField(
         blank=True,
-        help_text=_lazy("Author's public email."),
-        verbose_name=_lazy('email'),
+        help_text=_("Author's public e-mail."),
+        verbose_name=_('e-mail'),
     )
 
     first_name = models.CharField(
-        help_text=_lazy("Author's first name."),
+        help_text=_("Author's first name."),
         max_length=150,
-        verbose_name=_lazy('first name'),
+        verbose_name=_('first name'),
     )
 
     last_name = models.CharField(
-        help_text=_lazy("Author's last name."),
+        help_text=_("Author's last name."),
         max_length=150,
-        verbose_name=_lazy('last name'),
+        verbose_name=_('last name'),
     )
 
     user = models.ForeignKey(
@@ -139,8 +139,8 @@ class AuthorHomePageRelation(models.Model):
                 fields=['author', 'site', 'page'], name='%(app_label)s_%(class)s_unique_author_site_page'
             )
         ]
-        verbose_name = _lazy('author home page')
-        verbose_name_plural = _lazy('authors home pages')
+        verbose_name = _('author home page')
+        verbose_name_plural = _('authors home pages')
 
     author = models.ForeignKey(
         Author,
@@ -182,21 +182,21 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
 
     signature_data = StreamField(
         [
-            ('site_author', ModelChooserBlock(target_model=Author, label=_lazy('Author'), icon='user')),
+            ('site_author', ModelChooserBlock(target_model=Author, label=_('Author'), icon='user')),
             ('other_author', OtherAuthorBlock()),
         ],
         blank=True,
-        verbose_name=_lazy('signature data'),
+        verbose_name=_('signature data'),
     )
 
     signature_original_url = models.URLField(
         blank=True,
-        verbose_name=_lazy('original publication URL'),
+        verbose_name=_('original publication URL'),
     )
 
     signature_use_owner = models.BooleanField(
         default=True,
-        verbose_name=_lazy('use page owner as an author'),
+        verbose_name=_('use page owner as an author'),
     )
 
     cache_prefixes = AbstractCacheAwarePage.cache_prefixes + {
@@ -210,7 +210,7 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
                 FieldPanel('signature_original_url'),
                 StreamFieldPanel('signature_data'),
             ),
-            heading=_lazy('Author'),
+            heading=_('Author'),
         )
     ]
 
@@ -242,7 +242,7 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
             else:
                 return FormattedSignatureData(
                     '', author.get_full_name(), home_page.url,
-                    {'title': _lazy("Proceed to author's home page")}
+                    {'title': _("Proceed to author's home page")}
                 )
 
     def get_signature_data(self, request: HttpRequest) -> List[FormattedSignatureData]:

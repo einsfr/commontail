@@ -3,7 +3,7 @@ from typing import Optional, Dict, Type
 from django import forms
 from django.db import models
 from django.http import HttpRequest
-from django.utils.translation import gettext_lazy as _lazy
+from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.core.models import Site, Page, PageManager, PageQuerySet
@@ -89,24 +89,24 @@ class AbstractPublicationPage(AbstractViewsCountablePage, AbstractAuthorSignatur
     pinned = models.BooleanField(
         db_index=True,
         default=False,
-        verbose_name=_lazy('pinned'),
+        verbose_name=_('pinned'),
     )
 
     summary = models.CharField(
         blank=True,
-        help_text=_lazy('Short description to be used as announce.'),
+        help_text=_('Short description to be used as announce.'),
         max_length=255,
-        verbose_name=_lazy('summary'),
+        verbose_name=_('summary'),
     )
 
     image_announce = models.ForeignKey(
         get_image_model_string(),
         blank=True,
-        help_text=_lazy('Image from library to be shown in announce.'),
+        help_text=_('Image from library to be shown in announce.'),
         null=True,
         on_delete=models.PROTECT,
         related_name='+',
-        verbose_name=_lazy('announce image')
+        verbose_name=_('announce image')
     )
 
     cache_prefixes = AbstractAuthorSignaturePage.cache_prefixes + AbstractContentStreamPage.cache_prefixes

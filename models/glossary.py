@@ -31,7 +31,7 @@ from django.conf import settings
 from django.db import models
 from django.db.models.functions import Left
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _lazy
+from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, RichTextFieldPanel, InlinePanel
 from wagtail.core.fields import RichTextField, StreamField
@@ -52,7 +52,7 @@ class AbstractGlossaryPage(AbstractBasePage):
         abstract = True
 
     content_panels = AbstractBasePage.content_panels + [
-        InlinePanel('items', label=_lazy('Definitions'))
+        InlinePanel('items', label=_('Definitions'))
     ]
 
     items_attribute: str = 'items'
@@ -94,19 +94,19 @@ class AbstractGlossaryItem(models.Model):
         blank=True,
         features=settings.COMMONTAIL_RTF_LIMITED_FEATURES,
         max_length=1000,
-        verbose_name=_lazy('description'),
+        verbose_name=_('description'),
     )
 
     links = StreamField(
         LinksBlock,
         blank=True,
-        verbose_name=_lazy('additional links'),
+        verbose_name=_('additional links'),
     )
 
     term = models.CharField(
         db_index=True,
         max_length=255,
-        verbose_name=_lazy('term'),
+        verbose_name=_('term'),
     )
 
     panels = [

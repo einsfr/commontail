@@ -1,5 +1,5 @@
 from django.db import models, IntegrityError
-from django.utils.translation import gettext_lazy as _lazy
+from django.utils.translation import gettext_lazy as _
 from django.utils.functional import cached_property
 
 from wagtail.core.models import Page
@@ -19,12 +19,12 @@ class PageViewsCounter(models.Model):
         related_name='views_counter',
         on_delete=models.CASCADE,
         primary_key=True,
-        verbose_name=_lazy('page'),
+        verbose_name=_('page'),
     )
 
     views_count = models.PositiveBigIntegerField(
         db_index=True,
-        verbose_name=_lazy('views count'),
+        verbose_name=_('views count'),
     )
 
 

@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.translation import gettext_lazy as _lazy
+from django.utils.translation import gettext_lazy as _
 
 
 __all__ = ['AbstractIconAware', 'AbstractSiteHandleModel', ]
@@ -18,14 +18,14 @@ class AbstractSiteHandleModel(models.Model):
         unique_together = (('site', 'handle'), )
 
     handle = models.SlugField(
-        help_text=_lazy('Must be unique per site, will be used as a reference by rendering tag.'),
+        help_text=_('Must be unique per site, will be used as a reference by rendering tag.'),
         max_length=100,
-        verbose_name=_lazy('handle'),
+        verbose_name=_('handle'),
     )
 
     site = models.ForeignKey(
         'wagtailcore.Site',
         on_delete=models.CASCADE,
         related_name='+',
-        verbose_name=_lazy('site'),
+        verbose_name=_('site'),
     )

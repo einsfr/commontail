@@ -1,6 +1,6 @@
 from django.contrib.auth.models import Permission
 from django.urls import reverse, path, include
-from django.utils.translation import gettext_lazy as _lazy
+from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin.menu import MenuItem
 from wagtail.admin.action_menu import ActionMenuItem
@@ -47,7 +47,7 @@ class AuthorHomePageAdmin(ModelAdmin):
 
 class PublicationModelAdminGroup(ModelAdminGroup):
 
-    menu_label = _lazy('Publications')
+    menu_label = _('Publications')
     menu_icon = 'doc-full'
     items = [AuthorModelAdmin, AuthorHomePageAdmin, ]
 
@@ -66,7 +66,7 @@ hooks.register('after_copy_page', lambda request, page, new_page: create_views_c
 
 class ClearCacheMenuItem(ActionMenuItem):
     icon_name = 'bin'
-    label = _lazy('Clear cache')
+    label = _('Clear cache')
     name = 'action-clear-cache'
 
     def get_url(self, context):
@@ -96,7 +96,7 @@ def register_clear_cache_menu_item():
 #
 # class BannerModelAdminGroup(ModelAdminGroup):
 #
-#     menu_label = _lazy('Banners')
+#     menu_label = _('Banners')
 #     menu_icon = 'image'
 #     items = [BannerSetModelAdmin, BannerModelAdmin, ]
 #
@@ -112,7 +112,7 @@ def register_clear_cache_menu_item():
 #
 # class HintModelAdminGroup(ModelAdminGroup):
 #
-#     menu_label = _lazy('Hints')
+#     menu_label = _('Hints')
 #     menu_icon = 'help'
 #     items = [HintModelAdmin, ]
 #
@@ -127,11 +127,11 @@ def register_global_permissions():
 
 @hooks.register('register_admin_menu_item')
 def register_import_menu_item():
-    return MenuItem(_lazy('Import'), reverse('commontail_admin:import_index'), classnames='icon icon-collapse-up',
+    return MenuItem(_('Import'), reverse('commontail_admin:import_index'), classnames='icon icon-collapse-up',
                     order=11000)
 
 
 @hooks.register('register_admin_menu_item')
 def register_export_menu_item():
-    return MenuItem(_lazy('Export'), reverse('commontail_admin:export_index'), classnames='icon icon-collapse-down',
+    return MenuItem(_('Export'), reverse('commontail_admin:export_index'), classnames='icon icon-collapse-down',
                     order=11001)

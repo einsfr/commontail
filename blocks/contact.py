@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.utils.translation import gettext_lazy as _lazy
+from django.utils.translation import gettext_lazy as _
 
 from wagtail.core import blocks
 
@@ -23,101 +23,101 @@ class SocialLinkMixin:
 class AddressBlock(blocks.StructBlock):
 
     class Meta:
-        label = _lazy('Address')
+        label = _('Address')
         icon = 'mail'
         template = 'commontail/blocks/address.html'
 
-    address = blocks.CharBlock(max_length=255, label=_lazy('Address'))
+    address = blocks.CharBlock(max_length=255, label=_('Address'))
 
 
 class EmailBlock(blocks.StructBlock):
 
     class Meta:
-        label = _lazy('E-mail')
+        label = _('E-mail')
         icon = 'mail'
         template = 'commontail/blocks/email.html'
 
-    email = blocks.EmailBlock(label=_lazy('E-mail'))
+    email = blocks.EmailBlock(label=_('E-mail'))
 
-    comment = blocks.CharBlock(max_length=32, label=_lazy('Comment'), required=False)
+    comment = blocks.CharBlock(max_length=32, label=_('Comment'), required=False)
 
 
 class FacebookBlock(SocialLinkMixin, blocks.StructBlock):
 
     class Meta:
-        label = _lazy('Facebook')
+        label = _('Facebook')
         icon = 'site'
         template = 'commontail/blocks/facebook.html'
 
-    title = blocks.CharBlock(max_length=32, label=_lazy('Link\'s text'), required=False)
+    title = blocks.CharBlock(max_length=32, label=_('Link\'s text'), required=False)
 
-    url = blocks.URLBlock(label=_lazy('URL'))
+    url = blocks.URLBlock(label=_('URL'))
 
 
 class ICQBlock(blocks.StructBlock):
 
     class Meta:
-        label = _lazy('ICQ')
+        label = _('ICQ')
         icon = 'site'
         template = 'commontail/blocks/icq.html'
 
-    number = blocks.CharBlock(max_length=12, label=_lazy('Number'))
+    number = blocks.CharBlock(max_length=12, label=_('Number'))
 
-    comment = blocks.CharBlock(max_length=32, label=_lazy('Comment'), required=False)
+    comment = blocks.CharBlock(max_length=32, label=_('Comment'), required=False)
 
 
 class InstagramBlock(SocialLinkMixin, blocks.StructBlock):
 
     class Meta:
-        label = _lazy('Instagram')
+        label = _('Instagram')
         icon = 'site'
         template = 'commontail/blocks/instagram.html'
 
-    title = blocks.CharBlock(max_length=32, label=_lazy('Link\'s text'), required=False)
+    title = blocks.CharBlock(max_length=32, label=_('Link\'s text'), required=False)
 
-    url = blocks.URLBlock(label=_lazy('URL'))
+    url = blocks.URLBlock(label=_('URL'))
 
 
 class MapBlock(blocks.StructBlock):
 
     class Meta:
-        label = _lazy('Map')
+        label = _('Map')
         icon = 'site'
         template = 'commontail/blocks/map.html'
 
-    title = blocks.CharBlock(max_length=32, label=_lazy('Heading'))
+    title = blocks.CharBlock(max_length=32, label=_('Heading'))
 
-    code = blocks.RawHTMLBlock(label=_lazy('Map\'s HTML code'))
+    code = blocks.RawHTMLBlock(label=_('Map\'s HTML code'))
 
 
 class OdnoklassnikiBlock(SocialLinkMixin, blocks.StructBlock):
 
     class Meta:
-        label = _lazy('Odnoklassniki')
+        label = _('Odnoklassniki')
         icon = 'site'
         template = 'commontail/blocks/odnoklassniki.html'
 
-    title = blocks.CharBlock(max_length=32, label=_lazy('Link\'s text'), required=False)
+    title = blocks.CharBlock(max_length=32, label=_('Link\'s text'), required=False)
 
-    url = blocks.URLBlock(label=_lazy('URL'))
+    url = blocks.URLBlock(label=_('URL'))
 
 
 class PhoneBlock(blocks.StructBlock):
 
     class Meta:
-        label = _lazy('Phone')
+        label = _('Phone')
         icon = 'site'
         template = 'commontail/blocks/phone.html'
 
-    number = blocks.CharBlock(max_length=32, label=_lazy('Number'))
+    number = blocks.CharBlock(max_length=32, label=_('Number'))
 
-    comment = blocks.CharBlock(max_length=32, label=_lazy('Comment'), required=False)
+    comment = blocks.CharBlock(max_length=32, label=_('Comment'), required=False)
 
 
 class FaxBlock(PhoneBlock):
 
     class Meta:
-        label = _lazy('Fax')
+        label = _('Fax')
         icon = 'site'
         template = 'commontail/blocks/fax.html'
 
@@ -125,89 +125,89 @@ class FaxBlock(PhoneBlock):
 class SkypeBlock(blocks.StructBlock):
 
     class Meta:
-        label = _lazy('Skype')
+        label = _('Skype')
         icon = 'site'
         template = 'commontail/blocks/skype.html'
 
-    id = blocks.CharBlock(max_length=32, label=_lazy('ID'))
+    id = blocks.CharBlock(max_length=32, label=_('ID'))
 
-    comment = blocks.CharBlock(max_length=32, label=_lazy('Comment'), required=False)
+    comment = blocks.CharBlock(max_length=32, label=_('Comment'), required=False)
 
 
 class TelegramBlock(blocks.StructBlock):
 
     class Meta:
-        label = _lazy('Telegram')
+        label = _('Telegram')
         icon = 'site'
         template = 'commontail/blocks/telegram.html'
 
-    title = blocks.CharBlock(max_length=32, label=_lazy('Link\'s text'), required=False)
+    title = blocks.CharBlock(max_length=32, label=_('Link\'s text'), required=False)
 
-    url = blocks.URLBlock(label=_lazy('URL'))
+    url = blocks.URLBlock(label=_('URL'))
 
 
 class TwitterBlock(SocialLinkMixin, blocks.StructBlock):
 
     class Meta:
-        label = _lazy('Twitter')
+        label = _('Twitter')
         icon = 'site'
         template = 'commontail/blocks/twitter.html'
 
-    title = blocks.CharBlock(max_length=32, label=_lazy('Link\'s text'), required=False)
+    title = blocks.CharBlock(max_length=32, label=_('Link\'s text'), required=False)
 
-    url = blocks.URLBlock(label=_lazy('URL'))
+    url = blocks.URLBlock(label=_('URL'))
 
 
 class VKontakteBlock(SocialLinkMixin, blocks.StructBlock):
 
     class Meta:
-        label = _lazy('VKontakte')
+        label = _('VKontakte')
         icon = 'site'
         template = 'commontail/blocks/vkontakte.html'
 
-    title = blocks.CharBlock(max_length=32, label=_lazy('Link\'s text'), required=False)
+    title = blocks.CharBlock(max_length=32, label=_('Link\'s text'), required=False)
 
-    url = blocks.URLBlock(label=_lazy('URL'))
+    url = blocks.URLBlock(label=_('URL'))
 
 
 class WhatsappBlock(blocks.StructBlock):
 
     class Meta:
-        label = _lazy('Whatsapp')
+        label = _('Whatsapp')
         icon = 'site'
         template = 'commontail/blocks/whatsapp.html'
 
-    number = blocks.CharBlock(max_length=32, label=_lazy('Number'))
+    number = blocks.CharBlock(max_length=32, label=_('Number'))
 
-    comment = blocks.CharBlock(max_length=32, label=_lazy('Comment'))
+    comment = blocks.CharBlock(max_length=32, label=_('Comment'))
 
 
 class WorkHoursBlock(blocks.StructBlock):
 
     class Meta:
-        label = _lazy('Work hours')
+        label = _('Work hours')
         icon = 'time'
         template = 'commontail/blocks/work_hours.html'
 
-    work_hours = blocks.CharBlock(max_length=64, label=_lazy('Work hours'))
+    work_hours = blocks.CharBlock(max_length=64, label=_('Work hours'))
 
 
 class YouTubeBlock(SocialLinkMixin, blocks.StructBlock):
 
     class Meta:
-        label = _lazy('YouTube')
+        label = _('YouTube')
         icon = 'site'
         template = 'commontail/blocks/youtube.html'
 
-    title = blocks.CharBlock(max_length=32, label=_lazy('Link\'s text'), required=False)
+    title = blocks.CharBlock(max_length=32, label=_('Link\'s text'), required=False)
 
-    url = blocks.URLBlock(label=_lazy('URL'))
+    url = blocks.URLBlock(label=_('URL'))
 
 
 class ContactBlock(blocks.StreamBlock):
 
     class Meta:
-        label = _lazy('Contacts')
+        label = _('Contacts')
         icon = 'mail'
         template = 'commontail/blocks/contact.html'
 
@@ -215,7 +215,7 @@ class ContactBlock(blocks.StreamBlock):
 
     address = AddressBlock()
 
-    address_post = AddressBlock(label=_lazy('Post address'))
+    address_post = AddressBlock(label=_('Post address'))
 
     work_hours = WorkHoursBlock()
 

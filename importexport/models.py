@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.translation import gettext_lazy as _lazy
+from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin.edit_handlers import FieldPanel, PageChooserPanel
 
@@ -14,12 +14,12 @@ class AbstractPageImporterFormModel(models.Model):
         abstract = True
 
     file = models.FileField(
-        verbose_name=_lazy('file')
+        verbose_name=_('file')
     )
 
     simulation = models.BooleanField(
         default=True,
-        verbose_name=_lazy('simulation')
+        verbose_name=_('simulation')
     )
 
     edit_handler_list = [FieldPanel('file'), FieldPanel('simulation'), ]
@@ -32,17 +32,17 @@ class AbstractTablePageImporterFormModel(AbstractPageImporterFormModel):
 
     first_data_row = models.PositiveIntegerField(
         default=1,
-        verbose_name=_lazy('first row with data'),
+        verbose_name=_('first row with data'),
     )
 
     id_column = models.PositiveIntegerField(
-        verbose_name=_lazy('id_column'),
+        verbose_name=_('ID column'),
     )
 
     last_data_row = models.PositiveIntegerField(
         blank=True,
         null=True,
-        verbose_name=_lazy('last row with data'),
+        verbose_name=_('last row with data'),
     )
 
     edit_handler_list = AbstractPageImporterFormModel.edit_handler_list + [
@@ -58,7 +58,7 @@ class AbstractPageCreatorFormModel(AbstractPageImporterFormModel):
     parent_page = models.ForeignKey(
         'wagtailcore.Page',
         on_delete=models.CASCADE,
-        verbose_name=_lazy('parent page'),
+        verbose_name=_('parent page'),
     )
 
     edit_handler_list = [PageChooserPanel('parent_page'), ]

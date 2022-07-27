@@ -4,7 +4,7 @@ from typing import Optional, List, Iterable, Union, Tuple
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.utils.translation import gettext as _, gettext_lazy as _lazy
+from django.utils.translation import gettext_lazy as _
 
 from modelcluster.models import ClusterableModel, ParentalKey
 
@@ -28,42 +28,42 @@ class AbstractBaseLinkFields(models.Model):
         abstract = True
 
     email = models.EmailField(
-        verbose_name=_lazy('email address'),
+        verbose_name=_('e-mail address'),
         blank=True,
-        help_text=_lazy('email address to be used as a link.')
+        help_text=_('E-mail address to be used as a link.')
     )
 
     link_document = models.ForeignKey(
         'wagtaildocs.Document',
-        verbose_name=_lazy('link to a document'),
+        verbose_name=_('link to a document'),
         null=True,
         blank=True,
         related_name='+',
         on_delete=models.CASCADE,
-        help_text=_lazy('Link to a document on this site.')
+        help_text=_('Link to a document on this site.')
     )
 
     link_external = models.URLField(
-        verbose_name=_lazy('external link'),
+        verbose_name=_('external link'),
         blank=True,
         help_text='Link to external URL. Must be used with "Link\'s test" field.'
     )
 
     link_page = models.ForeignKey(
         'wagtailcore.Page',
-        verbose_name=_lazy('link to a page'),
+        verbose_name=_('link to a page'),
         null=True,
         blank=True,
         related_name='+',
         on_delete=models.CASCADE,
-        help_text=_lazy('Link to a page on this site. "Query string" field may be used.')
+        help_text=_('Link to a page on this site. "Query string" field may be used.')
     )
 
     query_string = models.CharField(
         max_length=255,
-        verbose_name=_lazy('query string for a page link'),
+        verbose_name=_('query string for a page link'),
         blank=True,
-        help_text=_lazy('Query string parameters without opening ?.')
+        help_text=_('Query string parameters without opening ?.')
     )
 
     panels = [
@@ -113,10 +113,10 @@ class AbstractLinkFields(AbstractBaseLinkFields):  # https://github.com/wagtail/
         abstract = True
 
     link_text = models.CharField(
-        verbose_name=_lazy('link\'s text'),
+        verbose_name=_('link\'s text'),
         blank=True,
         max_length=255,
-        help_text=_lazy('Link\'s text. Required for external links only. '
+        help_text=_('Link\'s text. Required for external links only. '
                         'May be used as substitute text with page and document links.')
     )
 
@@ -158,19 +158,19 @@ class AbstractLinkedDocument(models.Model):
 
     class Meta:
         abstract = True
-        verbose_name = _lazy('linked document')
-        verbose_name_plural = _lazy('linked documents')
+        verbose_name = _('linked document')
+        verbose_name_plural = _('linked documents')
 
     document = models.ForeignKey(
         'wagtaildocs.Document',
         verbose_name=_('document'),
         related_name='+',
         on_delete=models.CASCADE,
-        help_text=_lazy('Document on this site.')
+        help_text=_('Document on this site.')
     )
 
     inherit = models.BooleanField(
-        verbose_name=_lazy('allow inheritance'),
+        verbose_name=_('allow inheritance'),
         default=True,
     )
 
@@ -207,19 +207,19 @@ class AbstractLinkedImage(Orderable):
 
     class Meta(Orderable.Meta):
         abstract = True
-        verbose_name = _lazy('linked image')
-        verbose_name_plural = _lazy('linked_images')
+        verbose_name = _('linked image')
+        verbose_name_plural = _('linked_images')
 
     image = models.ForeignKey(
         get_image_model_string(),
-        verbose_name=_lazy('image'),
+        verbose_name=_('image'),
         related_name='+',
         on_delete=models.CASCADE,
-        help_text=_lazy('Image on this site.')
+        help_text=_('Image on this site.')
     )
 
     inherit = models.BooleanField(
-        verbose_name=_lazy('allow inheritance'),
+        verbose_name=_('allow inheritance'),
         default=True,
     )
 
@@ -232,11 +232,11 @@ class AbstractLinkedImage(Orderable):
 class PageLinkCategory(models.Model):
 
     class Meta:
-        verbose_name = _lazy('category of a page-to-page link')
-        verbose_name_plural = _lazy('categories of page-to-page links')
+        verbose_name = _('category of a page-to-page link')
+        verbose_name_plural = _('categories of page-to-page links')
 
     title = models.CharField(
-        verbose_name=_lazy('title'),
+        verbose_name=_('title'),
         max_length=255,
         unique=True,
     )
@@ -268,16 +268,16 @@ class PageLinkCategory(models.Model):
 class PageLinkCategoryGroup(ClusterableModel):
 
     class Meta:
-        verbose_name = _lazy('page-to-page link categories group')
-        verbose_name_plural = _lazy('page-to-page link categories groups')
+        verbose_name = _('page-to-page link categories group')
+        verbose_name_plural = _('page-to-page link categories groups')
 
     title = models.CharField(
-        verbose_name=_lazy('title'),
+        verbose_name=_('title'),
         max_length=255,
     )
 
     handle = models.CharField(
-        verbose_name=_lazy('handle'),
+        verbose_name=_('handle'),
         max_length=255,
         unique=True,
     )
@@ -285,7 +285,7 @@ class PageLinkCategoryGroup(ClusterableModel):
     panels = [
         FieldPanel('title'),
         FieldPanel('handle'),
-        InlinePanel('category_relations', label=_lazy('Categories')),
+        InlinePanel('category_relations', label=_('Categories')),
     ]
 
     def __str__(self):
@@ -301,14 +301,14 @@ class PageLinkCategoryToPageLinkCategoryGroup(Orderable):
         PageLinkCategory,
         on_delete=models.CASCADE,
         related_name='+',
-        verbose_name=_lazy('category'),
+        verbose_name=_('category'),
     )
 
     group = ParentalKey(
         PageLinkCategoryGroup,
         on_delete=models.CASCADE,
         related_name='category_relations',
-        verbose_name=_lazy('group'),
+        verbose_name=_('group'),
     )
 
     panels = [
@@ -320,18 +320,18 @@ class AbstractPageLink(Orderable):
 
     class Meta(Orderable.Meta):
         abstract = True
-        verbose_name = _lazy('page-to-page link')
-        verbose_name_plural = _lazy('page-to-page links')
+        verbose_name = _('page-to-page link')
+        verbose_name_plural = _('page-to-page links')
 
     category = models.ForeignKey(
         PageLinkCategory,
         on_delete=models.PROTECT,
         related_name='+',
-        verbose_name=_lazy('category'),
+        verbose_name=_('category'),
     )
 
     inherit = models.BooleanField(
-        verbose_name=_lazy('allow inheritance'),
+        verbose_name=_('allow inheritance'),
         default=True,
     )
 
@@ -339,7 +339,7 @@ class AbstractPageLink(Orderable):
         'wagtailcore.Page',
         on_delete=models.PROTECT,
         related_name='+',
-        verbose_name=_lazy('target page'),
+        verbose_name=_('target page'),
     )
 
     panels = [
