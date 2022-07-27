@@ -27,6 +27,8 @@ COMMONTAIL_PAGE_LINKS_RELATION_NAME: str = 'page_links'
 COMMONTAIL_PAGINATION_GET_KEY: str = 'page'
 COMMONTAIL_PAGINATION_NEIGHBOURS_COUNT: int = 2
 
+COMMONTAIL_ROBOTSTXT_CACHE_TIME: int = 3600
+
 COMMONTAIL_RTF_INLINE_FEATURES: List[str] = ['bold', 'italic', 'link', 'document-link', 'superscript', 'subscript',
                                              'strikethrough', ]
 COMMONTAIL_RTF_LIMITED_FEATURES: List[str] = COMMONTAIL_RTF_INLINE_FEATURES + ['ol', 'ul', ]

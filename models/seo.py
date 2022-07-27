@@ -79,6 +79,8 @@ class AbstractSEOAwarePage(Page):
         except ValueError:
             raise ValueError(f'Wrong sitemap priority type - float expected, "{type(priority)}" given.')
 
+        return str(changefreq), float(priority)
+
     def get_sitemap_urls(self, request=None):
         settings_id: Optional[str] = self.get_seo_sitemap_settings_id()
 
