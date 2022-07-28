@@ -62,23 +62,29 @@
             <body>
                 {% wagtailuserbar %}
 
-                {% block body_header_pre %}{% endblock %}
-                {% block body_header %}
-                    <header {% block body_header_attributes %}{% endblock %}>
-                        {% block body_header_content %}{% endblock %}
-                    </header>
-                {% endblock %}
-                {% block body_header_post %}{% endblock %}
+                {% block html_body_content %}
+                    {% block body_header_pre %}{% endblock %}
 
-                {% block body_content %}{% endblock %}
+                    {% block body_header %}
+                        <header {% block body_header_attributes %}{% endblock %}>
+                            {% block body_header_content %}{% endblock %}
+                        </header>
+                    {% endblock %}
 
-                {% block body_footer_pre %}{% endblock %}
-                {% block body_footer %}
-                    <footer {% block body_footer_attributes %}{% endblock %}>
-                        {% block body_footer_content %}{% endblock %}
-                    </footer>
+                    {% block body_header_post %}{% endblock %}
+
+                    {% block body_content %}{% endblock %}
+
+                    {% block body_footer_pre %}{% endblock %}
+
+                    {% block body_footer %}
+                        <footer {% block body_footer_attributes %}{% endblock %}>
+                            {% block body_footer_content %}{% endblock %}
+                        </footer>
+                    {% endblock %}
+
+                    {% block body_footer_post %}{% endblock %}
                 {% endblock %}
-                {% block body_footer_post %}{% endblock %}
             </body>
         {% endblock %}
 

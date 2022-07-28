@@ -1,0 +1,7 @@
+{% extends 'commontail/base.html' %}
+
+{% block html_body_content %}
+    <h1 {% block status_code_attributes %}{% endblock %}>{% block status_code %}{% endblock %}</h1>
+    <h2 {% block status_text_attributes %}{% endblock %}>{% block status_text %}{% endblock %}</h2>
+    {% block content %}{% endblock %}
+{% endblock %}
