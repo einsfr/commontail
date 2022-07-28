@@ -195,7 +195,7 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
     )
 
     signature_use_owner = models.BooleanField(
-        default=True,
+        default=False,
         verbose_name=_('use page owner as an author'),
     )
 
