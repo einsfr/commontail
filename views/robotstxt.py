@@ -12,6 +12,6 @@ class RobotsTxtView(TemplateView):
 
     def render_to_response(self, context, **response_kwargs):
         context['settings'] = settings
-        context['root_url'] = Site.find_for_request(context['request']).root_url
+        context['root_url'] = Site.find_for_request(self.request).root_url
 
         return super().render_to_response(context, content_type='text/plain', **response_kwargs)
