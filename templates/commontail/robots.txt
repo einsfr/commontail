@@ -1,6 +1,6 @@
 User-agent: *
-{% block host %}Host: {{ request.site.root_url }}{% endblock %}
-{% block sitemap %}Sitemap: {{ request.site.root_url }}/sitemap.xml{% endblock %}
+{% block host %}Host: {{ root_url }}{% endblock %}
+{% block sitemap %}Sitemap: {{ root_url }}/sitemap.xml{% endblock %}
 {% block crawl_delay %}Crawl-delay: 0.5{% endblock %}
 {% block all_disallow %}Disallow:{% endblock %}
 
