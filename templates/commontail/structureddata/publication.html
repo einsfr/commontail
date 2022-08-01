@@ -42,8 +42,9 @@
         {% endif %}
         "publisher": {
             "@type": "Organization",
-            "name": "{{ organization_name|jsonldvalue }}",
+            "name": "{{ organization_name|jsonldvalue }}"
             {% if logo_url %}
+            ,
             "logo": {
                 "@type": "ImageObject",
                 "url": "{{ logo_url }}"
