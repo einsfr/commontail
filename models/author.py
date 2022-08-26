@@ -221,7 +221,10 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
         )
 
     def _signature_format_site_author(self, author: Author) -> FormattedSignatureData:
-        return FormattedSignatureData('', author.get_full_name(), author.email, None)
+        return FormattedSignatureData(
+            '', author.get_full_name(), f'mailto:{author.email}' if author.email else '',
+            {'title': author.email if author.email else ''}
+        )
 
     def _signature_format_user(self, user: User, site: Site) -> FormattedSignatureData:
         try:
@@ -235,15 +238,15 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
                 home_page: Page = AuthorHomePageRelation.objects.select_related('page').get(
                     author=author, site=site).page
             except AuthorHomePageRelation.DoesNotExist:
-                return FormattedSignatureData(
-                    '', author.get_full_name(), f'mailto:{author.email}' if author.email else '',
-                    {'title': author.email if author.email else ''}
-                )
+                return self._signature_format_site_author(author)
             else:
-                return FormattedSignatureData(
-                    '', author.get_full_name(), home_page.url,
-                    {'title': _("Proceed to author's home page")}
-                )
+                if home_page.live:
+                    return FormattedSignatureData(
+                        '', author.get_full_name(), home_page.url,
+                        {'title': _("Proceed to author's home page")}
+                    )
+                else:
+                    return self._signature_format_site_author(author)
 
     def get_signature_data(self, request: HttpRequest) -> List[FormattedSignatureData]:
         cache_provider: CacheProvider = self.get_cache_provider()
