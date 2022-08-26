@@ -1,5 +1,6 @@
 from .cache import *
 from .counter import *
+from .feed import *
 from .hierarchyonly import *
 from .image import *
 from .pagination import *
