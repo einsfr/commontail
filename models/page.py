@@ -1,4 +1,5 @@
 import importlib
+import re
 
 from collections import OrderedDict, ValuesView
 from typing import List, Tuple, Union, Any, Type, Optional, Dict
@@ -9,6 +10,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin.edit_handlers import StreamFieldPanel
+from wagtail.admin.forms import WagtailAdminPageForm
 from wagtail.core.models import Page
 from wagtail.core.fields import StreamField
 from wagtail.search import index
@@ -19,7 +21,7 @@ from .seo import AbstractSEOAwarePage
 from .structureddata import AbstractStructuredDataAwarePage
 
 
-__all__ = ['AbstractBasePage', 'AbstractBaseIndexPage', 'AbstractContentStreamPage',
+__all__ = ['AbstractBasePageForm', 'AbstractBasePage', 'AbstractBaseIndexPage', 'AbstractContentStreamPage',
            'get_content_stream_page_body_block', ]
 
 
@@ -31,10 +33,46 @@ def get_content_stream_page_body_block(**kwargs):
     return body_block(**kwargs)
 
 
+class AbstractBasePageForm(WagtailAdminPageForm):
+
+    trailing_dots_re: re.Pattern = re.compile(r'([^.])\.$')
+    multiple_spaces_re: re.Pattern = re.compile(r' {2,}')
+
+    def remove_trailing_dots(self, cleaned_data: dict, field_names: Union[str, List[str]]) -> None:
+        if not settings.COMMONTAIL_REMOVE_TRAILING_DOTS:
+            return
+
+        if type(field_names) == str:
+            field_names = [field_names]
+
+        for name in field_names:
+            cleaned_data[name] = re.sub(self.trailing_dots_re, r'\1', cleaned_data[name])
+
+    def remove_multiple_spaces(self, cleaned_data: dict, field_names: Union[str, List[str]]) -> None:
+        if not settings.COMMONTAIL_REMOVE_MULTIPLE_SPACES:
+            return
+
+        if type(field_names) == str:
+            field_names = [field_names]
+
+        for name in field_names:
+            cleaned_data[name] = re.sub(self.multiple_spaces_re, ' ', cleaned_data[name])
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        self.remove_trailing_dots(cleaned_data, 'title')
+        self.remove_multiple_spaces(cleaned_data, 'title')
+
+        return cleaned_data
+
+
 class AbstractBasePage(AbstractOpenGraphAwarePage, AbstractStructuredDataAwarePage, AbstractSEOAwarePage):
 
     class Meta:
         abstract = True
+
+    base_form_class = AbstractBasePageForm
 
     cache_prefixes = AbstractOpenGraphAwarePage.cache_prefixes + AbstractStructuredDataAwarePage.cache_prefixes
 
