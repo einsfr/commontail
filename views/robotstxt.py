@@ -8,10 +8,13 @@ __all__ = ['RobotsTxtView', ]
 
 class RobotsTxtView(TemplateView):
 
+    content_type = 'text/plain'
     template_name = 'commontail/robots.txt'
 
-    def render_to_response(self, context, **response_kwargs):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
         context['settings'] = settings
         context['root_url'] = Site.find_for_request(self.request).root_url
 
-        return super().render_to_response(context, content_type='text/plain', **response_kwargs)
+        return context
