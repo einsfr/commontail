@@ -1,0 +1,38 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="{% block htmltag_lang %}{% endblock %}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <style>
+        html {
+            overflow: hidden;
+        }
+        body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 100%;
+        }
+        #player {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    {% block stylesheet %}{% endblock %}
+
+    {% block script %}{% endblock %}
+</head>
+<body>
+    <video id="player" controls preload="auto" width="640" height="360" {% block video_attributes %}{% endblock %}>
+        <source src="{{ url }}">
+    </video>
+</body>
+</html>

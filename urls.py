@@ -5,10 +5,11 @@ from django.views.decorators.cache import cache_page
 from wagtail.contrib.sitemaps.views import sitemap
 from wagtail.contrib.sitemaps.sitemap_generator import Sitemap as WagtailSitemap
 
+from .embeds.views import PlayerEmbedView
 from .views import clear_page_cache_view, ImportIndex, ExportIndex, ImportView, ExportView, RobotsTxtView
 
 
-__all__ = ['admin_urls', 'robots_urls', ]
+__all__ = ['admin_urls', 'robots_urls', 'api_urls']
 
 
 admin_urls = [
@@ -33,3 +34,7 @@ else:
         path('robots.txt', cache_page(settings.COMMONTAIL_ROBOTSTXT_CACHE_TIME)(RobotsTxtView.as_view())),
         path('sitemap.xml', cache_page(settings.COMMONTAIL_ROBOTSTXT_CACHE_TIME)(sitemap), {'sitemaps': sitemaps}),
     ]
+
+api_urls = [
+    path(settings.COMMONTAIL_URL_API_EMBED, PlayerEmbedView.as_view()),
+]
