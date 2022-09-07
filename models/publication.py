@@ -1,21 +1,16 @@
 from typing import Optional, Dict, Type
 
-from django import forms
 from django.db import models
 from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.core.models import Site, Page, PageManager, PageQuerySet
-from wagtail.images import get_image_model, get_image_model_string
-from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.models import AbstractRendition
-from wagtail.search import index
 
 from .author import AbstractAuthorSignaturePage, FormattedSignatureData
 from .counter import AbstractViewsCountablePage
-from .opengraph import OpenGraphPageProvider
-from .page import AbstractContentStreamPage, AbstractBaseIndexPage
+from .page import AbstractContentStreamPage, AbstractBaseIndexPage, AbstractImageAnnounceSummaryPage
 from .settings import get_logo_rendition
 from .structureddata import AbstractStructuredDataProvider
 
@@ -81,7 +76,8 @@ class PublicationPageManager(PageManager):
         return self.live().order_by('-pinned', '-first_published_at')[:count]
 
 
-class AbstractPublicationPage(AbstractViewsCountablePage, AbstractAuthorSignaturePage, AbstractContentStreamPage):
+class AbstractPublicationPage(AbstractViewsCountablePage, AbstractAuthorSignaturePage, AbstractImageAnnounceSummaryPage,
+                              AbstractContentStreamPage):
 
     class Meta:
         abstract = True
@@ -92,40 +88,19 @@ class AbstractPublicationPage(AbstractViewsCountablePage, AbstractAuthorSignatur
         verbose_name=_('pinned'),
     )
 
-    summary = models.CharField(
-        blank=True,
-        help_text=_('Short description to be used as announce.'),
-        max_length=255,
-        verbose_name=_('summary'),
-    )
-
-    image_announce = models.ForeignKey(
-        get_image_model_string(),
-        blank=True,
-        help_text=_('Image from library to be shown in announce.'),
-        null=True,
-        on_delete=models.PROTECT,
-        related_name='+',
-        verbose_name=_('announce image')
-    )
-
     cache_prefixes = AbstractAuthorSignaturePage.cache_prefixes + AbstractContentStreamPage.cache_prefixes
 
-    content_panels = Page.content_panels + [
-        FieldPanel('summary', widget=forms.Textarea),
-        ImageChooserPanel('image_announce'),
-    ] + AbstractContentStreamPage.content_panels
+    content_panels = Page.content_panels + AbstractImageAnnounceSummaryPage.content_panels + \
+        AbstractContentStreamPage.content_panels
 
     objects = PublicationPageManager()
 
-    opengraph_provider = OpenGraphPageProvider(image_attribute='image_announce', description_attribute='summary')
     opengraph_type = 'article'
 
-    promote_panels = Page.promote_panels + AbstractAuthorSignaturePage.promote_panels
+    promote_panels = Page.promote_panels + AbstractImageAnnounceSummaryPage.promote_panels + \
+        AbstractAuthorSignaturePage.promote_panels
 
-    search_fields = Page.search_fields + [
-        index.SearchField('summary', boost=1.5, partial_match=False),
-    ]
+    search_fields = Page.search_fields + AbstractImageAnnounceSummaryPage.search_fields
 
     settings_panels = Page.settings_panels + [
         FieldPanel('pinned'),
@@ -134,12 +109,6 @@ class AbstractPublicationPage(AbstractViewsCountablePage, AbstractAuthorSignatur
     structured_data_providers = AbstractContentStreamPage.structured_data_providers + [
         PublicationStructuredDataProvider,
     ]
-
-    def _get_seo_auto_meta_description(self) -> str:
-        return self.summary
-
-    def get_image_announce_or_placeholder(self):
-        return self.image_announce or get_image_model().get_no_image_placeholder()
 
 
 class AbstractPublicationIndexPage(AbstractBaseIndexPage):

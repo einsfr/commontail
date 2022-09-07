@@ -4,25 +4,29 @@ import re
 from collections import OrderedDict, ValuesView
 from typing import List, Tuple, Union, Any, Type, Optional, Dict
 
+from django import forms
 from django.conf import settings
 from django.core.paginator import Paginator, Page
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from wagtail.admin.edit_handlers import StreamFieldPanel
+from wagtail.admin.edit_handlers import StreamFieldPanel, FieldPanel
 from wagtail.admin.forms import WagtailAdminPageForm
 from wagtail.core.models import Page
 from wagtail.core.fields import StreamField
+from wagtail.images import get_image_model, get_image_model_string
+from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
-from .opengraph import AbstractOpenGraphAwarePage
+from .opengraph import AbstractOpenGraphAwarePage, OpenGraphPageProvider
 from .pagination import AbstractPaginationAwarePage, PaginatorPaginationData
 from .seo import AbstractSEOAwarePage
 from .structureddata import AbstractStructuredDataAwarePage
 
 
-__all__ = ['AbstractBasePageForm', 'AbstractBasePage', 'AbstractBaseIndexPage', 'AbstractContentStreamPage',
-           'get_content_stream_page_body_block', ]
+__all__ = ['AbstractImageAnnouncePage', 'AbstractSummaryPage', 'AbstractImageAnnounceSummaryPage',
+           'AbstractBasePageForm', 'AbstractBasePage', 'AbstractBaseIndexPage',
+           'AbstractContentStreamPage', 'get_content_stream_page_body_block', ]
 
 
 def get_content_stream_page_body_block(**kwargs):
@@ -204,3 +208,58 @@ class AbstractContentStreamPage(AbstractBasePage):
         return context
 
 
+class AbstractImageAnnouncePage(AbstractBasePage):
+
+    class Meta:
+        abstract = True
+
+    image_announce = models.ForeignKey(
+        get_image_model_string(),
+        blank=True,
+        help_text=_('Image from library to be shown in announce.'),
+        null=True,
+        on_delete=models.PROTECT,
+        related_name='+',
+        verbose_name=_('announce image')
+    )
+
+    content_panels = [
+        ImageChooserPanel('image_announce'),
+    ]
+
+    opengraph_provider = OpenGraphPageProvider(image_attribute='image_announce')
+
+    def get_image_announce_or_placeholder(self):
+        return self.image_announce or get_image_model().get_no_image_placeholder()
+
+
+class AbstractSummaryPage(AbstractBasePage):
+
+    class Meta:
+        abstract = True
+
+    summary = models.CharField(
+        blank=True,
+        help_text=_('Short description to be used as announce.'),
+        max_length=255,
+        verbose_name=_('summary'),
+    )
+
+    content_panels = [
+        FieldPanel('summary', widget=forms.Textarea),
+    ]
+
+    opengraph_provider = OpenGraphPageProvider(description_attribute='summary')
+
+    def _get_seo_auto_meta_description(self) -> str:
+        return self.summary
+
+
+class AbstractImageAnnounceSummaryPage(AbstractImageAnnouncePage, AbstractSummaryPage):
+
+    class Meta:
+        abstract = True
+
+    content_panels = AbstractImageAnnouncePage.content_panels + AbstractSummaryPage.content_panels
+
+    opengraph_provider = OpenGraphPageProvider(image_attribute='image_announce', description_attribute='summary')
