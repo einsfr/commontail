@@ -19,7 +19,7 @@ from wagtailmodelchooser.blocks import ModelChooserBlock
 from wagtailmodelchooser.edit_handlers import ModelChooserPanel
 
 from .cache import AbstractCacheAwarePage, CacheMeta, CacheProvider
-from .page import AbstractBaseIndexPage, AbstractBasePage
+from .page import AbstractBaseIndexPage, AbstractContentStreamPage, AbstractImageAnnouncePage
 from .singleton import AbstractPerSiteSingletonPage
 
 
@@ -57,10 +57,13 @@ class OtherAuthorBlock(StructBlock):
         return result
 
 
-class AbstractAuthorPage(AbstractBasePage):
+class AbstractAuthorPage(AbstractImageAnnouncePage, AbstractContentStreamPage):
 
     class Meta:
         abstract = True
+
+    content_panels = Page.content_panels + AbstractImageAnnouncePage.content_panels + \
+        AbstractContentStreamPage.content_panels
 
 
 class AbstractAuthorsIndexPage(AbstractPerSiteSingletonPage, AbstractBaseIndexPage):
@@ -136,7 +139,7 @@ class AuthorHomePageRelation(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['author', 'site', 'page'], name='%(app_label)s_%(class)s_unique_author_site_page'
+                fields=['author', 'site'], name='%(app_label)s_%(class)s_unique_author_site'
             )
         ]
         verbose_name = _('author home page')
@@ -146,18 +149,21 @@ class AuthorHomePageRelation(models.Model):
         Author,
         on_delete=models.CASCADE,
         related_name='home_page',
+        verbose_name=_('author'),
     )
 
     page = models.ForeignKey(
         Page,
         on_delete=models.CASCADE,
         related_name='+',
+        verbose_name=_('page'),
     )
 
     site = models.ForeignKey(
         Site,
         on_delete=models.CASCADE,
         related_name='+',
+        verbose_name=_('site'),
     )
 
     panels = [
