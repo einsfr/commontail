@@ -20,9 +20,9 @@ class Image(WagtailImage):
     @classmethod
     def get_no_image_placeholder(cls) -> Optional['Image']:
         try:
-            return cls.objects.get(title=settings.COMMON_NO_IMAGE_PLACEHOLDER_TITLE)
+            return cls.objects.get(title=settings.COMMONTAIL_NO_IMAGE_PLACEHOLDER_TITLE)
         except ObjectDoesNotExist:
             return None
 
     def is_no_image_placeholder(self) -> bool:
-        return self.title == settings.COMMON_NO_IMAGE_PLACEHOLDER_TITLE
+        return self.title == settings.COMMONTAIL_NO_IMAGE_PLACEHOLDER_TITLE
