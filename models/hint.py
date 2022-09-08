@@ -4,8 +4,8 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from wagtail.admin.edit_handlers import FieldPanel, RichTextFieldPanel
-from wagtail.core.fields import RichTextField
+from wagtail.admin.panels import FieldPanel
+from wagtail.fields import RichTextField
 
 from .utils import AbstractSiteHandleModel
 
@@ -42,7 +42,7 @@ class Hint(AbstractSiteHandleModel):
         FieldPanel('title'),
         FieldPanel('handle'),
         FieldPanel('summary'),
-        RichTextFieldPanel('text'),
+        FieldPanel('text'),
         FieldPanel('site'),
     ]
 

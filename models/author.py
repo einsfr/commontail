@@ -10,10 +10,10 @@ from django.http import HttpRequest
 from django.template.defaultfilters import truncatechars
 from django.utils.translation import gettext_lazy as _
 
-from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel, PageChooserPanel
-from wagtail.core.blocks import StructBlock, CharBlock, URLBlock, EmailBlock
-from wagtail.core.fields import StreamField
-from wagtail.core.models import Page, Site
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanel
+from wagtail.blocks import StructBlock, CharBlock, URLBlock, EmailBlock
+from wagtail.fields import StreamField
+from wagtail.models import Page, Site
 
 from wagtailmodelchooser.blocks import ModelChooserBlock
 from wagtailmodelchooser.edit_handlers import ModelChooserPanel
@@ -192,6 +192,7 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
             ('other_author', OtherAuthorBlock()),
         ],
         blank=True,
+        use_json_field=True,
         verbose_name=_('signature data'),
     )
 
@@ -214,7 +215,7 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
             (
                 FieldPanel('signature_use_owner'),
                 FieldPanel('signature_original_url'),
-                StreamFieldPanel('signature_data'),
+                FieldPanel('signature_data'),
             ),
             heading=_('Author'),
         )

@@ -7,7 +7,7 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
-from wagtail.core.models import Page, Site
+from wagtail.models import Page, Site
 
 from .cache import AbstractCacheAwarePage, CacheMeta, CacheProvider
 from .hierarchyonly import AbstractHierarchyOnlyPage

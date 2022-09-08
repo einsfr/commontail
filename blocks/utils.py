@@ -4,7 +4,7 @@ from typing import List, Type
 
 from django.conf import settings
 
-from wagtail.core.blocks import StreamBlock
+from wagtail.blocks import StreamBlock
 
 
 __all__ = ['get_content_stream_page_body_block', ]

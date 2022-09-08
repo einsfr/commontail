@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.views.generic import TemplateView
 
-from wagtail.core.models import Site
+from wagtail.models import Site
 
 __all__ = ['RobotsTxtView', ]
 

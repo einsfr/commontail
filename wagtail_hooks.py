@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from wagtail.admin.menu import MenuItem
 from wagtail.admin.action_menu import ActionMenuItem
 from wagtail.contrib.modeladmin.options import ModelAdmin, ModelAdminGroup, modeladmin_register
-from wagtail.core import hooks
+from wagtail import hooks
 
 from .models import Menu, PageViewsCounter, AbstractViewsCountablePage, Author, AuthorHomePageRelation,\
     AbstractCacheAwarePage

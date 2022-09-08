@@ -7,7 +7,7 @@ from django.core.paginator import Paginator, Page as PaginatorPage
 from django.http import HttpRequest, QueryDict
 from django.utils.functional import lazy
 
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 
 __all__ = ['AbstractPaginationData', 'PaginatorPaginationData', 'ParametricPaginationData',

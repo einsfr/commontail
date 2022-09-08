@@ -4,8 +4,8 @@ from django.db import models
 from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
 
-from wagtail.admin.edit_handlers import FieldPanel
-from wagtail.core.models import Site, Page, PageManager, PageQuerySet
+from wagtail.admin.panels import FieldPanel
+from wagtail.models import Site, Page, PageManager, PageQuerySet
 from wagtail.images.models import AbstractRendition
 
 from .author import AbstractAuthorSignaturePage, FormattedSignatureData

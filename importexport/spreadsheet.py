@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from wagtail.admin.edit_handlers import ObjectList, FieldPanel
+from wagtail.admin.panels import ObjectList, FieldPanel
 
 from .abstract import AbstractPageImporter
 from .models import AbstractPageImporterFormModel, AbstractTablePageCreatorFormModel, AbstractTablePageUpdaterFormModel

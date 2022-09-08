@@ -1,8 +1,8 @@
 from django.utils.translation import gettext_lazy as _
 
-from wagtail.admin.edit_handlers import StreamFieldPanel
-from wagtail.core import blocks
-from wagtail.core.fields import StreamField
+from wagtail.admin.panels import FieldPanel
+from wagtail import blocks
+from wagtail.fields import StreamField
 from wagtail.search import index
 
 from ..blocks import ContactBlock
@@ -31,11 +31,12 @@ class AbstractContactsPage(AbstractPerSiteSingletonPage, AbstractBasePage):
             ))
         ],
         blank=True,
+        use_json_field=True,
         verbose_name=_('contacts'),
     )
 
     content_panels = AbstractBasePage.content_panels + [
-        StreamFieldPanel('contacts'),
+        FieldPanel('contacts'),
     ]
 
     opengraph_provider = OpenGraphGlobalLogoImagePageProvider()

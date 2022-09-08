@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from lxml.html.clean import Cleaner
 
-from wagtail.core import blocks
+from wagtail import blocks
 
 from .embed import ExtendedEmbedBlock
 from .image import ImageBlock, ImageGalleryBlock

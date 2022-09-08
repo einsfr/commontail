@@ -1,6 +1,6 @@
 from typing import Iterable, Optional
 
-from wagtail.core import hooks
+from wagtail import hooks
 
 from .models import *
 from .abstract import *

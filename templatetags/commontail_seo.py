@@ -3,7 +3,7 @@ from typing import Union, Optional
 from django import template
 from django.utils.translation import gettext as _
 
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 from ..models import AbstractSEOAwarePage, AbstractPaginationData, AbstractPaginationAwarePage, SubstitutePage
 

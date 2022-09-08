@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin import messages
-from wagtail.core.models import Page, PagePermissionTester
+from wagtail.models import Page, PagePermissionTester
 
 from ..models import AbstractCacheAwarePage
 

@@ -3,7 +3,7 @@ from typing import Union
 from django import template
 from django.conf import settings
 
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 from ..models import SubstitutePage
 

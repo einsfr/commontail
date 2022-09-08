@@ -3,7 +3,7 @@ from typing import Iterable, Any
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
-from wagtail.admin.edit_handlers import FieldPanel
+from wagtail.admin.panels import FieldPanel
 
 from .cache import AbstractCacheAware, CacheMeta
 from .links import AbstractLinkFields

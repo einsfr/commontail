@@ -4,7 +4,7 @@ from django.http import HttpRequest
 from django.conf import settings
 from django.utils.functional import cached_property
 
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 
 __all__ = ['AbstractSEOAwarePage', ]

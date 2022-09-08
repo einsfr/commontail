@@ -3,9 +3,9 @@ from typing import Iterable, Any, Optional
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
-from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
-from wagtail.core import blocks
-from wagtail.core.fields import StreamField
+from wagtail.admin.panels import FieldPanel
+from wagtail import blocks
+from wagtail.fields import StreamField
 
 from ..blocks import DocumentLinkBlock, ExternalLinkBlock, PageLinkBlock
 
@@ -102,6 +102,7 @@ class AbstractMenu(AbstractCacheAware, AbstractSiteHandleModel):
             ('external', ExternalLinkBlock()),
             ('page', PageLinkBlock()),
         ],
+        use_json_field=True,
         verbose_name=_('Menu items')
     )
 
@@ -117,7 +118,7 @@ class AbstractMenu(AbstractCacheAware, AbstractSiteHandleModel):
     panels = [
         FieldPanel('site'),
         FieldPanel('handle'),
-        StreamFieldPanel('items'),
+        FieldPanel('items'),
     ]
 
     def __str__(self):

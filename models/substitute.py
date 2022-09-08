@@ -1,6 +1,6 @@
 from typing import Iterable, Optional
 
-from wagtail.core.models import Site
+from wagtail.models import Site
 
 
 __all__ = ['SubstitutePage', ]

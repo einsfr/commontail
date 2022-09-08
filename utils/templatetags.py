@@ -4,7 +4,7 @@ from django import template
 from django.conf import settings
 from django.template.loader import select_template
 
-from wagtail.core.models import Site
+from wagtail.models import Site
 
 from ..models import AbstractCacheAware, AbstractSiteHandleModel
 

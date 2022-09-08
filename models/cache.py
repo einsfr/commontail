@@ -6,7 +6,7 @@ from typing import Dict, List, Any, Callable, Union, Iterable, Optional, Type
 
 from django.core.cache import caches, BaseCache, InvalidCacheBackendError
 
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 
 __all__ = ['CacheMeta', 'UnknownCachePrefixException', 'CachePrefixDict', 'AbstractCacheAware',

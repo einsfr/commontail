@@ -11,10 +11,9 @@ from django.utils.translation import gettext_lazy as _
 from modelcluster.models import ClusterableModel
 from modelcluster.fields import ParentalKey
 
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
-from wagtail.core.models import Orderable
+from wagtail.admin.panels import FieldPanel, InlinePanel
+from wagtail.models import Orderable
 from wagtail.images import get_image_model_string
-from wagtail.images.edit_handlers import ImageChooserPanel
 
 from .cache import AbstractCacheAware, CacheMeta
 from .links import AbstractLinkFields
@@ -69,7 +68,7 @@ class Banner(AbstractLinkFields):
         FieldPanel('enabled'),
         FieldPanel('active_since'),
         FieldPanel('active_to'),
-        ImageChooserPanel('image'),
+        FieldPanel('image'),
     ] + AbstractLinkFields.panels
 
     def __str__(self):

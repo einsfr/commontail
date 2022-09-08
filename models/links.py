@@ -8,11 +8,9 @@ from django.utils.translation import gettext_lazy as _
 
 from modelcluster.models import ClusterableModel, ParentalKey
 
-from wagtail.admin.edit_handlers import FieldPanel, PageChooserPanel, InlinePanel
-from wagtail.core.models import Orderable, Page
-from wagtail.documents.edit_handlers import DocumentChooserPanel
+from wagtail.admin.panels import FieldPanel, PageChooserPanel, InlinePanel
+from wagtail.models import Orderable, Page
 from wagtail.images import get_image_model_string
-from wagtail.images.edit_handlers import ImageChooserPanel
 
 from .utils import AbstractIconAware
 
@@ -70,7 +68,7 @@ class AbstractBaseLinkFields(models.Model):
         FieldPanel('link_external'),
         PageChooserPanel('link_page'),
         FieldPanel('query_string'),
-        DocumentChooserPanel('link_document'),
+        FieldPanel('link_document'),
         FieldPanel('email'),
     ]
 
@@ -175,7 +173,7 @@ class AbstractLinkedDocument(models.Model):
     )
 
     panels = [
-        DocumentChooserPanel('document'),
+        FieldPanel('document'),
         FieldPanel('inherit'),
     ]
 
@@ -224,7 +222,7 @@ class AbstractLinkedImage(Orderable):
     )
 
     panels = [
-        ImageChooserPanel('image'),
+        FieldPanel('image'),
         FieldPanel('inherit'),
     ]
 

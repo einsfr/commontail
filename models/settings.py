@@ -7,10 +7,10 @@ from django.conf import settings
 from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
 
+from wagtail.admin.panels import FieldPanel
 from wagtail.contrib.settings.models import BaseSetting, register_setting
-from wagtail.core.models import Site
+from wagtail.models import Site
 from wagtail.images import get_image_model_string
-from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.models import AbstractRendition, AbstractImage
 
 
@@ -53,9 +53,9 @@ class CommonSettings(BaseSetting):
     )
 
     panels = [
-        ImageChooserPanel('logo'),
-        ImageChooserPanel('logo_square'),
-        ImageChooserPanel('docs_background'),
+        FieldPanel('logo'),
+        FieldPanel('logo_square'),
+        FieldPanel('docs_background'),
     ]
 
 

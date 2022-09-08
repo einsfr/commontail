@@ -3,8 +3,8 @@ from django.conf import settings
 from django.core.cache import cache
 from django.template.defaultfilters import stringfilter
 
-from wagtail.core.models import Page, Site
-from wagtail.core.rich_text.rewriters import FIND_A_TAG
+from wagtail.models import Page, Site
+from wagtail.rich_text.rewriters import FIND_A_TAG
 from wagtail.documents.models import Document
 
 from ..models import AbstractIconAware, NamedReference, CacheProvider

@@ -10,12 +10,11 @@ from django.core.paginator import Paginator, Page
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from wagtail.admin.edit_handlers import StreamFieldPanel, FieldPanel
+from wagtail.admin.panels import FieldPanel
 from wagtail.admin.forms import WagtailAdminPageForm
-from wagtail.core.models import Page
-from wagtail.core.fields import StreamField
+from wagtail.models import Page
+from wagtail.fields import StreamField
 from wagtail.images import get_image_model, get_image_model_string
-from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from .opengraph import AbstractOpenGraphAwarePage, OpenGraphPageProvider
@@ -135,11 +134,12 @@ class AbstractContentStreamPage(AbstractBasePage):
     body = StreamField(
         get_content_stream_page_body_block(required=False),
         blank=True,
+        use_json_field=True,
         verbose_name=_('page body'),
     )
 
     content_panels = [
-        StreamFieldPanel('body'),
+        FieldPanel('body'),
     ]
 
     include_toc: bool = False
@@ -224,7 +224,7 @@ class AbstractImageAnnouncePage(AbstractBasePage):
     )
 
     content_panels = [
-        ImageChooserPanel('image_announce'),
+        FieldPanel('image_announce'),
     ]
 
     opengraph_provider = OpenGraphPageProvider(image_attribute='image_announce')

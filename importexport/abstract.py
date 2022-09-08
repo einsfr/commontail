@@ -10,7 +10,7 @@ from django.utils.translation import gettext_lazy as _
 
 from psycopg2.extras import NumericRange
 
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 from .models import AbstractPageImporterFormModel
 

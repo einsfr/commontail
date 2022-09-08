@@ -3,8 +3,8 @@ from typing import Optional, Type
 from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Rss201rev2Feed
 
-from wagtail.core.models import Page
-from wagtail.core.templatetags.wagtailcore_tags import richtext
+from wagtail.models import Page
+from wagtail.templatetags.wagtailcore_tags import richtext
 
 
 __all__ = ['RichTextDescriptionRss201rev2Feed', 'ChildPageFeed', 'AbstractFeedablePage', ]

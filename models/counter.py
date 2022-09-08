@@ -2,7 +2,7 @@ from django.db import models, IntegrityError
 from django.utils.translation import gettext_lazy as _
 from django.utils.functional import cached_property
 
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 
 __all__ = ['PageViewsCounter', 'AbstractViewsCountablePage', ]

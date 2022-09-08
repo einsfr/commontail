@@ -33,8 +33,8 @@ from django.db.models.functions import Left
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
-from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, RichTextFieldPanel, InlinePanel
-from wagtail.core.fields import RichTextField, StreamField
+from wagtail.admin.panels import FieldPanel, InlinePanel
+from wagtail.fields import RichTextField, StreamField
 from wagtail.search import index
 
 from ..blocks import LinksBlock
@@ -100,6 +100,7 @@ class AbstractGlossaryItem(models.Model):
     links = StreamField(
         LinksBlock,
         blank=True,
+        use_json_field=True,
         verbose_name=_('additional links'),
     )
 
@@ -111,8 +112,8 @@ class AbstractGlossaryItem(models.Model):
 
     panels = [
         FieldPanel('term'),
-        RichTextFieldPanel('description'),
-        StreamFieldPanel('links'),
+        FieldPanel('description'),
+        FieldPanel('links'),
     ]
 
     def __str__(self):
