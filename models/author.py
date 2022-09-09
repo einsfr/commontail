@@ -4,7 +4,7 @@ from typing import Optional, Dict, Any, List, Type
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.db import models
+from django.db import models, transaction
 from django.forms.utils import ErrorList
 from django.http import HttpRequest
 from django.template.defaultfilters import truncatechars
@@ -13,7 +13,7 @@ from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanel
 from wagtail.blocks import StructBlock, CharBlock, URLBlock, EmailBlock
 from wagtail.fields import StreamField
-from wagtail.models import Page, Site
+from wagtail.models import Page, PageQuerySet, Site
 
 from wagtailmodelchooser.blocks import ModelChooserBlock
 from wagtailmodelchooser.edit_handlers import ModelChooserPanel
@@ -24,7 +24,7 @@ from .singleton import AbstractPerSiteSingletonPage
 
 
 __all__ = ['AbstractAuthorPage', 'AbstractAuthorsIndexPage', 'AbstractAuthorSignaturePage', 'FormattedSignatureData',
-           'OtherAuthorBlock', 'Author', 'AuthorHomePageRelation', ]
+           'OtherAuthorBlock', 'Author', 'AuthorHomePageRelation', 'AuthorsPages']
 
 
 AUTHOR_SIGNATURE_CACHE_PREFIX: str = 'author_signature'
@@ -64,6 +64,20 @@ class AbstractAuthorPage(AbstractImageAnnouncePage, AbstractContentStreamPage):
 
     content_panels = Page.content_panels + AbstractImageAnnouncePage.content_panels + \
         AbstractContentStreamPage.content_panels
+
+    def get_author(self) -> Optional['Author']:
+        try:
+            return AuthorHomePageRelation.objects.get(page=self)
+        except AuthorHomePageRelation.DoesNotExist:
+            return
+
+    def get_author_pages(self) -> Optional[PageQuerySet]:
+        author: 'Author' = self.get_author()
+
+        if not author:
+            return
+
+        return author.get_pages()
 
 
 class AbstractAuthorsIndexPage(AbstractPerSiteSingletonPage, AbstractBaseIndexPage):
@@ -133,6 +147,13 @@ class Author(models.Model):
     def get_full_name(self) -> str:
         return f'{self.first_name} {self.last_name}'
 
+    def get_pages(self, site: Site = None) -> PageQuerySet:
+        author_pages: models.QuerySet = self.pages.get_queryset()
+        if site:
+            author_pages = author_pages.filter(site=site)
+
+        return Page.objects.filter(pk__in=models.Subquery(author_pages.values('page_id')))
+
 
 class AuthorHomePageRelation(models.Model):
 
@@ -152,7 +173,7 @@ class AuthorHomePageRelation(models.Model):
         verbose_name=_('author'),
     )
 
-    page = models.ForeignKey(
+    page = models.OneToOneField(
         Page,
         on_delete=models.CASCADE,
         related_name='+',
@@ -161,6 +182,7 @@ class AuthorHomePageRelation(models.Model):
 
     site = models.ForeignKey(
         Site,
+        editable=False,
         on_delete=models.CASCADE,
         related_name='+',
         verbose_name=_('site'),
@@ -168,9 +190,38 @@ class AuthorHomePageRelation(models.Model):
 
     panels = [
         ModelChooserPanel('author'),
-        FieldPanel('site'),
         PageChooserPanel('page', page_type=settings.COMMONTAIL_AUTHOR_PAGE_MODEL or Page)
     ]
+
+    def clean(self):
+        self.site = self.page.get_site()
+
+        super().clean()
+
+    def validate_unique(self, exclude=None):  # wagtail will exclude site from unique checks because it's not editable
+        if exclude:
+            site_index: int = exclude.index('site')
+            if site_index:
+                del(exclude[site_index])
+
+        super().validate_unique(exclude)
+
+
+class AuthorsPages(models.Model):
+
+    author = models.ForeignKey(
+        Author,
+        on_delete=models.CASCADE,
+        related_name='pages',
+        verbose_name=_('author')
+    )
+
+    page = models.ForeignKey(
+        Page,
+        on_delete=models.CASCADE,
+        related_name='+',
+        verbose_name=_('page'),
+    )
 
 
 @dataclass
@@ -292,3 +343,45 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
             return self.get_signature_data(request)[0]
         except IndexError:
             return
+
+    @transaction.atomic
+    def save(self, *args, **kwargs):
+        # Published page is saved twice: first - draft is saved, second - draft is published...
+        update_authors_pages: bool = False
+
+        if 'update_fields' in kwargs:  # ... but only once with update_fields in kwargs
+            if self.pk:
+                old = self.__class__.objects.get(pk=self.pk)
+                if old.signature_data != self.signature_data or old.signature_use_owner != self.signature_use_owner:
+                    update_authors_pages = True
+            else:
+                update_authors_pages = True
+
+        result = super().save(*args, **kwargs)
+
+        # There is no matter if page is live or not, public or private - AuthorsPagesModel updates in all cases
+        if update_authors_pages:
+            AuthorsPages.objects.filter(page=self).delete()
+
+            authors_list: list = []
+            authors_pks: set = set()
+
+            if self.signature_use_owner:
+                try:
+                    author: Author = Author.objects.get(user=self.owner)
+                except Author.DoesNotExist:
+                    pass
+                else:
+                    authors_list.append(author)
+                    authors_pks.add(author.pk)
+
+            for data in self.signature_data:
+                if data.block_type == 'site_author' and data.value.pk not in authors_pks:
+                    authors_list.append(data.value)
+                    authors_pks.add(data.value.pk)
+
+            AuthorsPages.objects.bulk_create(
+                [AuthorsPages(author=author, page=self) for author in authors_list]
+            )
+
+        return result
