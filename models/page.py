@@ -2,7 +2,7 @@ import importlib
 import re
 
 from collections import OrderedDict, ValuesView
-from typing import List, Tuple, Union, Any, Type, Optional, Dict
+from typing import List, Tuple, Union, Any, Type, Optional, Dict, Iterable
 
 from django import forms
 from django.conf import settings
@@ -91,8 +91,11 @@ class AbstractBaseIndexPage(AbstractPaginationAwarePage, AbstractBasePage):
     def get_items_queryset(self) -> models.QuerySet:
         return self.get_items_class().objects.live().descendant_of(self).order_by(*self.get_items_queryset_order())
 
-    def get_items_queryset_filters(self, request) -> Optional[Dict]:
-        raise NotImplementedError
+    def get_items_queryset_filters(self, request) \
+            -> Tuple[Optional[Union[Dict, models.Q, Iterable[models.Q]]], Optional[str]]:
+        # tuple(<filter>, <string representation>)
+
+        return None, None
 
     def get_items_queryset_order(self) -> Union[Tuple, List]:
         items_meta_ordering: Union[Tuple[Any], List[Any]] = getattr(self.get_items_class().Meta, 'ordering', None)
@@ -106,21 +109,30 @@ class AbstractBaseIndexPage(AbstractPaginationAwarePage, AbstractBasePage):
 
     def get_context(self, request, *args, **kwargs):
         items_qs: models.QuerySet = self.get_items_queryset()
-        filters: Optional[Dict] = self.get_items_queryset_filters(request)
+
+        filters: Optional[Union[Dict, models.Q, Iterable[models.Q]]]
+        filters_str_repr: Optional[str]
+        filters, filters_str_repr = self.get_items_queryset_filters(request)
         filtering_enabled: bool = bool(filters)
 
         if filtering_enabled:
-            items_qs.filter(**filters)
+            if isinstance(filters, dict):
+                items_qs = items_qs.filter(**filters)
+            elif isinstance(filters, Iterable):
+                items_qs = items_qs.filter(*filters)
+            else:
+                items_qs = items_qs.filter(filters)
 
         paginator: Paginator = Paginator(items_qs, self.get_per_page_number(request))
         items_page: Page = paginator.get_page(request.GET.get(settings.COMMONTAIL_PAGINATION_GET_KEY, 1))
 
         context: Dict = super().get_context(request, *args, **kwargs)
         context.update({
-            'items': items_page,
-            'filtering_enabled': filtering_enabled,
-            'pagination_data': PaginatorPaginationData(paginator, items_page),
             'allow_robots_indexing': not filtering_enabled,
+            'filtering_enabled': filtering_enabled,
+            'filters_str_repr': filters_str_repr,
+            'items': items_page,
+            'pagination_data': PaginatorPaginationData(paginator, items_page),
         })
 
         return context
