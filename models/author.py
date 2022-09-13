@@ -144,6 +144,13 @@ class Author(models.Model):
         else:
             return self.get_full_name()
 
+    def get_home_page(self, site: Site) -> Optional[Page]:
+        try:
+            return self.home_pages.get(site=site).page
+
+        except AuthorHomePageRelation.DoesNotExist:
+            return
+
     def get_full_name(self) -> str:
         return f'{self.first_name} {self.last_name}'
 
@@ -169,7 +176,7 @@ class AuthorHomePageRelation(models.Model):
     author = models.ForeignKey(
         Author,
         on_delete=models.CASCADE,
-        related_name='home_page',
+        related_name='home_pages',
         verbose_name=_('author'),
     )
 
@@ -272,45 +279,33 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
         )
     ]
 
-    def _signature_format_other_author(self, value: dict) -> FormattedSignatureData:
+    @staticmethod
+    def signature_format_other_author(value: dict) -> FormattedSignatureData:
         return FormattedSignatureData(
             '', value['text'],
             value['url'] if value['url'] else f'mailto:{value["email"] if value["email"] else ""}', None
         )
 
-    def _signature_format_site_author(self, author: Author) -> FormattedSignatureData:
+    @staticmethod
+    def signature_format_site_author(author: Author, site: Site) -> FormattedSignatureData:
+        home_page: Page = author.get_home_page(site)
+
+        if home_page and home_page.live:
+            return FormattedSignatureData(
+                '', author.get_full_name(), home_page.relative_url(site), {'title': _("Proceed to author's home page")}
+            )
+
         return FormattedSignatureData(
             '', author.get_full_name(), f'mailto:{author.email}' if author.email else '',
             {'title': author.email if author.email else ''}
         )
-
-    def _signature_format_user(self, user: User, site: Site) -> FormattedSignatureData:
-        try:
-            author: Author = Author.objects.get(user=user)
-        except Author.DoesNotExist:
-            return FormattedSignatureData(
-                '', user.get_full_name() or user.username, f'mailto:{user.email}' if user.email else '', None
-            )
-        else:
-            try:
-                home_page: Page = AuthorHomePageRelation.objects.select_related('page').get(
-                    author=author, site=site).page
-            except AuthorHomePageRelation.DoesNotExist:
-                return self._signature_format_site_author(author)
-            else:
-                if home_page.live:
-                    return FormattedSignatureData(
-                        '', author.get_full_name(), home_page.url,
-                        {'title': _("Proceed to author's home page")}
-                    )
-                else:
-                    return self._signature_format_site_author(author)
 
     def get_signature_data(self, request: HttpRequest) -> List[FormattedSignatureData]:
         cache_provider: CacheProvider = self.get_cache_provider()
 
         result: List[FormattedSignatureData] = cache_provider.get_data(
             AUTHOR_SIGNATURE_CACHE_PREFIX, self.get_cache_vary_on())
+        author_pks: set[int] = set()
 
         if result is not None:
             return result
@@ -320,13 +315,25 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
         site: Site = Site.find_for_request(request)
 
         if self.signature_use_owner and self.owner:
-            result.append(self._signature_format_user(self.owner, site))
+            try:
+                author: Author = Author.objects.get(user=self.owner)
+            except Author.DoesNotExist:
+                result.append(
+                    FormattedSignatureData(
+                        '', self.owner.get_full_name() or self.owner.username,
+                        f'mailto:{self.owner.email}' if self.owner.email else '',
+                        None
+                    )
+                )
+            else:
+                result.append(self.signature_format_site_author(author, site))
+                author_pks.add(author.pk)
 
         for data in self.signature_data:
-            if data.block_type == 'site_author':
-                result.append(self._signature_format_site_author(data.value))
+            if data.block_type == 'site_author' and data.value.pk not in author_pks:
+                result.append(self.signature_format_site_author(data.value, site))
             elif data.block_type == 'other_author':
-                result.append(self._signature_format_other_author(data.value))
+                result.append(self.signature_format_other_author(data.value))
 
         if self.signature_original_url:
             result.append(FormattedSignatureData(
@@ -366,7 +373,7 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
             authors_list: list = []
             authors_pks: set = set()
 
-            if self.signature_use_owner:
+            if self.signature_use_owner and self.owner:
                 try:
                     author: Author = Author.objects.get(user=self.owner)
                 except Author.DoesNotExist:
