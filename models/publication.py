@@ -97,8 +97,7 @@ class AbstractPublicationPage(AbstractViewsCountablePage, AbstractAuthorSignatur
 
     opengraph_type = 'article'
 
-    promote_panels = Page.promote_panels + AbstractImageAnnounceSummaryPage.promote_panels + \
-        AbstractAuthorSignaturePage.promote_panels
+    promote_panels = Page.promote_panels + AbstractAuthorSignaturePage.promote_panels
 
     search_fields = Page.search_fields + AbstractImageAnnounceSummaryPage.search_fields
 
