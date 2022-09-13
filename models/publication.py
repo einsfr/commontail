@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Type
+from typing import Optional, Type
 
 from django.db import models
 from django.http import HttpRequest
@@ -116,9 +116,6 @@ class AbstractPublicationIndexPage(AbstractBaseIndexPage):
         abstract = True
 
     def get_items_class(self) -> Type[Page]:
-        raise NotImplementedError
-
-    def get_items_queryset_filters(self, request) -> Optional[Dict]:
         raise NotImplementedError
 
     def get_per_page_number(self, request) -> int:
