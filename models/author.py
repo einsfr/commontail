@@ -24,7 +24,7 @@ from .singleton import AbstractPerSiteSingletonPage
 
 
 __all__ = ['AbstractAuthorPage', 'AbstractAuthorsIndexPage', 'AbstractAuthorSignaturePage', 'FormattedSignatureData',
-           'OtherAuthorBlock', 'Author', 'AuthorHomePageRelation', 'AuthorsPages']
+           'OtherAuthorBlock', 'Author', 'AuthorHomePageRelation', 'AuthorsPages', 'AuthorManager', ]
 
 
 AUTHOR_SIGNATURE_CACHE_PREFIX: str = 'author_signature'
@@ -102,6 +102,16 @@ class AbstractAuthorsIndexPage(AbstractPerSiteSingletonPage, AbstractBaseIndexPa
         raise NotImplementedError
 
 
+class AuthorManager(models.Manager):
+
+    def exists_in_descendants(self, page: Page) -> models.QuerySet:
+        return self.get_queryset().filter(
+            models.Exists(AuthorsPages.objects.filter(
+                author_id=models.OuterRef('pk'), page__path__startswith=page.path, page__depth__gte=page.depth
+            ))
+        )
+
+
 class Author(models.Model):
 
     class Meta:
@@ -138,6 +148,8 @@ class Author(models.Model):
         related_name='+',
     )
 
+    objects = AuthorManager()
+
     panels = [
         FieldPanel('first_name'),
         FieldPanel('last_name'),
@@ -146,10 +158,7 @@ class Author(models.Model):
     ]
 
     def __str__(self):
-        if self.email:
-            return f'{self.get_full_name()} <{self.email}>'
-        else:
-            return self.get_full_name()
+        return self.get_full_name()
 
     def get_home_page(self, site: Site) -> Optional[Page]:
         try:
