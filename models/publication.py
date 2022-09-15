@@ -1,5 +1,6 @@
-from typing import Optional, Type
+from typing import Optional, Type, Dict, Tuple, Union, Iterable
 
+from django import forms
 from django.db import models
 from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
@@ -8,7 +9,7 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.models import Site, Page, PageManager, PageQuerySet
 from wagtail.images.models import AbstractRendition
 
-from .author import AbstractAuthorSignaturePage, FormattedSignatureData
+from .author import AbstractAuthorSignaturePage, FormattedSignatureData, Author
 from .counter import AbstractViewsCountablePage
 from .page import AbstractContentStreamPage, AbstractBaseIndexPage, AbstractImageAnnounceSummaryPage
 from .settings import get_logo_rendition
@@ -117,6 +118,22 @@ class AbstractPublicationIndexPage(AbstractBaseIndexPage):
 
     def get_items_class(self) -> Type[Page]:
         raise NotImplementedError
+
+    def get_items_queryset_filters(self, filters_form: forms.BaseForm, request: HttpRequest) \
+            -> Optional[Union[Dict, models.Q, Iterable[models.Q]]]:
+        author: Author = filters_form.cleaned_data['author']
+        if author:
+            return author.get_pages_q(Site.find_for_request(request))
+
+    def get_filters_form_fields(self, request: HttpRequest) -> Optional[Dict[str, forms.Field]]:
+        return {
+            'author': forms.ModelChoiceField(
+                label=_('Author'),
+                queryset=Author.objects.exists_in_descendants(self).order_by('first_name'),
+                required=False,
+                widget=forms.Select(attrs={'class': 'uk-select'})
+            ),
+        }
 
     def get_per_page_number(self, request) -> int:
         raise NotImplementedError
