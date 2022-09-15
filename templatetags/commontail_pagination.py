@@ -78,8 +78,11 @@ def _prepare(number_of_pages: int, current_page_number: int, has_next_page: bool
     return result
 
 
-@register.inclusion_tag('commontail/templatetags/pagination.html')
-def pagination(page: Optional[PaginatorPage], query_dict: QueryDict = None) -> Dict[str, Any]:
+@register.inclusion_tag('commontail/templatetags/pagination.html', takes_context=True)
+def pagination(context: dict, page: Optional[PaginatorPage], query_dict: QueryDict = None) -> Dict[str, Any]:
+    if query_dict is None:
+        query_dict = context['request'].GET
+
     return {
         'p': _prepare(
             page.paginator.num_pages, page.number, page.has_next(), page.has_previous(), query_dict
@@ -88,8 +91,12 @@ def pagination(page: Optional[PaginatorPage], query_dict: QueryDict = None) -> D
     }
 
 
-@register.inclusion_tag('commontail/templatetags/pagination.html')
-def pagination_data(data: Optional[AbstractPaginationData], query_dict: QueryDict = None) -> Dict[str, Any]:
+@register.inclusion_tag('commontail/templatetags/pagination.html', takes_context=True)
+def pagination_data(context: dict, data: Optional[AbstractPaginationData],
+                    query_dict: QueryDict = None) -> Dict[str, Any]:
+    if query_dict is None:
+        query_dict = context['request'].GET
+
     return {
         'p': _prepare(
             data.number_of_pages, data.page_number, data.has_next_page, data.has_previous_page, query_dict
