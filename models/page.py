@@ -8,6 +8,7 @@ from django import forms
 from django.conf import settings
 from django.core.paginator import Paginator, Page
 from django.db import models
+from django.http.request import HttpRequest
 from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin.panels import FieldPanel
@@ -85,17 +86,29 @@ class AbstractBaseIndexPage(AbstractPaginationAwarePage, AbstractBasePage):
     class Meta:
         abstract = True
 
+    def get_filters_form(self, request: HttpRequest) -> Optional[Type[forms.BaseForm]]:
+        filter_form_fields: Optional[Dict[str, forms.Field]] = self.get_filters_form_fields(request)
+
+        if filter_form_fields is None:
+            return
+
+        class IndexFilterForm(forms.BaseForm):
+            base_fields = filter_form_fields
+
+        return IndexFilterForm
+
+    def get_filters_form_fields(self, request: HttpRequest) -> Optional[Dict[str, forms.Field]]:
+        return
+
     def get_items_class(self) -> Type[Page]:
         raise NotImplementedError
 
     def get_items_queryset(self) -> models.QuerySet:
         return self.get_items_class().objects.live().descendant_of(self).order_by(*self.get_items_queryset_order())
 
-    def get_items_queryset_filters(self, request) \
-            -> Tuple[Optional[Union[Dict, models.Q, Iterable[models.Q]]], Optional[str]]:
-        # tuple(<filter>, <string representation>)
-
-        return None, None
+    def get_items_queryset_filters(self, filters_form: forms.BaseForm, request: HttpRequest) \
+            -> Optional[Union[Dict, models.Q, Iterable[models.Q]]]:
+        return
 
     def get_items_queryset_order(self) -> Union[Tuple, List]:
         items_meta_ordering: Union[Tuple[Any], List[Any]] = getattr(self.get_items_class().Meta, 'ordering', None)
@@ -110,10 +123,21 @@ class AbstractBaseIndexPage(AbstractPaginationAwarePage, AbstractBasePage):
     def get_context(self, request, *args, **kwargs):
         items_qs: models.QuerySet = self.get_items_queryset()
 
+        filters_form: Optional[forms.BaseForm]
+        try:
+            filters_form = self.get_filters_form(request)(request.GET)
+        except TypeError:
+            filters_form = None
+
         filters: Optional[Union[Dict, models.Q, Iterable[models.Q]]]
-        filters_str_repr: Optional[str]
-        filters, filters_str_repr = self.get_items_queryset_filters(request)
-        filtering_enabled: bool = bool(filters)
+        filtering_enabled: bool
+
+        if filters_form and filters_form.is_valid():
+            filters = self.get_items_queryset_filters(filters_form, request)
+            filtering_enabled = bool(filters)
+        else:
+            filters = None
+            filtering_enabled = False
 
         if filtering_enabled:
             if isinstance(filters, dict):
@@ -130,7 +154,7 @@ class AbstractBaseIndexPage(AbstractPaginationAwarePage, AbstractBasePage):
         context.update({
             'allow_robots_indexing': not filtering_enabled,
             'filtering_enabled': filtering_enabled,
-            'filters_str_repr': filters_str_repr,
+            'filters_form': filters_form,
             'items': items_page,
             'pagination_data': PaginatorPaginationData(paginator, items_page),
         })
