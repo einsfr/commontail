@@ -2,7 +2,7 @@ from typing import Iterable, Any
 
 from django.test import SimpleTestCase
 
-from ..models.cache import AbstractCacheAware, CacheMeta, UnknownCachePrefixException
+from commontail.models.cache import AbstractCacheAware, CacheMeta, UnknownCachePrefixException
 
 
 __all__ = ['CacheTestCase', ]
