@@ -27,7 +27,8 @@ class AbstractContactsPage(AbstractPerSiteSingletonPage, AbstractBasePage):
                     ('title', blocks.CharBlock(max_length=64, label=_('Data set title'), required=False)),
                     ('contact_data', ContactBlock()),
                 ],
-                label=_('Contact data')
+                label=_('Contact data'),
+                icon='mail',
             ))
         ],
         blank=True,
