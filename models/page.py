@@ -18,6 +18,8 @@ from wagtail.fields import StreamField
 from wagtail.images import get_image_model, get_image_model_string
 from wagtail.search import index
 
+from ..utils.collectors import collect_attributes
+
 from .opengraph import AbstractOpenGraphAwarePage, OpenGraphPageProvider
 from .pagination import AbstractPaginationAwarePage, PaginatorPaginationData
 from .seo import AbstractSEOAwarePage
@@ -76,9 +78,28 @@ class AbstractBasePage(AbstractOpenGraphAwarePage, AbstractStructuredDataAwarePa
     class Meta:
         abstract = True
 
+    _auto_collectable_attributes_are_collected: bool = False
+    
+    auto_collectable_attributes: List[str] = ['content_panels', 'promote_panels', 'settings_panels', 'search_fields']
+
     base_form_class = AbstractBasePageForm
 
     cache_prefixes = AbstractOpenGraphAwarePage.cache_prefixes + AbstractStructuredDataAwarePage.cache_prefixes
+    
+    @classmethod
+    def collect_auto_collectable(cls):
+        if not cls._auto_collectable_attributes_are_collected:    
+            for k, v in collect_attributes(cls, cls.auto_collectable_attributes, Page).items():
+                setattr(cls, k, v)
+        
+        cls._auto_collectable_attributes_are_collected = True
+        
+    @classmethod
+    def get_edit_handler(cls):
+        if not cls._auto_collectable_attributes_are_collected:
+            cls.collect_auto_collectable()
+            
+        return super().get_edit_handler()
 
 
 class AbstractBaseIndexPage(AbstractPaginationAwarePage, AbstractBasePage):
@@ -180,7 +201,7 @@ class AbstractContentStreamPage(AbstractBasePage):
 
     include_toc: bool = False
 
-    search_fields = AbstractBasePage.search_fields + [
+    search_fields = [
         index.SearchField('body', boost=1, partial_match=False),
     ]
 
@@ -295,7 +316,5 @@ class AbstractImageAnnounceSummaryPage(AbstractImageAnnouncePage, AbstractSummar
 
     class Meta:
         abstract = True
-
-    content_panels = AbstractImageAnnouncePage.content_panels + AbstractSummaryPage.content_panels
 
     opengraph_provider = OpenGraphPageProvider(image_attribute='image_announce', description_attribute='summary')

@@ -91,18 +91,11 @@ class AbstractPublicationPage(AbstractViewsCountablePage, AbstractAuthorSignatur
 
     cache_prefixes = AbstractAuthorSignaturePage.cache_prefixes + AbstractContentStreamPage.cache_prefixes
 
-    content_panels = Page.content_panels + AbstractImageAnnounceSummaryPage.content_panels + \
-        AbstractContentStreamPage.content_panels
-
     objects = PublicationPageManager()
 
     opengraph_type = 'article'
 
-    promote_panels = Page.promote_panels + AbstractAuthorSignaturePage.promote_panels
-
-    search_fields = Page.search_fields + AbstractImageAnnounceSummaryPage.search_fields
-
-    settings_panels = Page.settings_panels + [
+    settings_panels = [
         FieldPanel('pinned'),
     ]
 

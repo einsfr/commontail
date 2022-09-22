@@ -51,7 +51,7 @@ class AbstractGlossaryPage(AbstractBasePage):
     class Meta:
         abstract = True
 
-    content_panels = AbstractBasePage.content_panels + [
+    content_panels = [
         InlinePanel('items', label=_('Definitions'))
     ]
 
@@ -59,7 +59,7 @@ class AbstractGlossaryPage(AbstractBasePage):
 
     opengraph_provider = OpenGraphGlobalLogoImagePageProvider()
 
-    search_fields = AbstractBasePage.search_fields + [
+    search_fields = [
         index.SearchField('get_items_search_terms', partial_match=False, boost=1.25),
         index.SearchField('get_items_search_descriptions', partial_match=False, boost=0.75),
     ]

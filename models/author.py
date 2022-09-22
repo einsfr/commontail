@@ -62,8 +62,6 @@ class AbstractAuthorPage(AbstractImageAnnouncePage, AbstractBasePage):
     class Meta:
         abstract = True
 
-    content_panels = Page.content_panels + AbstractImageAnnouncePage.content_panels
-
     @cached_property
     def author(self) -> Optional['Author']:
         return self.get_author()

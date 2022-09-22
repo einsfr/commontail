@@ -35,12 +35,12 @@ class AbstractContactsPage(AbstractPerSiteSingletonPage, AbstractBasePage):
         verbose_name=_('contacts'),
     )
 
-    content_panels = AbstractBasePage.content_panels + [
+    content_panels = [
         FieldPanel('contacts'),
     ]
 
     opengraph_provider = OpenGraphGlobalLogoImagePageProvider()
 
-    search_fields = AbstractBasePage.search_fields + [
+    search_fields = [
         index.SearchField('contacts', boost=1, partial_match=False),
     ]
