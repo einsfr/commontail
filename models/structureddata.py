@@ -64,9 +64,10 @@ class StructuredDataAware:
     structured_data_providers: List[Type[AbstractStructuredDataProvider]] = []
 
     def get_structured_data(self, request: HttpRequest) -> str:
+        # using set guarantees uniqueness, providers order is insignificant
         return mark_safe(
             '\r\n'.join(
-                [provider().render(self, request) for provider in self.structured_data_providers]
+                [provider().render(self, request) for provider in set(self.structured_data_providers)]
             )
         )
 
