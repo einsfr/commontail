@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-27 22:07+0300\n"
+"POT-Creation-Date: 2022-09-16 18:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,286 +20,306 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: blocks/contact.py:26 blocks/contact.py:30
+#: commontail/blocks/contact.py:26 commontail/blocks/contact.py:30
 msgid "Address"
 msgstr "Адрес"
 
-#: blocks/contact.py:36 blocks/contact.py:40
+#: commontail/blocks/contact.py:36 commontail/blocks/contact.py:40
 msgid "E-mail"
 msgstr "Электронная почта"
 
-#: blocks/contact.py:42 blocks/contact.py:66 blocks/contact.py:114
-#: blocks/contact.py:134 blocks/contact.py:182
+#: commontail/blocks/contact.py:42 commontail/blocks/contact.py:66
+#: commontail/blocks/contact.py:114 commontail/blocks/contact.py:134
+#: commontail/blocks/contact.py:182
 msgid "Comment"
 msgstr "Комментарий"
 
-#: blocks/contact.py:48
+#: commontail/blocks/contact.py:48
 msgid "Facebook"
 msgstr "Facebook"
 
-#: blocks/contact.py:52 blocks/contact.py:76 blocks/contact.py:100
-#: blocks/contact.py:144 blocks/contact.py:156 blocks/contact.py:168
-#: blocks/contact.py:202 blocks/links.py:20 blocks/links.py:32
-#: blocks/links.py:42 blocks/links.py:54
+#: commontail/blocks/contact.py:52 commontail/blocks/contact.py:76
+#: commontail/blocks/contact.py:100 commontail/blocks/contact.py:144
+#: commontail/blocks/contact.py:156 commontail/blocks/contact.py:168
+#: commontail/blocks/contact.py:202 commontail/blocks/links.py:20
+#: commontail/blocks/links.py:32 commontail/blocks/links.py:42
+#: commontail/blocks/links.py:54
 msgid "Link's text"
 msgstr "Текст ссылки"
 
-#: blocks/contact.py:54 blocks/contact.py:78 blocks/contact.py:102
-#: blocks/contact.py:146 blocks/contact.py:158 blocks/contact.py:170
-#: blocks/contact.py:204 blocks/links.py:44 models/author.py:43
+#: commontail/blocks/contact.py:54 commontail/blocks/contact.py:78
+#: commontail/blocks/contact.py:102 commontail/blocks/contact.py:146
+#: commontail/blocks/contact.py:158 commontail/blocks/contact.py:170
+#: commontail/blocks/contact.py:204 commontail/blocks/links.py:44
+#: commontail/models/author.py:43
 msgid "URL"
 msgstr "URL"
 
-#: blocks/contact.py:60
+#: commontail/blocks/contact.py:60
 msgid "ICQ"
 msgstr "ICQ"
 
-#: blocks/contact.py:64 blocks/contact.py:112 blocks/contact.py:180
+#: commontail/blocks/contact.py:64 commontail/blocks/contact.py:112
+#: commontail/blocks/contact.py:180
 msgid "Number"
 msgstr "Номер"
 
-#: blocks/contact.py:72
+#: commontail/blocks/contact.py:72
 msgid "Instagram"
 msgstr "Instagram"
 
-#: blocks/contact.py:84
+#: commontail/blocks/contact.py:84
 msgid "Map"
 msgstr "Карта"
 
-#: blocks/contact.py:88 blocks/content.py:39 blocks/content.py:51
-#: blocks/image.py:64 blocks/links.py:84
+#: commontail/blocks/contact.py:88 commontail/blocks/content.py:39
+#: commontail/blocks/content.py:51 commontail/blocks/image.py:66
+#: commontail/blocks/links.py:84
 msgid "Heading"
 msgstr "Заголовок"
 
-#: blocks/contact.py:90
+#: commontail/blocks/contact.py:90
 msgid "Map's HTML code"
 msgstr "HTML-код карты"
 
-#: blocks/contact.py:96
+#: commontail/blocks/contact.py:96
 msgid "Odnoklassniki"
 msgstr "Одноклассники"
 
-#: blocks/contact.py:108
+#: commontail/blocks/contact.py:108
 msgid "Phone"
 msgstr "Телефон"
 
-#: blocks/contact.py:120
+#: commontail/blocks/contact.py:120
 msgid "Fax"
 msgstr "Факс"
 
-#: blocks/contact.py:128
+#: commontail/blocks/contact.py:128
 msgid "Skype"
 msgstr "Skype"
 
-#: blocks/contact.py:132
+#: commontail/blocks/contact.py:132
 msgid "ID"
 msgstr "Идентификатор"
 
-#: blocks/contact.py:140
+#: commontail/blocks/contact.py:140
 msgid "Telegram"
 msgstr "Telegram"
 
-#: blocks/contact.py:152
+#: commontail/blocks/contact.py:152
 msgid "Twitter"
 msgstr "Twitter"
 
-#: blocks/contact.py:164
+#: commontail/blocks/contact.py:164
 msgid "VKontakte"
 msgstr "ВКонтакте"
 
-#: blocks/contact.py:176
+#: commontail/blocks/contact.py:176
 msgid "Whatsapp"
 msgstr "Whatsapp"
 
-#: blocks/contact.py:188 blocks/contact.py:192
+#: commontail/blocks/contact.py:188 commontail/blocks/contact.py:192
 msgid "Work hours"
 msgstr "Рабочие часы"
 
-#: blocks/contact.py:198
+#: commontail/blocks/contact.py:198
 msgid "YouTube"
 msgstr "YouTube"
 
-#: blocks/contact.py:210
+#: commontail/blocks/contact.py:210
 msgid "Contacts"
 msgstr "Контакты"
 
-#: blocks/contact.py:218
+#: commontail/blocks/contact.py:218
 msgid "Post address"
 msgstr "Почтовый адрес"
 
-#: blocks/content.py:23
+#: commontail/blocks/content.py:23
 msgid "By the way"
 msgstr "Кстати"
 
-#: blocks/content.py:27 blocks/content.py:72
+#: commontail/blocks/content.py:27 commontail/blocks/content.py:72
 msgid "Body"
 msgstr "Тело"
 
-#: blocks/content.py:36
+#: commontail/blocks/content.py:36
 msgid "Definition"
 msgstr "Определение"
 
-#: blocks/content.py:42
+#: commontail/blocks/content.py:42
 msgid "Description"
 msgstr "Описание"
 
-#: blocks/content.py:59 blocks/embed.py:34 blocks/image.py:41
+#: commontail/blocks/content.py:59 commontail/blocks/embed.py:34
+#: commontail/blocks/image.py:41
 msgid "Size"
 msgstr "Размер"
 
-#: blocks/content.py:61 blocks/content.py:127 models/author.py:41
+#: commontail/blocks/content.py:61 commontail/blocks/content.py:127
+#: commontail/models/author.py:41
 msgid "Text"
 msgstr "Текст"
 
-#: blocks/content.py:68
+#: commontail/blocks/content.py:68
 msgid "Quote"
 msgstr "Цитата"
 
-#: blocks/content.py:78 blocks/embed.py:23 blocks/image.py:29
+#: commontail/blocks/content.py:78 commontail/blocks/embed.py:23
+#: commontail/blocks/image.py:29
 msgid "Caption"
 msgstr "Подпись"
 
-#: blocks/content.py:85 templates/commontail/blocks/quote.html:8
+#: commontail/blocks/content.py:85
+#: commontail/templates/commontail/blocks/quote.html:8
 msgid "Author's comment"
 msgstr "Авторский комментарий"
 
-#: blocks/content.py:86
+#: commontail/blocks/content.py:86
 msgid "If checked, this quote will be marked as page author's comment."
 msgstr "Если отмечено, то эта цитата будет помечена как авторский комментарий."
 
-#: blocks/content.py:94
+#: commontail/blocks/content.py:94
 msgid "If \"Author's comment\" is checked, \"Caption\" must be empty."
-msgstr "Если поле \"Авторский комментарий\" отмечено, поле \"Подпись\" должно оставаться пустым."
+msgstr ""
+"Если поле \"Авторский комментарий\" отмечено, поле \"Подпись\" должно "
+"оставаться пустым."
 
-#: blocks/content.py:97
+#: commontail/blocks/content.py:97
 msgid "\"Caption\" can't be empty while \"Author's comment\" not checked."
-msgstr "Поле \"Подпись\" не может оставаться пустым если поле \"Авторский комментарий\" не отмечено."
+msgstr ""
+"Поле \"Подпись\" не может оставаться пустым если поле \"Авторский комментарий"
+"\" не отмечено."
 
-#: blocks/content.py:110
+#: commontail/blocks/content.py:110
 msgid "HTML"
 msgstr "HTML"
 
-#: blocks/content.py:122
+#: commontail/blocks/content.py:122
 msgid "Term"
 msgstr "Термин"
 
-#: blocks/content.py:125
+#: commontail/blocks/content.py:125
 msgid "Fontawesome icon's name"
 msgstr "Имя иконки Fontawesome"
 
-#: blocks/content.py:141
+#: commontail/blocks/content.py:141
 msgid "Definitions list"
 msgstr "Список определений"
 
-#: blocks/content.py:158
+#: commontail/blocks/content.py:158
 msgid "Paragraph"
 msgstr "Параграф"
 
-#: blocks/embed.py:14
+#: commontail/blocks/embed.py:14
 msgid "Embed"
 msgstr "Внедрённое содержимое"
 
-#: blocks/embed.py:18 blocks/image.py:24
+#: commontail/blocks/embed.py:18 commontail/blocks/image.py:24
 msgid "Left"
 msgstr "Влево"
 
-#: blocks/embed.py:19 blocks/image.py:25
+#: commontail/blocks/embed.py:19 commontail/blocks/image.py:25
 msgid "Center"
 msgstr "По центру"
 
-#: blocks/embed.py:20 blocks/image.py:26
+#: commontail/blocks/embed.py:20 commontail/blocks/image.py:26
 msgid "Right"
 msgstr "Вправо"
 
-#: blocks/embed.py:21 blocks/image.py:27
+#: commontail/blocks/embed.py:21 commontail/blocks/image.py:27
 msgid "Align"
 msgstr "Выравнивание"
 
-#: blocks/embed.py:25
+#: commontail/blocks/embed.py:25
 msgid "Embed URL"
 msgstr "URL внедрённого содержимого"
 
-#: blocks/embed.py:28 blocks/image.py:36
+#: commontail/blocks/embed.py:28 commontail/blocks/image.py:36
 msgid "Small"
 msgstr "Маленький"
 
-#: blocks/embed.py:29 blocks/image.py:37
+#: commontail/blocks/embed.py:29 commontail/blocks/image.py:37
 msgid "Medium"
 msgstr "Средний"
 
-#: blocks/embed.py:30 blocks/image.py:38
+#: commontail/blocks/embed.py:30 commontail/blocks/image.py:38
 msgid "Large"
 msgstr "Большой"
 
-#: blocks/embed.py:31 blocks/image.py:39
+#: commontail/blocks/embed.py:31 commontail/blocks/image.py:39
 msgid "Very large"
 msgstr "Очень большой"
 
-#: blocks/embed.py:32 blocks/image.py:40
+#: commontail/blocks/embed.py:32 commontail/blocks/image.py:40
 msgid "Extra large"
 msgstr "Чрезвычайно большой"
 
-#: blocks/embed.py:33
+#: commontail/blocks/embed.py:33
 msgid "Container's full width"
 msgstr "На полную ширину контейнера"
 
-#: blocks/image.py:14 blocks/image.py:33 blocks/image.py:62
+#: commontail/blocks/image.py:14 commontail/blocks/image.py:33
+#: commontail/blocks/image.py:64
 msgid "Image"
 msgstr "Изображение"
 
-#: blocks/image.py:31
+#: commontail/blocks/image.py:31
 msgid "Hide caption"
 msgstr "Скрыть подпись"
 
-#: blocks/image.py:59
+#: commontail/blocks/image.py:43
+msgid "Forbid original view"
+msgstr "Запретить просмотр оригинала"
+
+#: commontail/blocks/image.py:61
 msgid "Image gallery"
 msgstr "Галерея изображений"
 
-#: blocks/image.py:62
+#: commontail/blocks/image.py:64
 msgid "Images"
 msgstr "Изображения"
 
-#: blocks/links.py:15
+#: commontail/blocks/links.py:15
 msgid "On-page anchor link"
 msgstr "Ссылка на якорь на странице"
 
-#: blocks/links.py:18
+#: commontail/blocks/links.py:18
 msgid "Anchor's ID"
 msgstr "ID якоря"
 
-#: blocks/links.py:27
+#: commontail/blocks/links.py:27
 msgid "Link to a document"
 msgstr "Ссылка на документ"
 
-#: blocks/links.py:30
+#: commontail/blocks/links.py:30
 msgid "Document"
 msgstr "Документ"
 
-#: blocks/links.py:39
+#: commontail/blocks/links.py:39
 msgid "External link"
 msgstr "Внешняя ссылка"
 
-#: blocks/links.py:51
+#: commontail/blocks/links.py:51
 msgid "Link to a page"
 msgstr "Ссылка на страницу"
 
-#: blocks/links.py:56
+#: commontail/blocks/links.py:56
 msgid "Page"
 msgstr "Страница"
 
-#: blocks/links.py:58
+#: commontail/blocks/links.py:58
 msgid "Query string"
 msgstr "Строка запроса"
 
-#: blocks/links.py:65
+#: commontail/blocks/links.py:65
 msgid "Links"
 msgstr "Ссылки"
 
-#: blocks/links.py:81
+#: commontail/blocks/links.py:81
 msgid "Linked materials"
 msgstr "Связанные материалы"
 
-#: importexport/abstract.py:99
+#: commontail/importexport/abstract.py:99
 #, python-format
 msgid ""
 "Page <id:%(item_id)s> - there is no \"%(model)s\" instance for value "
@@ -308,79 +328,80 @@ msgstr ""
 "Страница <id:%(item_id)s> - не найден экземпляр \"%(model)s\" для значения "
 "\"%(value)s\" и выражения поиска \"%(lookup)s\"."
 
-#: importexport/abstract.py:106
+#: commontail/importexport/abstract.py:106
 #, python-format
 msgid ""
 "Page <id:%(item_id)s> - there are multiple \"%(model)s\" instances for value "
 "\"%(value)s\" and lookup expression \"%(lookup)s\"."
 msgstr ""
-"Страница <id:%(item_id)s> - обнаружены множественные экземпляры \"%(model)s\" для значения "
-"\"%(value)s\" и выражения поиска \"%(lookup)s\"."
+"Страница <id:%(item_id)s> - обнаружены множественные экземпляры \"%(model)s"
+"\" для значения \"%(value)s\" и выражения поиска \"%(lookup)s\"."
 
-#: importexport/abstract.py:126
+#: commontail/importexport/abstract.py:126
 #, python-format
 msgid ""
 "Page <id:%(item_id)s> - attribute \"%(attr_name)s\" range has at least one "
 "non-numeric value - no updates will be made."
 msgstr ""
-"Страница <id:%(item_id)s> - диапазон атрибута \"%(attr_name)s\" включает как минимум одно "
-"нечисловое значение - обновление не осуществляется."
+"Страница <id:%(item_id)s> - диапазон атрибута \"%(attr_name)s\" включает как "
+"минимум одно нечисловое значение - обновление не осуществляется."
 
-#: importexport/abstract.py:145
+#: commontail/importexport/abstract.py:145
 #, python-format
 msgid ""
 "Page <id:%(item_id)s> - attribute \"%(attr_name)s\" is not a float - no "
 "updates will be made."
 msgstr ""
-"Страница <id:%(item_id)s> - атрибут \"%(attr_name)s\" не является числом с плавающей точкой - "
-"обновление не осуществляется."
+"Страница <id:%(item_id)s> - атрибут \"%(attr_name)s\" не является числом с "
+"плавающей точкой - обновление не осуществляется."
 
-#: importexport/abstract.py:161
+#: commontail/importexport/abstract.py:161
 #, python-format
 msgid ""
 "Page <id:%(item_id)s> - attribute \"%(attr_name)s\" range has at least one "
 "non-integer value - no updates will be made."
 msgstr ""
-"Страница <id:%(item_id)s> - диапазон атрибута \"%(attr_name)s\" включает как минимум одно "
-"нецелочисленное значение - обновление не осуществляется."
+"Страница <id:%(item_id)s> - диапазон атрибута \"%(attr_name)s\" включает как "
+"минимум одно нецелочисленное значение - обновление не осуществляется."
 
-#: importexport/abstract.py:180
+#: commontail/importexport/abstract.py:180
 #, python-format
 msgid ""
 "Page <id:%(item_id)s> - attribute \"%(attr_name)s\" is not an integer - no "
 "updates will be made."
 msgstr ""
-"Страница <id:%(item_id)s> - атрибут \"%(attr_name)s\" не является целым числом - "
-"обновление не осуществляется."
+"Страница <id:%(item_id)s> - атрибут \"%(attr_name)s\" не является целым "
+"числом - обновление не осуществляется."
 
-#: importexport/abstract.py:203
+#: commontail/importexport/abstract.py:203
 #, python-format
 msgid ""
 "Page <id:%(item_id)s> - relation \"%(attr_name)s\" changed from \"%(data)s\" "
 "to \"[]\"."
 msgstr ""
-"Страница <id:%(item_id)s> - отношение \"%(attr_name)s\" изменено с \"%(data)s\" "
-"на \"[]\"."
+"Страница <id:%(item_id)s> - отношение \"%(attr_name)s\" изменено с \"%(data)s"
+"\" на \"[]\"."
 
-#: importexport/abstract.py:218
+#: commontail/importexport/abstract.py:218
 #, python-format
 msgid ""
 "Page <id:%(item_id)s> - at least one instance of \"%(model)s\" for relation "
 "\"%(attr_name)s\" is missing - no updates will be made."
 msgstr ""
-"Страница <id:%(item_id)s> - отсутствует как минимум один экземпляр \"%(model)s\" для отношения "
-"\"%(attr_name)s\" - обновление не осуществляется."
+"Страница <id:%(item_id)s> - отсутствует как минимум один экземпляр "
+"\"%(model)s\" для отношения \"%(attr_name)s\" - обновление не осуществляется."
 
-#: importexport/abstract.py:225
+#: commontail/importexport/abstract.py:225
 #, python-format
 msgid ""
 "Page <id:%(item_id)s> - at least once multiple \"%(model)s\" instances for "
 "relation \"%(attr_name)s\" was found - no updates will be made."
 msgstr ""
-"Страница <id:%(item_id)s> - как минимум единожды для отношения \"%(attr_name)s\" "
-"были найдены множественные экземпляры \"%(model)s\" - обновление не осуществляется."
+"Страница <id:%(item_id)s> - как минимум единожды для отношения "
+"\"%(attr_name)s\" были найдены множественные экземпляры \"%(model)s\" - "
+"обновление не осуществляется."
 
-#: importexport/abstract.py:236
+#: commontail/importexport/abstract.py:236
 #, python-format
 msgid ""
 "Page <id:%(item_id)s> - relation \"%(attr_name)s\" changed from "
@@ -389,7 +410,7 @@ msgstr ""
 "Страница <id:%(item_id)s> - отношение \"%(attr_name)s\" изменено с "
 "\"%(old_value)s\" на \"%(new_value)s\"."
 
-#: importexport/abstract.py:277
+#: commontail/importexport/abstract.py:277
 #, python-format
 msgid ""
 "Page <id:%(item_id)s> - attribute \"%(attr_name)s\" changed from "
@@ -398,565 +419,583 @@ msgstr ""
 "Страница <id:%(item_id)s> - атрибут \"%(attr_name)s\" изменён с "
 "\"%(item_value)s\" на \"%(value)s\"."
 
-#: importexport/abstract.py:286
+#: commontail/importexport/abstract.py:286
 #, python-format
 msgid ""
 "Page <id:%(item_id)s> - title changed, maybe you should change slug too and "
 "create a redirect."
 msgstr ""
-"Страница <id:%(item_id)s> - заголовок изменился, возможно стоит также изменить слаг "
-"и создать перенаправление."
+"Страница <id:%(item_id)s> - заголовок изменился, возможно стоит также "
+"изменить слаг и создать перенаправление."
 
-#: importexport/abstract.py:294
+#: commontail/importexport/abstract.py:294
 #, python-format
 msgid ""
 "Page <id:%(item_id)s> - slug changed, maybe you should create a redirect."
 msgstr ""
-"Страница <id:%(item_id)s> - слаг изменился, возможно стоит создать перенаправление."
+"Страница <id:%(item_id)s> - слаг изменился, возможно стоит создать "
+"перенаправление."
 
-#: importexport/abstract.py:300
+#: commontail/importexport/abstract.py:300
 #, python-format
 msgid ""
 "Page <id:%(item_id)s> - attribute \"%(attr_name)s\" not set - skipping..."
 msgstr ""
-"Страница <id:%(item_id)s> - атрибут \"%(attr_name)s\" не установлен - пропускаю..."
+"Страница <id:%(item_id)s> - атрибут \"%(attr_name)s\" не установлен - "
+"пропускаю..."
 
-#: importexport/models.py:17
+#: commontail/importexport/models.py:17
 msgid "file"
 msgstr "файл"
 
-#: importexport/models.py:22
+#: commontail/importexport/models.py:22
 msgid "simulation"
 msgstr "симуляция"
 
-#: importexport/models.py:35
+#: commontail/importexport/models.py:35
 msgid "first row with data"
 msgstr "первая строка с данными"
 
-#: importexport/models.py:39
+#: commontail/importexport/models.py:39
 msgid "ID column"
 msgstr "столбец с идентификатором"
 
-#: importexport/models.py:45
+#: commontail/importexport/models.py:45
 msgid "last row with data"
 msgstr "последняя строка с данными"
 
-#: importexport/models.py:61
+#: commontail/importexport/models.py:61
 msgid "parent page"
 msgstr "родительская страница"
 
-#: importexport/spreadsheet.py:34 models/banner.py:57 models/banner.py:112
-#: models/hint.py:38 models/links.py:239 models/links.py:275
+#: commontail/importexport/spreadsheet.py:34 commontail/models/banner.py:56
+#: commontail/models/banner.py:111 commontail/models/hint.py:38
+#: commontail/models/links.py:237 commontail/models/links.py:273
 msgid "title"
 msgstr "заголовок"
 
-#: importexport/spreadsheet.py:35
+#: commontail/importexport/spreadsheet.py:35
 msgid "slug"
 msgstr "слаг"
 
-#: importexport/spreadsheet.py:70
+#: commontail/importexport/spreadsheet.py:70
 msgid "openpyxl needed to work with spreadsheet files."
 msgstr "Для работы с табличными файлами необходим openpyxl."
 
-#: importexport/spreadsheet.py:96
+#: commontail/importexport/spreadsheet.py:96
 msgid "THIS IS A SIMULATION - NO CHANGES WERE MADE."
 msgstr "ЭТО СИМУЛЯЦИЯ - НИКАКИЕ РЕАЛЬНЫЕ ИЗМЕНЕНИЯ ВНОСИТЬСЯ НЕ БУДУТ."
 
-#: importexport/spreadsheet.py:123
+#: commontail/importexport/spreadsheet.py:123
 #, python-format
 msgid "Page <id:%(item_id)s> - errors while updating: \"%(errors)s\"."
 msgstr "Страница <id:%(item_id)s> - ошибки при обновлении: \"%(errors)s\"."
 
-#: importexport/spreadsheet.py:156
+#: commontail/importexport/spreadsheet.py:156
 #, python-format
 msgid "Page <id:%(item_id)s> already exists - skipping..."
 msgstr "Страница <id:%(item_id)s> уже существует - пропускаю..."
 
-#: importexport/spreadsheet.py:165
+#: commontail/importexport/spreadsheet.py:165
 #, python-format
 msgid ""
 "Page <id:%(item_id)s> with class \"%(page_class)s\" could not be created "
 "with parent \"%(parent_class)s\"."
 msgstr ""
-"Страница <id:%(item_id)s> класса \"%(page_class)s\" не может быть создана "
-"с родителем \"%(parent_class)s\"."
+"Страница <id:%(item_id)s> класса \"%(page_class)s\" не может быть создана с "
+"родителем \"%(parent_class)s\"."
 
-#: importexport/spreadsheet.py:225
+#: commontail/importexport/spreadsheet.py:225
 #, python-format
 msgid "Page <id:%(item_id)s> not found."
 msgstr "Страница <id:%(item_id)s> не найдена."
 
-#: models/author.py:36
+#: commontail/models/author.py:36
 msgid "Not a user"
 msgstr "Не пользователь"
 
-#: models/author.py:39
+#: commontail/models/author.py:39 commontail/models/author.py:128
 msgid "e-mail"
 msgstr "электронная почта"
 
-#: models/author.py:50
+#: commontail/models/author.py:50
 msgid "URL or e-mail may be used - but not both of them at once."
 msgstr "Можно использовать URL или электронную почту - но не оба поля сразу."
 
-#: models/author.py:88
+#: commontail/models/author.py:122 commontail/models/author.py:201
+#: commontail/models/author.py:244
 msgid "author"
 msgstr "автор"
 
-#: models/author.py:89
+#: commontail/models/author.py:123
 msgid "authors"
 msgstr "авторы"
 
-#: models/author.py:93
+#: commontail/models/author.py:127
 msgid "Author's public e-mail."
 msgstr "Публичный адрес электронной почты автора."
 
-#: models/author.py:98
+#: commontail/models/author.py:132
 msgid "Author's first name."
 msgstr "Имя автора"
 
-#: models/author.py:100
+#: commontail/models/author.py:134
 msgid "first name"
 msgstr "имя"
 
-#: models/author.py:104
+#: commontail/models/author.py:138
 msgid "Author's last name."
 msgstr "Фамилия автора"
 
-#: models/author.py:106
+#: commontail/models/author.py:140
 msgid "last name"
 msgstr "фамилия"
 
-#: models/author.py:142
+#: commontail/models/author.py:194
 msgid "author home page"
 msgstr "домашняя страница автора"
 
-#: models/author.py:143
+#: commontail/models/author.py:195
 msgid "authors home pages"
 msgstr "домашние страницы авторов"
 
-#: models/author.py:185 models/author.py:213
-msgid "Author"
-msgstr "Автор"
-
-#: models/author.py:189
-msgid "signature data"
-msgstr "Данные для подписи"
-
-#: models/author.py:194
-msgid "original publication URL"
-msgstr "URL оригинальной публикации"
-
-#: models/author.py:199
-msgid "use page owner as an author"
-msgstr "использовать владельца страницы как автора"
-
-#: models/author.py:245
-msgid "Proceed to author's home page"
-msgstr "Перейти на домашнюю страницу автора"
-
-#: models/banner.py:30 models/banner.py:159
-msgid "banner"
-msgstr "баннер"
-
-#: models/banner.py:31
-msgid "banners"
-msgstr "баннеры"
-
-#: models/banner.py:36
-msgid "active since"
-msgstr "активен с"
-
-#: models/banner.py:42
-msgid "active to"
-msgstr "активен по"
-
-#: models/banner.py:47
-msgid "enabled"
-msgstr "включён"
-
-#: models/banner.py:55 models/banner.py:110 models/hint.py:36
-msgid "Title to use in administrative area."
-msgstr "Заголовок для использования в административном разделе."
-
-#: models/banner.py:64 models/links.py:215
-msgid "image"
-msgstr "изображение"
-
-#: models/banner.py:100 models/banner.py:166
-msgid "banners set"
-msgstr "набор баннеров"
-
-#: models/banner.py:101
-msgid "banners sets"
-msgstr "наборы баннеров"
-
-#: models/banner.py:106
-msgid "duration"
-msgstr "длительность"
-
-#: models/banner.py:129
-msgid "Items"
-msgstr "Элементы"
-
-#: models/contacts.py:27
-msgid "Data set title"
-msgstr "Заголовок набора данных"
-
-#: models/contacts.py:30
-msgid "Contact data"
-msgstr "Контактные данные"
-
-#: models/contacts.py:34
-msgid "contacts"
-msgstr "контакты"
-
-#: models/counter.py:22
-#: templates/commontail/includes/pagination_aware_title.html:3
+#: commontail/models/author.py:208 commontail/models/author.py:251
+#: commontail/models/counter.py:22
+#: commontail/templates/commontail/includes/pagination_aware_title.html:3
 msgid "page"
 msgstr "страница"
 
-#: models/counter.py:27 templates/commontail/includes/publication_meta.html:5
+#: commontail/models/author.py:216 commontail/models/author.py:258
+#: commontail/models/utils.py:30
+msgid "site"
+msgstr "сайт"
+
+#: commontail/models/author.py:277 commontail/models/author.py:306
+#: commontail/models/publication.py:131
+msgid "Author"
+msgstr "Автор"
+
+#: commontail/models/author.py:282
+msgid "signature data"
+msgstr "Данные для подписи"
+
+#: commontail/models/author.py:287
+msgid "original publication URL"
+msgstr "URL оригинальной публикации"
+
+#: commontail/models/author.py:292
+msgid "use page owner as an author"
+msgstr "использовать владельца страницы как автора"
+
+#: commontail/models/author.py:323
+msgid "Proceed to author's home page"
+msgstr "Перейти на домашнюю страницу автора"
+
+#: commontail/models/banner.py:29 commontail/models/banner.py:158
+msgid "banner"
+msgstr "баннер"
+
+#: commontail/models/banner.py:30
+msgid "banners"
+msgstr "баннеры"
+
+#: commontail/models/banner.py:35
+msgid "active since"
+msgstr "активен с"
+
+#: commontail/models/banner.py:41
+msgid "active to"
+msgstr "активен по"
+
+#: commontail/models/banner.py:46
+msgid "enabled"
+msgstr "включён"
+
+#: commontail/models/banner.py:54 commontail/models/banner.py:109
+#: commontail/models/hint.py:36
+msgid "Title to use in administrative area."
+msgstr "Заголовок для использования в административном разделе."
+
+#: commontail/models/banner.py:63 commontail/models/links.py:213
+msgid "image"
+msgstr "изображение"
+
+#: commontail/models/banner.py:99 commontail/models/banner.py:165
+msgid "banners set"
+msgstr "набор баннеров"
+
+#: commontail/models/banner.py:100
+msgid "banners sets"
+msgstr "наборы баннеров"
+
+#: commontail/models/banner.py:105
+msgid "duration"
+msgstr "длительность"
+
+#: commontail/models/banner.py:128
+msgid "Items"
+msgstr "Элементы"
+
+#: commontail/models/contacts.py:27
+msgid "Data set title"
+msgstr "Заголовок набора данных"
+
+#: commontail/models/contacts.py:30
+msgid "Contact data"
+msgstr "Контактные данные"
+
+#: commontail/models/contacts.py:35
+msgid "contacts"
+msgstr "контакты"
+
+#: commontail/models/counter.py:27
+#: commontail/templates/commontail/includes/publication_meta.html:5
 msgid "views count"
 msgstr "количество просмотров"
 
-#: models/glossary.py:55
+#: commontail/models/glossary.py:55
 msgid "Definitions"
 msgstr "Определения"
 
-#: models/glossary.py:97
+#: commontail/models/glossary.py:97
 msgid "description"
 msgstr "описание"
 
-#: models/glossary.py:103
+#: commontail/models/glossary.py:104
 msgid "additional links"
 msgstr "дополнительные ссылки"
 
-#: models/glossary.py:109
+#: commontail/models/glossary.py:110
 msgid "term"
 msgstr "термин"
 
-#: models/hint.py:19
+#: commontail/models/hint.py:19
 msgid "hint"
 msgstr "подсказка"
 
-#: models/hint.py:20
+#: commontail/models/hint.py:20
 msgid "hints"
 msgstr "подсказки"
 
-#: models/hint.py:25 models/publication.py:99
+#: commontail/models/hint.py:25 commontail/models/page.py:281
 msgid "summary"
 msgstr "краткое содержание"
 
-#: models/hint.py:32
+#: commontail/models/hint.py:32
 msgid "text"
 msgstr "текст"
 
-#: models/links.py:31
+#: commontail/models/links.py:29
 msgid "e-mail address"
 msgstr "адрес электронной почты"
 
-#: models/links.py:33
+#: commontail/models/links.py:31
 msgid "E-mail address to be used as a link."
 msgstr "Адрес электронной почты для использования в качестве ссылки."
 
-#: models/links.py:38
+#: commontail/models/links.py:36
 msgid "link to a document"
 msgstr "ссылка на документ"
 
-#: models/links.py:43
+#: commontail/models/links.py:41
 msgid "Link to a document on this site."
 msgstr "Ссылка на документ на этом сайте."
 
-#: models/links.py:47
+#: commontail/models/links.py:45
 msgid "external link"
 msgstr "внешняя ссылка"
 
-#: models/links.py:54
+#: commontail/models/links.py:52
 msgid "link to a page"
 msgstr "ссылка на страницу"
 
-#: models/links.py:59
+#: commontail/models/links.py:57
 msgid "Link to a page on this site. \"Query string\" field may be used."
-msgstr "Ссылка на страницу на этом сайте. Может использоваться поле \"Строка запроса\"."
+msgstr ""
+"Ссылка на страницу на этом сайте. Может использоваться поле \"Строка запроса"
+"\"."
 
-#: models/links.py:64
+#: commontail/models/links.py:62
 msgid "query string for a page link"
 msgstr "строка запроса для ссылки на страницу"
 
-#: models/links.py:66
+#: commontail/models/links.py:64
 msgid "Query string parameters without opening ?."
 msgstr "Параметры строки запроса без открывающего символа ?."
 
-#: models/links.py:92
+#: commontail/models/links.py:90
 msgid "One link must be set."
 msgstr "Должна быть установлена только одна ссылка."
 
-#: models/links.py:94
+#: commontail/models/links.py:92
 msgid "Only one link may be set - choose it and remove others."
-msgstr "Должна быть установлена только одна ссылка - выберите нужную и удалите остальные."
+msgstr ""
+"Должна быть установлена только одна ссылка - выберите нужную и удалите "
+"остальные."
 
-#: models/links.py:103
+#: commontail/models/links.py:101
 msgid "Query string may be used with page links only."
 msgstr "Строка запроса может использоваться только со ссылками на страницу."
 
-#: models/links.py:116
+#: commontail/models/links.py:114
 msgid "link's text"
 msgstr "текст ссылки"
 
-#: models/links.py:119
+#: commontail/models/links.py:117
 msgid ""
 "Link's text. Required for external links only. May be used as substitute "
 "text with page and document links."
 msgstr ""
-"Текст ссылки. Обязателен только для внешних ссылок. Может использоваться как замещающий "
-"текст со ссылками на страницы и документы."
+"Текст ссылки. Обязателен только для внешних ссылок. Может использоваться как "
+"замещающий текст со ссылками на страницы и документы."
 
-#: models/links.py:150
+#: commontail/models/links.py:148
 msgid "This field is required with external links."
 msgstr "Это поле необходимо заполнить для внешних ссылок."
 
-#: models/links.py:161
+#: commontail/models/links.py:159
 msgid "linked document"
 msgstr "связанный документ"
 
-#: models/links.py:162
+#: commontail/models/links.py:160
 msgid "linked documents"
 msgstr "связанные документы"
 
-#: models/links.py:166
+#: commontail/models/links.py:164
 msgid "document"
 msgstr "документ"
 
-#: models/links.py:169
+#: commontail/models/links.py:167
 msgid "Document on this site."
 msgstr "Документ на этом сайте."
 
-#: models/links.py:173 models/links.py:222 models/links.py:334
+#: commontail/models/links.py:171 commontail/models/links.py:220
+#: commontail/models/links.py:332
 msgid "allow inheritance"
 msgstr "разрешить наследование"
 
-#: models/links.py:210
+#: commontail/models/links.py:208
 msgid "linked image"
 msgstr "связанное изображение"
 
-#: models/links.py:211
+#: commontail/models/links.py:209
 msgid "linked_images"
 msgstr "связанные изображения"
 
-#: models/links.py:218
+#: commontail/models/links.py:216
 msgid "Image on this site."
 msgstr "Изображение на этом сайте."
 
-#: models/links.py:235
+#: commontail/models/links.py:233
 msgid "category of a page-to-page link"
 msgstr "категория ссылки страница-на-страницу"
 
-#: models/links.py:236
+#: commontail/models/links.py:234
 msgid "categories of page-to-page links"
 msgstr "категории ссылок страница-на-страницу"
 
-#: models/links.py:271
+#: commontail/models/links.py:269
 msgid "page-to-page link categories group"
 msgstr "группа категорий ссылок страница-на-страницу"
 
-#: models/links.py:272
+#: commontail/models/links.py:270
 msgid "page-to-page link categories groups"
 msgstr "группы категорий ссылок страница-на-страницу"
 
-#: models/links.py:280 models/utils.py:23
+#: commontail/models/links.py:278 commontail/models/utils.py:23
 msgid "handle"
 msgstr "псевдоним"
 
-#: models/links.py:288
+#: commontail/models/links.py:286
 msgid "Categories"
 msgstr "Категории"
 
-#: models/links.py:304 models/links.py:330
+#: commontail/models/links.py:302 commontail/models/links.py:328
 msgid "category"
 msgstr "категория"
 
-#: models/links.py:311
+#: commontail/models/links.py:309
 msgid "group"
 msgstr "группа"
 
-#: models/links.py:323
+#: commontail/models/links.py:321
 msgid "page-to-page link"
 msgstr "ссылка страница-на-страницу"
 
-#: models/links.py:324
+#: commontail/models/links.py:322
 msgid "page-to-page links"
 msgstr "ссылки страница-на-страницу"
 
-#: models/links.py:342
+#: commontail/models/links.py:340
 msgid "target page"
 msgstr "целевая страница"
 
-#: models/menu.py:43
+#: commontail/models/menu.py:43
 msgid "Menu subcategory items"
 msgstr "Элементы подкатегории меню"
 
-#: models/menu.py:56
+#: commontail/models/menu.py:56
 msgid "Menu subcategory"
 msgstr "Подкатегория меню"
 
-#: models/menu.py:59
+#: commontail/models/menu.py:59
 msgid "Menu subcategory title"
 msgstr "Заголовок подкатегории меню"
 
-#: models/menu.py:71
+#: commontail/models/menu.py:71
 msgid "Menu category items"
 msgstr "Элементы категории меню"
 
-#: models/menu.py:80
+#: commontail/models/menu.py:80
 msgid "Menu category"
 msgstr "Категория меню"
 
-#: models/menu.py:83
+#: commontail/models/menu.py:83
 msgid "Menu category title"
 msgstr "Заголовок категории меню"
 
-#: models/menu.py:105
+#: commontail/models/menu.py:106
 msgid "Menu items"
 msgstr "Элементы меню"
 
-#: models/namedreference.py:19
+#: commontail/models/namedreference.py:19
 msgid "named reference"
 msgstr "именная ссылка"
 
-#: models/namedreference.py:20
+#: commontail/models/namedreference.py:20
 msgid "named references"
 msgstr "именные ссылки"
 
-#: models/page.py:96
+#: commontail/models/page.py:174
 msgid "page body"
 msgstr "тело страницы"
 
-#: models/publication.py:92
-msgid "pinned"
-msgstr "закреплено"
-
-#: models/publication.py:97
-msgid "Short description to be used as announce."
-msgstr "Короткое описание для использование в качестве анонса."
-
-#: models/publication.py:105
+#: commontail/models/page.py:255
 msgid "Image from library to be shown in announce."
 msgstr "Изображение из библиотеки для отображения в анонсе."
 
-#: models/publication.py:109
+#: commontail/models/page.py:259
 msgid "announce image"
 msgstr "изображение для анонса"
 
-#: models/settings.py:25 models/settings.py:26
+#: commontail/models/page.py:279
+msgid "Short description to be used as announce."
+msgstr "Короткое описание для использование в качестве анонса."
+
+#: commontail/models/publication.py:89
+msgid "pinned"
+msgstr "закреплено"
+
+#: commontail/models/settings.py:25 commontail/models/settings.py:26
 msgid "common"
 msgstr "общие"
 
-#: models/settings.py:31
+#: commontail/models/settings.py:31
 msgid "main logo"
 msgstr "основной логотип"
 
-#: models/settings.py:40
+#: commontail/models/settings.py:40
 msgid "square logo"
 msgstr "квадратный логотип"
 
-#: models/settings.py:49
+#: commontail/models/settings.py:49
 msgid "printable docs background"
 msgstr "фон для печатаемых документов"
 
-#: models/settings.py:171
+#: commontail/models/settings.py:171
 msgid "items per page"
 msgstr "элементов на странице"
 
-#: models/settings.py:173
+#: commontail/models/settings.py:173
 msgid "Items quantity per index page."
 msgstr "Количество элементов на странице индекса."
 
-#: models/utils.py:21
+#: commontail/models/utils.py:21
 msgid "Must be unique per site, will be used as a reference by rendering tag."
-msgstr "Должен быть уникальным в пределах сайта, будет использоваться соответствующим тегом для рендеринга."
+msgstr ""
+"Должен быть уникальным в пределах сайта, будет использоваться "
+"соответствующим тегом для рендеринга."
 
-#: models/utils.py:30
-msgid "site"
-msgstr "сайт"
-
-#: templates/commontail/admin/export_form.html:35
-#: templates/commontail/admin/export_index.html:5 wagtail_hooks.py:136
+#: commontail/templates/commontail/admin/export_form.html:35
+#: commontail/templates/commontail/admin/export_index.html:5
+#: commontail/wagtail_hooks.py:136
 msgid "Export"
 msgstr "Экспорт"
 
-#: templates/commontail/admin/export_index.html:18
+#: commontail/templates/commontail/admin/export_index.html:18
 msgid "There are no exporters loaded."
 msgstr "Не загружено ни одного экспортёра."
 
-#: templates/commontail/admin/import_form.html:28
+#: commontail/templates/commontail/admin/import_form.html:28
 msgid "Processed pages"
 msgstr "Обработано страниц"
 
-#: templates/commontail/admin/import_form.html:29
+#: commontail/templates/commontail/admin/import_form.html:29
 msgid "Imported pages"
 msgstr "Импортировано страниц"
 
-#: templates/commontail/admin/import_form.html:31
+#: commontail/templates/commontail/admin/import_form.html:31
 msgid "Warnings"
 msgstr "Предупреждения"
 
-#: templates/commontail/admin/import_form.html:37
+#: commontail/templates/commontail/admin/import_form.html:37
 msgid "Errors"
 msgstr "Ошибки"
 
-#: templates/commontail/admin/import_form.html:54
-#: templates/commontail/admin/import_index.html:5 wagtail_hooks.py:130
+#: commontail/templates/commontail/admin/import_form.html:54
+#: commontail/templates/commontail/admin/import_index.html:5
+#: commontail/wagtail_hooks.py:130
 msgid "Import"
 msgstr "Импорт"
 
-#: templates/commontail/admin/import_index.html:18
+#: commontail/templates/commontail/admin/import_index.html:18
 msgid "There are no importers loaded."
 msgstr "Не загружено ни одного импортёра."
 
-#: templates/commontail/blocks/heading.html:4
-#: templates/commontail/blocks/heading.html:6
-#: templates/commontail/blocks/heading.html:8
+#: commontail/templates/commontail/blocks/heading.html:4
+#: commontail/templates/commontail/blocks/heading.html:6
+#: commontail/templates/commontail/blocks/heading.html:8
 msgid "Back to the table of contents"
 msgstr "Назад к содержанию"
 
-#: templates/commontail/includes/glossary.html:17
+#: commontail/templates/commontail/includes/glossary.html:17
 msgid "Direct link to this term"
 msgstr "Прямая ссылка на этот термин"
 
-#: templates/commontail/includes/glossary.html:21
+#: commontail/templates/commontail/includes/glossary.html:21
 msgid "See also"
 msgstr "Смотрите также"
 
-#: templates/commontail/includes/published_updated.html:3
+#: commontail/templates/commontail/includes/published_updated.html:3
 msgid "Published at"
 msgstr "Опубликовано"
 
-#: templates/commontail/includes/published_updated.html:3
+#: commontail/templates/commontail/includes/published_updated.html:3
 msgid "updated at"
 msgstr "обновлено"
 
-#: templates/commontail/includes/toc_base.html:4
+#: commontail/templates/commontail/includes/toc_base.html:4
 msgid "Table of contents"
 msgstr "Содержание"
 
-#: views/admin.py:88
+#: commontail/views/admin.py:88
 #, python-format
 msgid "Importer for %(url_suffix)s not found."
 msgstr "Импортёр для %(url_suffix)s не найден."
 
-#: views/admin.py:142
+#: commontail/views/admin.py:142
 #, python-format
 msgid "Exporter for %(url_suffix)s not found."
 msgstr "Экспортёр для %(url_suffix)s не найден."
 
-#: views/cache.py:21
+#: commontail/views/cache.py:21
 msgid "Page cache cleared."
 msgstr "Кэш страницы очищен."
 
-#: wagtail_hooks.py:50
+#: commontail/wagtail_hooks.py:50
 msgid "Publications"
 msgstr "Публикации"
 
-#: wagtail_hooks.py:69
+#: commontail/wagtail_hooks.py:69
 msgid "Clear cache"
 msgstr "Очистить кэш"

@@ -40,12 +40,14 @@ class ImageBlock(blocks.StructBlock):
         ('xxlarge', _('Extra large')),
     ], default='medium', required=True, label=_('Size'))
 
+    forbid_original_view = blocks.BooleanBlock(required=False, label=_('Forbid original view'))
+
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context)
         context.update({
-            'allow_fullsize_view': value['image'].width > getattr(self, 'IMAGE_WIDTH_{}'.format(
-                value['size'].upper()
-            )),
+            'allow_fullsize_view': (value['image'].width > getattr(self, 'IMAGE_WIDTH_{}'.format(
+                value['size'].upper())
+            )) and not value['forbid_original_view'],
             'size': value['size']
         })
 
