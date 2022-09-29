@@ -999,3 +999,7 @@ msgstr "Публикации"
 #: commontail/wagtail_hooks.py:69
 msgid "Clear cache"
 msgstr "Очистить кэш"
+
+#: commontail/templates/commontail/contact.html:16
+msgid "In social networks"
+msgstr "В социальных сетях"
