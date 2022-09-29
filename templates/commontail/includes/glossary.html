@@ -14,7 +14,7 @@
             <h3 id="letter{{ counter }}">{{ item.term.0|upper }}</h3>
             <dl class="uk-description-list glossary-list">
         {% endifchanged %}
-        <dt id="item{{ item.id }}">{{ item.term }}<sup class="link-icon"><a href="{{ self.full_url }}#item{{ item.id }}" title="{% translate 'Direct link to this term' %}"><i class="far fa-link"></i></a></sup></dt>
+        <dt id="item{{ item.id }}">{{ item.term }}<sup class="link-icon"><a href="{{ self.full_url }}#item{{ item.id }}" title="{% translate 'Direct link to this term' %}"><i class="fa-regular fa-link"></i></a></sup></dt>
         <dd>
             {{ item.description|richtext }}
             {% if item.links %}
