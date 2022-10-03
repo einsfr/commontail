@@ -147,7 +147,7 @@ class AbstractBaseIndexPage(AbstractPaginationAwarePage, AbstractBasePage):
         filters_form: Optional[forms.BaseForm]
         try:
             filters_form = self.get_filters_form(request)(request.GET)
-        except TypeError:
+        except TypeError:  # if get_filters_form returns None, which is not callable
             filters_form = None
 
         filters: Optional[Union[Dict, models.Q, Iterable[models.Q]]]
