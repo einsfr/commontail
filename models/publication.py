@@ -1,4 +1,4 @@
-from typing import Optional, Type, Dict, Tuple, Union, Iterable
+from typing import Optional, Type, Dict, Union, Iterable
 
 from django import forms
 from django.db import models
@@ -6,6 +6,8 @@ from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin.panels import FieldPanel
+from wagtail.embeds.embeds import get_embed, Embed
+from wagtail.embeds.exceptions import EmbedException
 from wagtail.models import Site, Page, PageManager, PageQuerySet
 from wagtail.images.models import AbstractRendition
 
@@ -16,7 +18,8 @@ from .settings import get_logo_rendition
 from .structureddata import AbstractStructuredDataProvider
 
 
-__all__ = ['AbstractPublicationPage', 'AbstractPublicationIndexPage', 'PublicationStructuredDataProvider', ]
+__all__ = ['AbstractPublicationPage', 'AbstractPublicationMediaPage', 'AbstractPublicationIndexPage',
+           'PublicationStructuredDataProvider', ]
 
 
 class PublicationStructuredDataProvider(AbstractStructuredDataProvider):
@@ -102,6 +105,40 @@ class AbstractPublicationPage(AbstractViewsCountablePage, AbstractAuthorSignatur
     structured_data_providers = AbstractContentStreamPage.structured_data_providers + [
         PublicationStructuredDataProvider,
     ]
+
+
+class AbstractPublicationMediaPage(AbstractPublicationPage):
+
+    class Meta:
+        abstract = True
+
+    media_url = models.URLField(
+        verbose_name=_('media URL'),
+    )
+
+    media_embed_max_width: int = 640
+
+    media_embed_max_height: int = 360
+
+    content_panels = [
+        FieldPanel('media_url'),
+    ]
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        embedded_media: Optional[Embed]
+        try:
+            embedded_media = get_embed(self.media_url, max_width=self.media_embed_max_width,
+                                       max_height=self.media_embed_max_height)
+        except EmbedException:
+            embedded_media = None
+
+        context.update({
+            'media': embedded_media,
+        })
+
+        return context
 
 
 class AbstractPublicationIndexPage(AbstractBaseIndexPage):
