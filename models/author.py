@@ -309,7 +309,7 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
     def signature_format_other_author(value: dict) -> FormattedSignatureData:
         return FormattedSignatureData(
             '', value['text'],
-            value['url'] if value['url'] else f'mailto:{value["email"] if value["email"] else ""}', None
+            value['url'] if value['url'] else f'mailto:{value["email"]}' if value['email'] else '', None
         )
 
     @staticmethod
