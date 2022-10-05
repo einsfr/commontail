@@ -9,7 +9,7 @@ COMMONTAIL_BREADCRUMBS_CACHE_LIFETIME: int = 3600
 
 COMMONTAIL_CONTENT_STREAM_PAGE_BODY_BLOCK: str = 'commontail.blocks.ContentStreamBlock'
 
-COMMONTAIL_EMBED_PLAYER_CONTENT_TYPES: List[str] = ['video/mp4', 'video/webm']
+COMMONTAIL_EMBED_PLAYER_CONTENT_TYPES: List[str] = ['video/mp4', 'video/webm', 'application/octet-stream']
 COMMONTAIL_EMBED_PLAYER_URL_PATTERNS: Optional[List[str]] = None
 
 COMMONTAIL_FAVICON_ICO_STATIC_PATH: str = 'img/favicon.ico'
