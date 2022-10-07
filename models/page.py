@@ -132,7 +132,7 @@ class AbstractBaseIndexPage(AbstractPaginationAwarePage, AbstractBasePage):
         return
 
     def get_items_queryset_order(self) -> Union[Tuple, List]:
-        items_meta_ordering: Union[Tuple[Any], List[Any]] = getattr(self.get_items_class().Meta, 'ordering', None)
+        items_meta_ordering: Union[Tuple[Any], List[Any]] = getattr(self.get_items_class()._meta, 'ordering', None)
         if items_meta_ordering:
             return items_meta_ordering
 
