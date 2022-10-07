@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-16 18:02+0300\n"
+"POT-Creation-Date: 2022-10-07 19:57+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -514,7 +514,7 @@ msgstr "Страница <id:%(item_id)s> не найдена."
 msgid "Not a user"
 msgstr "Не пользователь"
 
-#: commontail/models/author.py:39 commontail/models/author.py:128
+#: commontail/models/author.py:39 commontail/models/author.py:126
 msgid "e-mail"
 msgstr "электронная почта"
 
@@ -522,72 +522,72 @@ msgstr "электронная почта"
 msgid "URL or e-mail may be used - but not both of them at once."
 msgstr "Можно использовать URL или электронную почту - но не оба поля сразу."
 
-#: commontail/models/author.py:122 commontail/models/author.py:201
-#: commontail/models/author.py:244
+#: commontail/models/author.py:120 commontail/models/author.py:199
+#: commontail/models/author.py:242
 msgid "author"
 msgstr "автор"
 
-#: commontail/models/author.py:123
+#: commontail/models/author.py:121
 msgid "authors"
 msgstr "авторы"
 
-#: commontail/models/author.py:127
+#: commontail/models/author.py:125
 msgid "Author's public e-mail."
 msgstr "Публичный адрес электронной почты автора."
 
-#: commontail/models/author.py:132
+#: commontail/models/author.py:130
 msgid "Author's first name."
 msgstr "Имя автора"
 
-#: commontail/models/author.py:134
+#: commontail/models/author.py:132
 msgid "first name"
 msgstr "имя"
 
-#: commontail/models/author.py:138
+#: commontail/models/author.py:136
 msgid "Author's last name."
 msgstr "Фамилия автора"
 
-#: commontail/models/author.py:140
+#: commontail/models/author.py:138
 msgid "last name"
 msgstr "фамилия"
 
-#: commontail/models/author.py:194
+#: commontail/models/author.py:192
 msgid "author home page"
 msgstr "домашняя страница автора"
 
-#: commontail/models/author.py:195
+#: commontail/models/author.py:193
 msgid "authors home pages"
 msgstr "домашние страницы авторов"
 
-#: commontail/models/author.py:208 commontail/models/author.py:251
+#: commontail/models/author.py:206 commontail/models/author.py:249
 #: commontail/models/counter.py:22
 #: commontail/templates/commontail/includes/pagination_aware_title.html:3
 msgid "page"
 msgstr "страница"
 
-#: commontail/models/author.py:216 commontail/models/author.py:258
+#: commontail/models/author.py:214 commontail/models/author.py:256
 #: commontail/models/utils.py:30
 msgid "site"
 msgstr "сайт"
 
-#: commontail/models/author.py:277 commontail/models/author.py:306
-#: commontail/models/publication.py:131
+#: commontail/models/author.py:275 commontail/models/author.py:304
+#: commontail/models/publication.py:161
 msgid "Author"
 msgstr "Автор"
 
-#: commontail/models/author.py:282
+#: commontail/models/author.py:280
 msgid "signature data"
 msgstr "Данные для подписи"
 
-#: commontail/models/author.py:287
+#: commontail/models/author.py:285
 msgid "original publication URL"
 msgstr "URL оригинальной публикации"
 
-#: commontail/models/author.py:292
+#: commontail/models/author.py:290
 msgid "use page owner as an author"
 msgstr "использовать владельца страницы как автора"
 
-#: commontail/models/author.py:323
+#: commontail/models/author.py:321
 msgid "Proceed to author's home page"
 msgstr "Перейти на домашнюю страницу автора"
 
@@ -644,7 +644,7 @@ msgstr "Заголовок набора данных"
 msgid "Contact data"
 msgstr "Контактные данные"
 
-#: commontail/models/contacts.py:35
+#: commontail/models/contacts.py:36
 msgid "contacts"
 msgstr "контакты"
 
@@ -677,7 +677,7 @@ msgstr "подсказка"
 msgid "hints"
 msgstr "подсказки"
 
-#: commontail/models/hint.py:25 commontail/models/page.py:281
+#: commontail/models/hint.py:25 commontail/models/page.py:302
 msgid "summary"
 msgstr "краткое содержание"
 
@@ -866,25 +866,29 @@ msgstr "именная ссылка"
 msgid "named references"
 msgstr "именные ссылки"
 
-#: commontail/models/page.py:174
+#: commontail/models/page.py:195
 msgid "page body"
 msgstr "тело страницы"
 
-#: commontail/models/page.py:255
+#: commontail/models/page.py:276
 msgid "Image from library to be shown in announce."
 msgstr "Изображение из библиотеки для отображения в анонсе."
 
-#: commontail/models/page.py:259
+#: commontail/models/page.py:280
 msgid "announce image"
 msgstr "изображение для анонса"
 
-#: commontail/models/page.py:279
+#: commontail/models/page.py:300
 msgid "Short description to be used as announce."
 msgstr "Короткое описание для использование в качестве анонса."
 
-#: commontail/models/publication.py:89
+#: commontail/models/publication.py:92
 msgid "pinned"
 msgstr "закреплено"
+
+#: commontail/models/publication.py:116
+msgid "media URL"
+msgstr "URL медиафайла"
 
 #: commontail/models/settings.py:25 commontail/models/settings.py:26
 msgid "common"
@@ -977,6 +981,31 @@ msgstr "обновлено"
 #: commontail/templates/commontail/includes/toc_base.html:4
 msgid "Table of contents"
 msgstr "Содержание"
+
+#: commontail/utils/validators.py:34
+#, python-format
+msgid "Image width must not be less than %d pixels."
+msgstr "Ширина изображения не должна быть меньше %d пикселей."
+
+#: commontail/utils/validators.py:36
+#, python-format
+msgid "Image width must not be greater than %d pixels."
+msgstr "Ширина изображения не должна быть больше %d пикселей."
+
+#: commontail/utils/validators.py:38
+#, python-format
+msgid "Image height must not be less than %d pixels."
+msgstr "Высота изображения не должна быть меньше %d пикселей."
+
+#: commontail/utils/validators.py:40
+#, python-format
+msgid "Image height must not be greater than %d pixels."
+msgstr "Высота изображения не должна быть больше %d пикселей."
+
+#: commontail/utils/validators.py:43
+#, python-format
+msgid "Image ratio must be close to %.6f."
+msgstr "Соотношение сторон изображения должно быть близко к %.6f."
 
 #: commontail/views/admin.py:88
 #, python-format
