@@ -18,6 +18,7 @@ def breadcrumbs(page: Union[Page, SubstitutePage]):
             'pages': page.get_ancestors(inclusive=True),
             'cache_vary_on': page.pk if isinstance(page, Page) else None,
             'cache_lifetime': settings.COMMONTAIL_BREADCRUMBS_CACHE_LIFETIME,
+            'max_words': settings.COMMONTAIL_BREADCRUMB_MAX_WORDS,
         }
     else:
         raise ValueError(

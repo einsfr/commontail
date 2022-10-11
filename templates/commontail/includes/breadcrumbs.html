@@ -5,12 +5,12 @@
         {% for page in pages %}
             {% if not page.is_root %}
                 {% if page.is_not_accessible %}
-                    <li class="uk-disabled"><a href="#">{{ page.title }}</a></li>
+                    <li class="uk-disabled"><a href="#">{% if max_words %}{{ page.title|truncatewords:max_words }}{% else %}{{ page.title }}{% endif %}</a></li>
                 {% else %}
                     {% if forloop.last %}
-                        <li><span>{{ page.title }}</span></li>
+                        <li><span>{% if max_words %}{{ page.title|truncatewords:max_words }}{% else %}{{ page.title }}{% endif %}</span></li>
                     {% else %}
-                        <li><a href="{% if page.is_substitute %}{{ page.url_path }}{% else %}{% pageurl page %}{% endif %}">{{ page.title }}</a></li>
+                        <li><a href="{% if page.is_substitute %}{{ page.url_path }}{% else %}{% pageurl page %}{% endif %}">{% if max_words %}{{ page.title|truncatewords:max_words }}{% else %}{{ page.title }}{% endif %}</a></li>
                     {% endif %}
                 {% endif %}
             {% endif %}
