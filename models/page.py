@@ -1,19 +1,21 @@
 import importlib
 import re
 
+from datetime import datetime, timedelta
 from collections import OrderedDict, ValuesView
 from typing import List, Tuple, Union, Any, Type, Optional, Dict, Iterable
 
 from django import forms
 from django.conf import settings
-from django.core.paginator import Paginator, Page
+from django.core.paginator import Paginator, Page as PaginatorPage
 from django.db import models
 from django.http.request import HttpRequest
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin.panels import FieldPanel
 from wagtail.admin.forms import WagtailAdminPageForm
-from wagtail.models import Page
+from wagtail.models import Page, PageManager, PageQuerySet
 from wagtail.fields import StreamField
 from wagtail.images import get_image_model, get_image_model_string
 from wagtail.search import index
@@ -28,7 +30,7 @@ from .structureddata import AbstractStructuredDataAwarePage
 
 __all__ = ['AbstractImageAnnouncePage', 'AbstractSummaryPage', 'AbstractImageAnnounceSummaryPage',
            'AbstractBasePageForm', 'AbstractBasePage', 'AbstractBaseIndexPage',
-           'AbstractContentStreamPage', 'get_content_stream_page_body_block', ]
+           'AbstractContentStreamPage', 'get_content_stream_page_body_block', 'BasePageQuerySet', 'BasePageManager']
 
 
 def get_content_stream_page_body_block(**kwargs):
@@ -73,6 +75,28 @@ class AbstractBasePageForm(WagtailAdminPageForm):
         return cleaned_data
 
 
+class BasePageQuerySet(PageQuerySet):
+
+    def annotate_recently_updated_children(self, time_delta: timedelta, first_published_only: bool = True):
+        datetime_limit: datetime = timezone.now() - time_delta
+
+        filter_q: models.Q = models.Q(
+            path__startswith=models.OuterRef('path'), depth__gt=models.OuterRef('depth'), live=True
+        )
+
+        if first_published_only:
+            filter_q &= models.Q(first_published_at__gte=datetime_limit)
+        else:
+            filter_q &= (
+                    models.Q(first_published_at__gte=datetime_limit) | models.Q(last_published_at__gte=datetime_limit)
+            )
+
+        return self.annotate(recently_updated_children=models.Exists(Page.objects.filter(filter_q)))
+
+
+BasePageManager = PageManager.from_queryset(BasePageQuerySet)
+
+
 class AbstractBasePage(AbstractOpenGraphAwarePage, AbstractStructuredDataAwarePage, AbstractSEOAwarePage):
 
     class Meta:
@@ -85,6 +109,8 @@ class AbstractBasePage(AbstractOpenGraphAwarePage, AbstractStructuredDataAwarePa
     base_form_class = AbstractBasePageForm
 
     cache_prefixes = AbstractOpenGraphAwarePage.cache_prefixes + AbstractStructuredDataAwarePage.cache_prefixes
+
+    objects = BasePageManager()
     
     @classmethod
     def collect_auto_collectable(cls):
@@ -169,7 +195,7 @@ class AbstractBaseIndexPage(AbstractPaginationAwarePage, AbstractBasePage):
                 items_qs = items_qs.filter(filters)
 
         paginator: Paginator = Paginator(items_qs, self.get_per_page_number(request))
-        items_page: Page = paginator.get_page(request.GET.get(settings.COMMONTAIL_PAGINATION_GET_KEY, 1))
+        items_page: PaginatorPage = paginator.get_page(request.GET.get(settings.COMMONTAIL_PAGINATION_GET_KEY, 1))
 
         context: Dict = super().get_context(request, *args, **kwargs)
         context.update({
