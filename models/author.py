@@ -105,7 +105,7 @@ class AuthorManager(models.Manager):
     def exists_in_descendants(self, page: Page) -> models.QuerySet:
         return self.get_queryset().filter(
             models.Exists(AuthorsPages.objects.filter(
-                author_id=models.OuterRef('pk'), page__path__startswith=page.path, page__depth__gte=page.depth
+                author_id=models.OuterRef('pk'), page__path__startswith=page.path, page__depth__gt=page.depth
             ))
         )
 
