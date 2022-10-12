@@ -1,8 +1,11 @@
+from itertools import chain
+
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.forms.utils import ErrorList
 from django.utils.translation import gettext_lazy as _
 
+from lxml.html.defs import safe_attrs
 from lxml.html.clean import Cleaner
 
 from wagtail import blocks
@@ -111,7 +114,10 @@ class RawHTMLBlock(blocks.RawHTMLBlock):
         template = 'commontail/blocks/raw_html.html'
 
     def clean(self, value):
-        cleaner = Cleaner()
+        if settings.COMMONTAIL_RAWHTML_BLOCK_REPLACE_SAFE_ATTRS:
+            cleaner = Cleaner(safe_attrs=settings.COMMONTAIL_RAWHTML_BLOCK_SAFE_ATTRS)
+        else:
+            cleaner = Cleaner(safe_attrs=frozenset(chain(safe_attrs, settings.COMMONTAIL_RAWHTML_BLOCK_SAFE_ATTRS)))
 
         return super().clean(cleaner.clean_html(value))
 
