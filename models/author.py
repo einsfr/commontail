@@ -259,10 +259,15 @@ class AuthorsPages(models.Model):
 
 @dataclass
 class FormattedSignatureData:
-    prefix: str
     title: str
-    url: str
-    attrs: Optional[Dict[str, Any]]
+    attrs: Optional[Dict[str, Any]] = None
+    email: Optional[str] = None
+    prefix: Optional[str] = None
+    url: Optional[str] = None
+
+    def __post_init__(self):
+        if self.email and not self.url:
+            self.url = f'mailto:{self.email}'
 
 
 class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
@@ -307,26 +312,25 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
 
     @staticmethod
     def signature_format_other_author(value: dict) -> FormattedSignatureData:
-        return FormattedSignatureData(
-            '', value['text'],
-            value['url'] if value['url'] else f'mailto:{value["email"]}' if value['email'] else '', None
-        )
+        return FormattedSignatureData(value['text'], email=value['email'], url=value['url'])
 
     @staticmethod
-    def signature_format_site_author(author: Author, site: Site) -> FormattedSignatureData:
-        home_page: Page = author.get_home_page(site)
+    def signature_format_site_author(author: Author, site: Optional[Site] = None) -> FormattedSignatureData:
+        home_page: Optional[Page] = None
+        if site is not None:
+            home_page = author.get_home_page(site)
 
         if home_page and home_page.live:
             return FormattedSignatureData(
-                '', author.get_full_name(), home_page.relative_url(site), {'title': _("Proceed to author's home page")}
+                author.get_full_name(), attrs={'title': _("Proceed to author's home page")}, email=author.email,
+                url=home_page.relative_url(site),
             )
 
         return FormattedSignatureData(
-            '', author.get_full_name(), f'mailto:{author.email}' if author.email else '',
-            {'title': author.email if author.email else ''}
+            author.get_full_name(), attrs={'title': author.email if author.email else ''}, email=author.email
         )
 
-    def get_signature_data(self, request: HttpRequest) -> List[FormattedSignatureData]:
+    def get_signature_data(self, request: Optional[HttpRequest] = None) -> List[FormattedSignatureData]:
         cache_provider: CacheProvider = self.get_cache_provider()
 
         result: List[FormattedSignatureData] = cache_provider.get_data(
@@ -338,18 +342,16 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
         else:
             result = []
 
-        site: Site = Site.find_for_request(request)
+        site: Optional[Site] = None
+        if request is not None:
+            site: Site = Site.find_for_request(request)
 
         if self.signature_use_owner and self.owner:
             try:
                 author: Author = Author.objects.get(user=self.owner)
             except Author.DoesNotExist:
                 result.append(
-                    FormattedSignatureData(
-                        '', self.owner.get_full_name() or self.owner.username,
-                        f'mailto:{self.owner.email}' if self.owner.email else '',
-                        None
-                    )
+                    FormattedSignatureData(self.owner.get_full_name() or self.owner.username, email=self.owner.email)
                 )
             else:
                 result.append(self.signature_format_site_author(author, site))
@@ -363,15 +365,15 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
 
         if self.signature_original_url:
             result.append(FormattedSignatureData(
-                f'{_("source")}: ', truncatechars(self.signature_original_url, 64), self.signature_original_url,
-                {'target': '_blank'}
+                truncatechars(self.signature_original_url, 64), attrs={'target': '_blank'},
+                prefix=f'{_("source")}: ', url=self.signature_original_url
             ))
 
         cache_provider.set_data(AUTHOR_SIGNATURE_CACHE_PREFIX, result, self.get_cache_vary_on())
 
         return result
 
-    def get_signature_first_author(self, request: HttpRequest) -> Optional[FormattedSignatureData]:
+    def get_signature_first_author(self, request: Optional[HttpRequest] = None) -> Optional[FormattedSignatureData]:
         try:
             return self.get_signature_data(request)[0]
         except IndexError:
