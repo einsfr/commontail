@@ -1,6 +1,5 @@
 from .cache import *
 from .counter import *
-from .feed import *
 from .hierarchyonly import *
 from .image import *
 from .pagination import *
@@ -26,3 +25,5 @@ from .author import *
 from .contacts import *
 # from .glossary import *
 from .publication import *
+
+from .feed import *

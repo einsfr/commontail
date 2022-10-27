@@ -1,1 +1,1 @@
-{% for k, v in items %} {{ k }}="{{ v }}"{% endfor %}
+{% if items %}{% for k, v in items %} {{ k }}="{{ v }}"{% endfor %}{% endif %}

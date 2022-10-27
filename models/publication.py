@@ -43,13 +43,10 @@ class PublicationStructuredDataProvider(AbstractStructuredDataProvider):
 
             if first_author_data:
                 author_data = {
+                    'email': first_author_data.email,
                     'name': first_author_data.title,
+                    'url': first_author_data.url,
                 }
-
-                if first_author_data.url.startswith('mailto:'):
-                    author_data['email'] = first_author_data.url[7:]
-                elif first_author_data.url:
-                    author_data['url'] = first_author_data.url
 
         result = {
             'url': data_object.full_url,

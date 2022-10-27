@@ -1,13 +1,20 @@
+import mimetypes
+
 from typing import Optional, Type
 
 from django.contrib.syndication.views import Feed
-from django.utils.feedgenerator import Rss201rev2Feed
+from django.utils.feedgenerator import Rss201rev2Feed, Enclosure
 
+from wagtail.images.models import AbstractRendition
 from wagtail.models import Page
 from wagtail.templatetags.wagtailcore_tags import richtext
 
+from .author import FormattedSignatureData
+from .publication import AbstractPublicationPage
 
-__all__ = ['RichTextDescriptionRss201rev2Feed', 'ChildPageFeed', 'AbstractFeedablePage', ]
+
+__all__ = ['RichTextDescriptionRss201rev2Feed', 'ChildPageFeed', 'PublicationIndexChildPageFeed',
+           'AbstractFeedablePage']
 
 
 class RichTextDescriptionRss201rev2Feed(Rss201rev2Feed):
@@ -58,6 +65,39 @@ class ChildPageFeed(Feed):
 
     def title(self, obj: Page):
         return obj.title
+
+
+class PublicationIndexChildPageFeed(ChildPageFeed):
+
+    def item_author_email(self, obj: AbstractPublicationPage):
+        author: FormattedSignatureData = obj.get_signature_first_author()
+
+        if author and author.title and author.email:
+            return author.email
+
+    def item_author_name(self, obj: AbstractPublicationPage):
+        author: FormattedSignatureData = obj.get_signature_first_author()
+
+        if author and author.title and author.email:
+            return author.title
+
+    def item_enclosures(self, item: AbstractPublicationPage):
+        if not item.image_announce:
+            return []
+
+        image_rendition: AbstractRendition = item.image_announce.get_rendition('original')
+        if not image_rendition:
+            return []
+
+        mime_type, encoding = mimetypes.guess_type(image_rendition.url)
+
+        try:
+            file_size = str(image_rendition.file.size)
+        except FileNotFoundError:
+            return []
+
+        return [Enclosure(image_rendition.full_url, str(file_size),
+                          mime_type if mime_type is not None else '')]
 
 
 class AbstractFeedablePage(Page):
