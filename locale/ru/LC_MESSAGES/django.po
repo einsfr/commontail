@@ -591,6 +591,10 @@ msgstr "использовать владельца страницы как ав
 msgid "Proceed to author's home page"
 msgstr "Перейти на домашнюю страницу автора"
 
+#: commontail/models/author.py:369
+msgid "source"
+msgstr "источник"
+
 #: commontail/models/banner.py:29 commontail/models/banner.py:158
 msgid "banner"
 msgstr "баннер"

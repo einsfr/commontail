@@ -365,7 +365,7 @@ class AbstractAuthorSignaturePage(AbstractCacheAwarePage):
 
         if self.signature_original_url:
             result.append(FormattedSignatureData(
-                truncatechars(self.signature_original_url, 64), attrs={'target': '_blank'},
+                truncatechars(self.signature_original_url, 32), attrs={'target': '_blank'},
                 prefix=f'{_("source")}: ', url=self.signature_original_url
             ))
 
