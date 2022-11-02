@@ -22,7 +22,7 @@ class ImageSizeValidator:
         self.max_width: Optional[int] = max_width
         self.max_height: Optional[int] = max_height
         self.ratio: Optional[float] = ratio
-        self.ratio_abs_tol: float = ratio_abs_tol if ratio_abs_tol else 1e-06
+        self.ratio_abs_tol: float = ratio_abs_tol if ratio_abs_tol else 1e-03
 
     def __call__(self, image: Image):
         if not image:
@@ -40,7 +40,7 @@ class ImageSizeValidator:
             msg.append(_('Image height must not be greater than %d pixels.') % self.max_height)
         if self.ratio is not None:
             if not isclose(image.width / image.height, self.ratio, abs_tol=self.ratio_abs_tol):
-                msg.append(_('Image ratio must be close to %.6f.') % self.ratio)
+                msg.append(_('Image ratio must be close to %.3f.') % self.ratio)
 
         if msg:
             raise ValidationError(' '.join(msg))
